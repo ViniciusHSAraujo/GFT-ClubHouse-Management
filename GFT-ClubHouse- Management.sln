@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GFT-ClubHouse- Management", "GFT-ClubHouse- Management\GFT-ClubHouse- Management.csproj", "{F42E3E2D-290C-4D89-A379-0B93FFBDC079}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F42E3E2D-290C-4D89-A379-0B93FFBDC079}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F42E3E2D-290C-4D89-A379-0B93FFBDC079}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F42E3E2D-290C-4D89-A379-0B93FFBDC079}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F42E3E2D-290C-4D89-A379-0B93FFBDC079}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
