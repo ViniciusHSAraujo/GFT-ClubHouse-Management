@@ -27,11 +27,11 @@ namespace GFT_ClubHouse__Management.Models {
         [Range(1, double.MaxValue, ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E011")]
         public double Price { get; set; }
 
-        [Display(Name = "House Club")]
-        [ForeignKey("HouseClub")]
-        public int HouseClubId { get; set; }
+        [Display(Name = "Club House")]
+        [ForeignKey("ClubHouse")]
+        public int ClubHouseId { get; set; }
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
-        public HouseClub HouseClub { get; set; }
+        public ClubHouse ClubHouse { get; set; }
 
         [Display(Name = "Musical Genre")]
         [ForeignKey("MusicalGenre")]
