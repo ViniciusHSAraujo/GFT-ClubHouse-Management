@@ -35,16 +35,26 @@
         </div>
     </div><!-- /.container-fluid -->
 </nav>
-@Html.Partial("_SidebarPartial")
+@await Html.PartialAsync("_SidebarPartial")
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
     <div class="row">
         <ol class="breadcrumb">
             <li>
-                <a href="#">
+                <a asp-action="Index" asp-controller="Home" asp-area="">
                     <em class="fa fa-home"></em>
                 </a>
             </li>
-            <li class="active">Dashboard</li>
+            <li>
+                <a asp-action="Index" asp-controller="Home" asp-area="@ViewContext.RouteData.Values["area"].ToString()">
+                    @ViewContext.RouteData.Values["Area"].ToString()
+                </a>
+            </li>
+            <li>
+                <a asp-action="Index" asp-controller="@ViewContext.RouteData.Values["Controller"].ToString()" asp-area="@ViewContext.RouteData.Values["area"].ToString()">
+                    @ViewContext.RouteData.Values["Controller"].ToString()
+                </a>
+            </li>
+            <li class="active">@ViewContext.RouteData.Values["Action"].ToString()</li>
         </ol>
     </div><!--/.row-->
     <div class="row">
