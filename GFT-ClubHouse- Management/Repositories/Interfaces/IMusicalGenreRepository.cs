@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace GFT_ClubHouse__Management.Repositories.Interfaces {
-    public interface IClubHouseRepository : IGenericRepository<ClubHouse>{
+    public interface IMusicalGenreRepository : IGenericRepository<MusicalGenre>{
         List<SelectListItem> GetSelectList();
     }
 }

@@ -28,15 +28,15 @@ namespace GFT_ClubHouse__Management.Models {
         public double Price { get; set; }
 
         [Display(Name = "Club House")]
-        [ForeignKey("ClubHouse")]
-        public int ClubHouseId { get; set; }
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
-        public ClubHouse ClubHouse { get; set; }
+        public int ClubHouseId { get; set; }
+        [ForeignKey("ClubHouseId")]
+        public virtual ClubHouse ClubHouse { get; set; }
 
         [Display(Name = "Musical Genre")]
-        [ForeignKey("MusicalGenre")]
-        public int MusicalGenreId { get; set; }
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
-        public MusicalGenre MusicalGenre { get; set; }
+        public int MusicalGenreId { get; set; }
+        [ForeignKey("MusicalGenreId")]
+        public virtual MusicalGenre MusicalGenre { get; set; }
     }
 }

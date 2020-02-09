@@ -1,6 +1,7 @@
 ﻿using GFT_ClubHouse__Management.Data;
 using GFT_ClubHouse__Management.Models;
 using GFT_ClubHouse__Management.Repositories.Interfaces;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,10 @@ namespace GFT_ClubHouse__Management.Repositories {
 
         public ClubHouse GetById(object id) {
             return _dbContext.Set<ClubHouse>().Include(x => x.Address).AsNoTracking().FirstOrDefault(x => x.Id.Equals(id));
+        }
+
+        public List<SelectListItem> GetSelectList() {
+            return _dbContext.Set<ClubHouse>().Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).AsNoTracking().ToList();
         }
 
         public void Insert(ClubHouse obj) {

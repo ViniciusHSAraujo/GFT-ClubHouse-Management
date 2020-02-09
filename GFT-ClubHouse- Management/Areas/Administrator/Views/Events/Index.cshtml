@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GFT_ClubHouse__Management.Models.ClubHouse>
+﻿@model IEnumerable<GFT_ClubHouse__Management.Models.Event>
 
 @{
     ViewData["Title"] = "Index";
@@ -33,13 +33,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AddressId)
+                @Html.DisplayNameFor(model => model.Capacity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClubHouse)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MusicalGenre)
             </th>
             <th>
                 Actions
@@ -50,13 +59,22 @@
         @foreach (var item in Model) {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Address.Street)
+                    @Html.DisplayFor(modelItem => item.Capacity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClubHouse.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MusicalGenre.Name)
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { item.Id }, new { @class = "btn btn-warning" })

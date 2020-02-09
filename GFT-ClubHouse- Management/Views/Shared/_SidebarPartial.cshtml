@@ -38,6 +38,48 @@
                 </li>
             </ul>
         </li>
+        <li class="parent">
+            <a data-toggle="collapse" href="#EventOptions">
+                <em class="fa fa-ticket">&nbsp;</em>
+                Events
+                <span data-toggle="collapse" href="#EventOptions" class="icon pull-right">
+                    <em class="fa fa-plus"></em>
+                </span>
+            </a>
+            <ul class="children collapse" id="EventOptions">
+                <li>
+                    <a asp-area="Administrator" asp-controller="Events" asp-action="Create" asp-active-route>
+                        <span class="fa fa-plus-circle">&nbsp;</span> Create new
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Administrator" asp-controller="Events" asp-action="Index" asp-active-route>
+                        <span class="fa fa-list-ul">&nbsp;</span> List
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="parent">
+            <a data-toggle="collapse" href="#MusicalGenresOptions">
+                <em class="fa fa-ticket">&nbsp;</em>
+                Musical Genders
+                <span data-toggle="collapse" href="#MusicalGenresOptions" class="icon pull-right">
+                    <em class="fa fa-plus"></em>
+                </span>
+            </a>
+            <ul class="children collapse" id="MusicalGenresOptions">
+                <li>
+                    <a asp-area="Administrator" asp-controller="MusicalGenres" asp-action="Create" asp-active-route>
+                        <span class="fa fa-plus-circle">&nbsp;</span> Create new
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Administrator" asp-controller="MusicalGenres" asp-action="Index" asp-active-route>
+                        <span class="fa fa-list-ul">&nbsp;</span> List
+                    </a>
+                </li>
+            </ul>
+        </li>
         <li>
             <a href="login.html"><em class="fa fa-power-off">&nbsp;</em> Logout</a>
         </li>

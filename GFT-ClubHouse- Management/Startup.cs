@@ -45,6 +45,8 @@ namespace GFT_ClubHouse__Management {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddTransient<IClubHouseRepository, ClubHouseRepository>();
+            services.AddTransient<IEventRepository, EventRepository>();
+            services.AddTransient<IMusicalGenreRepository, MusicalGenreRepository>();
 
         }
 

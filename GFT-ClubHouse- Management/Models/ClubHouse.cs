@@ -10,7 +10,7 @@ namespace GFT_ClubHouse__Management.Models {
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
         [MinLength(3, ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E002")]
         [MaxLength(80, ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E003")]
-        public string Nome { get; set; }
+        public string Name { get; set; }
         
         [Display(Name = "Address")]
         [ForeignKey("Address")]
