@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GFT_ClubHouse__Management.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200208202117_FixNameOfClubHouse")]
-    partial class FixNameOfClubHouse
+    [Migration("20200209174715_InitialMigrationFixed")]
+    partial class InitialMigrationFixed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,6 +42,16 @@ namespace GFT_ClubHouse__Management.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Addresses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            City = "Seattle",
+                            State = "Washington",
+                            Street = "1234 1St Ave",
+                            Zip = "98101"
+                        });
                 });
 
             modelBuilder.Entity("GFT_ClubHouse__Management.Models.ClubHouse", b =>
@@ -122,7 +132,7 @@ namespace GFT_ClubHouse__Management.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(32);
+                        .HasMaxLength(64);
 
                     b.Property<string>("Phone")
                         .IsRequired();
@@ -134,6 +144,19 @@ namespace GFT_ClubHouse__Management.Migrations
                     b.HasIndex("AddressId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AddressId = 1,
+                            Email = "admin@admin.com",
+                            LastName = "Default",
+                            Name = "Admin",
+                            Password = "2285d2badca55370a0d794a9df898c29922d21504c5c2c7fcb984c75328ad424",
+                            Phone = "123456789",
+                            Roles = 0
+                        });
                 });
 
             modelBuilder.Entity("GFT_ClubHouse__Management.Models.ClubHouse", b =>

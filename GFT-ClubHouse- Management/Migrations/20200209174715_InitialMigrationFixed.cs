@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GFT_ClubHouse__Management.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialMigrationFixed : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,7 +39,7 @@ namespace GFT_ClubHouse__Management.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "HouseClubs",
+                name: "ClubHouses",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -49,9 +49,9 @@ namespace GFT_ClubHouse__Management.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HouseClubs", x => x.Id);
+                    table.PrimaryKey("PK_ClubHouses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HouseClubs_Addresses_AddressId",
+                        name: "FK_ClubHouses_Addresses_AddressId",
                         column: x => x.AddressId,
                         principalTable: "Addresses",
                         principalColumn: "Id",
@@ -69,7 +69,7 @@ namespace GFT_ClubHouse__Management.Migrations
                     Phone = table.Column<string>(nullable: false),
                     AddressId = table.Column<int>(nullable: false),
                     Email = table.Column<string>(nullable: false),
-                    Password = table.Column<string>(maxLength: 32, nullable: false),
+                    Password = table.Column<string>(maxLength: 64, nullable: false),
                     Roles = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -93,16 +93,16 @@ namespace GFT_ClubHouse__Management.Migrations
                     Capacity = table.Column<int>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     Price = table.Column<double>(nullable: false),
-                    HouseClubId = table.Column<int>(nullable: false),
+                    ClubHouseId = table.Column<int>(nullable: false),
                     MusicalGenreId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Events", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Events_HouseClubs_HouseClubId",
-                        column: x => x.HouseClubId,
-                        principalTable: "HouseClubs",
+                        name: "FK_Events_ClubHouses_ClubHouseId",
+                        column: x => x.ClubHouseId,
+                        principalTable: "ClubHouses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -113,20 +113,30 @@ namespace GFT_ClubHouse__Management.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Addresses",
+                columns: new[] { "Id", "City", "State", "Street", "Zip" },
+                values: new object[] { 1, "Seattle", "Washington", "1234 1St Ave", "98101" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "AddressId", "Email", "LastName", "Name", "Password", "Phone", "Roles" },
+                values: new object[] { 1, 1, "admin@admin.com", "Default", "Admin", "2285d2badca55370a0d794a9df898c29922d21504c5c2c7fcb984c75328ad424", "123456789", 0 });
+
             migrationBuilder.CreateIndex(
-                name: "IX_Events_HouseClubId",
+                name: "IX_ClubHouses_AddressId",
+                table: "ClubHouses",
+                column: "AddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Events_ClubHouseId",
                 table: "Events",
-                column: "HouseClubId");
+                column: "ClubHouseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Events_MusicalGenreId",
                 table: "Events",
                 column: "MusicalGenreId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_HouseClubs_AddressId",
-                table: "HouseClubs",
-                column: "AddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_AddressId",
@@ -143,7 +153,7 @@ namespace GFT_ClubHouse__Management.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "HouseClubs");
+                name: "ClubHouses");
 
             migrationBuilder.DropTable(
                 name: "MusicalGenres");

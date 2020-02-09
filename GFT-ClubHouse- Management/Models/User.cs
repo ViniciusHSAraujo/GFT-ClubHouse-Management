@@ -32,7 +32,7 @@ namespace GFT_ClubHouse__Management.Models {
         [Display(Name = "Password")]
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
         [MinLength(6, ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E002")]
-        [MaxLength(32, ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E003")]
+        [MaxLength(64, ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E003")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
         
