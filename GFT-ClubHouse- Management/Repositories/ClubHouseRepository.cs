@@ -10,12 +10,16 @@ using System.Threading.Tasks;
 
 namespace GFT_ClubHouse__Management.Repositories {
     public class ClubHouseRepository : IClubHouseRepository {
-        private ApplicationDbContext _dbContext;
+        private readonly ApplicationDbContext _dbContext;
 
         public ClubHouseRepository(ApplicationDbContext dbContext) {
             _dbContext = dbContext;
         }
 
+        public int Count() {
+            return _dbContext.Set<ClubHouse>().Count();
+        }
+        
         public IEnumerable<ClubHouse> GetAll() {
             return _dbContext.Set<ClubHouse>().Include(x => x.Address).AsNoTracking().ToList();
         }

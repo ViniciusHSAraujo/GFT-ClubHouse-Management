@@ -10,6 +10,7 @@ namespace GFT_ClubHouse__Management.Repositories.Interfaces {
         void Insert(T obj);
         void Update(T obj);
         void Delete(object id);
+        int Count();
         void Save();
     }
 }

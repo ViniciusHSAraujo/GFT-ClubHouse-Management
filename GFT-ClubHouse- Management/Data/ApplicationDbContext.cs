@@ -13,6 +13,7 @@ namespace GFT_ClubHouse__Management.Data {
         public DbSet<ClubHouse> ClubHouses { get; set; }
         public DbSet<MusicalGenre> MusicalGenres { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.Entity<Address>().HasData(

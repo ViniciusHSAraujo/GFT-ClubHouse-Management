@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using GFT_ClubHouse__Management.Libs.Language;
@@ -15,28 +17,36 @@ namespace GFT_ClubHouse__Management.Models {
 
         [Display(Name = "Capacity")]
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
-        [Range(1, int.MaxValue, ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E011")]
+        [Range(1, 80000, ErrorMessageResourceType = typeof(ErrorMessages),
+            ErrorMessageResourceName = "MSG_E011")]
         public int Capacity { get; set; }
 
         [Display(Name = "Date")]
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
         public DateTime Date { get; set; }
-        
+
         [Display(Name = "Price")]
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
-        [Range(1, double.MaxValue, ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E011")]
+        [Range(1, 10000, ErrorMessageResourceType = typeof(ErrorMessages),
+            ErrorMessageResourceName = "MSG_E011")]
         public double Price { get; set; }
 
         [Display(Name = "Club House")]
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
         public int ClubHouseId { get; set; }
+
         [ForeignKey("ClubHouseId")]
+        [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
         public virtual ClubHouse ClubHouse { get; set; }
 
         [Display(Name = "Musical Genre")]
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
         public int MusicalGenreId { get; set; }
+
         [ForeignKey("MusicalGenreId")]
+        [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
         public virtual MusicalGenre MusicalGenre { get; set; }
+
+        public virtual List<Ticket> Tickets { get; set; }
     }
 }

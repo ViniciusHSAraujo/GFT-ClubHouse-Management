@@ -10,10 +10,14 @@ using System.Threading.Tasks;
 
 namespace GFT_ClubHouse__Management.Repositories {
     public class MusicalGenreRepository : IMusicalGenreRepository {
-        private ApplicationDbContext _dbContext;
+        private readonly ApplicationDbContext _dbContext;
 
         public MusicalGenreRepository(ApplicationDbContext dbContext) {
             _dbContext = dbContext;
+        }
+        
+        public int Count() {
+            return _dbContext.Set<MusicalGenre>().Count();
         }
 
         public IEnumerable<MusicalGenre> GetAll() {

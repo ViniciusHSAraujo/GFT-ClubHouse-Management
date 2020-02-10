@@ -10,44 +10,51 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Id"/>
 
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" class="form-control"/>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Capacity" class="control-label"></label>
-                <input asp-for="Capacity" class="form-control" />
+                <input asp-for="Capacity" class="form-control"/>
                 <span asp-validation-for="Capacity" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
+                <input asp-for="Date" class="form-control"/>
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
+                <input asp-for="Price" class="form-control"/>
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="ClubHouseId" class="control-label"></label>
                 <select asp-for="ClubHouseId" class="form-control" asp-items="ViewBag.ClubHouses"></select>
+                <span asp-validation-for="ClubHouseId" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="MusicalGenreId" class="control-label"></label>
                 <select asp-for="MusicalGenreId" class="form-control" asp-items="ViewBag.MusicalGenres"></select>
+                <span asp-validation-for="MusicalGenreId" class="text-danger"></span>
+
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <label class="control-label color-red"> Number of tickets sold: @ViewBag.SoldTickets </label>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary"/>
                 <a class="btn btn-info" asp-action="Index">Back to List</a>
             </div>
 
@@ -56,5 +63,5 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

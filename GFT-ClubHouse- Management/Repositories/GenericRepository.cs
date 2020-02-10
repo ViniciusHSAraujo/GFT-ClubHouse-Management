@@ -9,14 +9,18 @@ using System.Threading.Tasks;
 namespace GFT_ClubHouse__Management.Repositories {
     public class GenericRepository<T> : IGenericRepository<T> where T : class {
 
-        private ApplicationDbContext _dbContext;
-        private DbSet<T> table;
+        private readonly ApplicationDbContext _dbContext;
+        private readonly DbSet<T> table;
 
         public GenericRepository(ApplicationDbContext dbContext) {
             _dbContext = dbContext;
             table = _dbContext.Set<T>();
         }
 
+        public int Count() {
+            return _dbContext.Set<T>().Count();
+        }
+        
         public IEnumerable<T> GetAll() {
             return table.AsNoTracking().ToList();
         }
