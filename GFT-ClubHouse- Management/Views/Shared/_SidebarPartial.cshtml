@@ -19,7 +19,7 @@
         </li>
         <li class="parent">
             <a data-toggle="collapse" href="#ClubHouseOptions">
-                <em class="fa fa-ticket">&nbsp;</em>
+                <em class="fa fa-building">&nbsp;</em>
                 Club Houses
                 <span data-toggle="collapse" href="#ClubHouseOptions" class="icon pull-right">
                     <em class="fa fa-plus"></em>
@@ -61,7 +61,7 @@
         </li>
         <li class="parent">
             <a data-toggle="collapse" href="#MusicalGenresOptions">
-                <em class="fa fa-ticket">&nbsp;</em>
+                <em class="fa fa-music">&nbsp;</em>
                 Musical Genders
                 <span data-toggle="collapse" href="#MusicalGenresOptions" class="icon pull-right">
                     <em class="fa fa-plus"></em>
@@ -75,6 +75,28 @@
                 </li>
                 <li>
                     <a asp-area="Administrator" asp-controller="MusicalGenres" asp-action="Index" asp-active-route>
+                        <span class="fa fa-list-ul">&nbsp;</span> List
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="parent">
+            <a data-toggle="collapse" href="#UsersOptions">
+                <em class="fa fa-user">&nbsp;</em>
+                Users
+                <span data-toggle="collapse" href="#UsersOptions" class="icon pull-right">
+                    <em class="fa fa-plus"></em>
+                </span>
+            </a>
+            <ul class="children collapse" id="UsersOptions">
+                <li>
+                    <a asp-area="Administrator" asp-controller="Users" asp-action="Create" asp-active-route>
+                        <span class="fa fa-plus-circle">&nbsp;</span> Create new
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Administrator" asp-controller="Users" asp-action="Index" asp-active-route>
                         <span class="fa fa-list-ul">&nbsp;</span> List
                     </a>
                 </li>
