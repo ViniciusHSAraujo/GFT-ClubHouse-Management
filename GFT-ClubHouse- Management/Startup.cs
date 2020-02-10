@@ -47,6 +47,7 @@ namespace GFT_ClubHouse__Management {
             services.AddTransient<IClubHouseRepository, ClubHouseRepository>();
             services.AddTransient<IEventRepository, EventRepository>();
             services.AddTransient<IMusicalGenreRepository, MusicalGenreRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
 
         }
 

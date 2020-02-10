@@ -20,9 +20,12 @@ namespace GFT_ClubHouse__Management.Models {
         
         [Display(Name = "Address")]
         [ForeignKey("Address")]
-        public int AddressId { get; set; }
+        
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
-        public Address Address { get; set; }
+        public int AddressId { get; set; }
+
+        [ForeignKey("AddressId")]
+        public virtual Address Address { get; set; }
         
         [Display(Name = "E-Mail")]
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]

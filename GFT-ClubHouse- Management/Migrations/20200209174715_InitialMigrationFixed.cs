@@ -121,7 +121,7 @@ namespace GFT_ClubHouse__Management.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AddressId", "Email", "LastName", "Name", "Password", "Phone", "Roles" },
-                values: new object[] { 1, 1, "admin@admin.com", "Default", "Admin", "2285d2badca55370a0d794a9df898c29922d21504c5c2c7fcb984c75328ad424", "123456789", 0 });
+                values: new object[] { 1, 1, "admin@admin.com", "Default", "Admin", "690e2695b6aa8f08dc1fd736072e5819", "123456789", 0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClubHouses_AddressId",

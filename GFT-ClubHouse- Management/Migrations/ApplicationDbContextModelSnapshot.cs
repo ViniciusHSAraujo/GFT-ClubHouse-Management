@@ -169,7 +169,7 @@ namespace GFT_ClubHouse__Management.Migrations
                             Email = "admin@admin.com",
                             LastName = "Default",
                             Name = "Admin",
-                            Password = "2285d2badca55370a0d794a9df898c29922d21504c5c2c7fcb984c75328ad424",
+                            Password = "690e2695b6aa8f08dc1fd736072e5819",
                             Phone = "123456789",
                             Roles = 0
                         });
