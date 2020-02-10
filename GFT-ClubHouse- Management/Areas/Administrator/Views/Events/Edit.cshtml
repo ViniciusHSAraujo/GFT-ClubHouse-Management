@@ -5,6 +5,16 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
+@if (TempData["MSG_E"] != null) {
+    <div class="alert bg-danger alert-dismissible" role="alert">
+        <em class="fa fa-lg fa-warning">&nbsp;</em>
+        @TempData["MSG_E"]
+        <a data-dismiss="alert" aria-label="Close" class="pull-right">
+            <em class="fa fa-lg fa-close"></em>
+        </a>
+    </div>
+}
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">

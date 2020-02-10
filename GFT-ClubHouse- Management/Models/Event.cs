@@ -35,17 +35,13 @@ namespace GFT_ClubHouse__Management.Models {
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
         public int ClubHouseId { get; set; }
 
-        [ForeignKey("ClubHouseId")]
-        [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
-        public virtual ClubHouse ClubHouse { get; set; }
+        [ForeignKey("ClubHouseId")] public virtual ClubHouse ClubHouse { get; set; }
 
         [Display(Name = "Musical Genre")]
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
         public int MusicalGenreId { get; set; }
 
-        [ForeignKey("MusicalGenreId")]
-        [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
-        public virtual MusicalGenre MusicalGenre { get; set; }
+        [ForeignKey("MusicalGenreId")] public virtual MusicalGenre MusicalGenre { get; set; }
 
         public virtual List<Ticket> Tickets { get; set; }
     }

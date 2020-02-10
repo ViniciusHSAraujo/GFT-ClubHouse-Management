@@ -15,8 +15,7 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
         private readonly IClubHouseRepository _clubHouseRepository;
         private readonly IMusicalGenreRepository _musicalGenreRepository;
 
-        public EventsController(IEventRepository eventRepository, IClubHouseRepository clubHouseRepository,
-            IMusicalGenreRepository musicalGenreRepository) {
+        public EventsController(IEventRepository eventRepository, IClubHouseRepository clubHouseRepository, IMusicalGenreRepository musicalGenreRepository) {
             _eventRepository = eventRepository;
             _clubHouseRepository = clubHouseRepository;
             _musicalGenreRepository = musicalGenreRepository;
@@ -46,12 +45,10 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
                     _eventRepository.Insert(event_);
                     TempData["MSG_S"] = SuccessMessages.MSG_S001;
                     return RedirectToAction(nameof(Index));
-                }
-                catch (Exception e) {
-                    TempData["MSG_E"] = e.Message;
+                } catch (Exception) {
+                    TempData["MSG_E"] = ErrorMessages.MSG_E007;
                 }
             }
-
             ViewBag.ClubHouses = _clubHouseRepository.GetSelectList();
             ViewBag.MusicalGenres = _musicalGenreRepository.GetSelectList();
             return View(event_);
@@ -73,12 +70,10 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
                     _eventRepository.Update(event_);
                     TempData["MSG_S"] = SuccessMessages.MSG_S002;
                     return RedirectToAction(nameof(Index));
-                }
-                catch (Exception) {
-                    TempData["MSG_E"] = ErrorMessages.MSG_E007;
+                } catch (Exception e) {
+                    TempData["MSG_E"] = e.Message;
                 }
             }
-
             ViewBag.ClubHouses = _clubHouseRepository.GetSelectList();
             ViewBag.MusicalGenres = _musicalGenreRepository.GetSelectList();
             ViewBag.SoldTickets = _eventRepository.GetById(event_.Id).Tickets.Count(x => x.IsSold);
@@ -91,12 +86,11 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
             try {
                 _eventRepository.Delete(id);
                 TempData["MSG_S"] = SuccessMessages.MSG_S003;
-            }
-            catch {
+            } catch {
                 TempData["MSG_E"] = ErrorMessages.MSG_E012;
             }
-
             return RedirectToAction(nameof(Index));
+
         }
     }
 }
