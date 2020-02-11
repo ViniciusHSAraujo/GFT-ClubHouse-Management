@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GFT_ClubHouse__Management.Libs.Filters.Security;
 using GFT_ClubHouse__Management.Libs.Language;
 using GFT_ClubHouse__Management.Models;
 using GFT_ClubHouse__Management.Repositories.Interfaces;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
     [Area("Administrator")]
+    [AdminAuthorization]
     public class ClubHousesController : Controller {
 
         private readonly IClubHouseRepository _clubHouseRepository;

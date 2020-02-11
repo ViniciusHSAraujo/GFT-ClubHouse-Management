@@ -141,4 +141,13 @@
     <value>Your password has been sent to your email.</value>
         <comment>Generic email password message.</comment>
   </data>
+    <data name="MSG_S007" xml:space="preserve">
+    <value>Successfully logged out.</value>
+        <comment>Logout message.</comment>
+  </data>
+    <data name="MSG_S008" xml:space="preserve">
+    <value>Successfully logged in.</value>
+        <comment>Login message.</comment>
+  </data>
+    
 </root>

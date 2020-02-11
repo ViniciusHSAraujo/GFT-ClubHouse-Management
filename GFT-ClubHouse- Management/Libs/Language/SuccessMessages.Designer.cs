@@ -19,7 +19,7 @@ namespace GFT_ClubHouse__Management.Libs.Language {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class SuccessMessages {
@@ -111,6 +111,24 @@ namespace GFT_ClubHouse__Management.Libs.Language {
         public static string MSG_S006 {
             get {
                 return ResourceManager.GetString("MSG_S006", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully logged out..
+        /// </summary>
+        public static string MSG_S007 {
+            get {
+                return ResourceManager.GetString("MSG_S007", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully logged in..
+        /// </summary>
+        public static string MSG_S008 {
+            get {
+                return ResourceManager.GetString("MSG_S008", resourceCulture);
             }
         }
     }

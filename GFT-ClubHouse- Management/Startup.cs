@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GFT_ClubHouse__Management.Data;
+using GFT_ClubHouse__Management.Libs.Login;
+using GFT_ClubHouse__Management.Libs.Sessions;
 using GFT_ClubHouse__Management.Repositories;
 using GFT_ClubHouse__Management.Repositories.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -25,7 +27,13 @@ namespace GFT_ClubHouse__Management {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            
+            services.AddMemoryCache();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(120);
+            });
+            
+            services.AddHttpContextAccessor();
 
             services.Configure<CookiePolicyOptions>(options => {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -43,6 +51,10 @@ namespace GFT_ClubHouse__Management {
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddScoped<Session>();
+            services.AddScoped<LoginAdmin>();
+            services.AddScoped<LoginUser>();
 
             services.AddTransient<IClubHouseRepository, ClubHouseRepository>();
             services.AddTransient<IEventRepository, EventRepository>();
@@ -64,7 +76,8 @@ namespace GFT_ClubHouse__Management {
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            app.UseSession();
+            
 
             app.UseMvc(routes => {
                 //Rota para quando há áreas.

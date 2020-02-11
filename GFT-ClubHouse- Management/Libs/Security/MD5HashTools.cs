@@ -25,6 +25,11 @@ namespace GFT_ClubHouse__Management.Libs.Security {
         }
 
         private string ReturnHash(MD5 md5Hash, string input) {
+
+            if (string.IsNullOrWhiteSpace(input)) {
+                return string.Empty;
+            }
+            
             byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
 
             StringBuilder sBuilder = new StringBuilder();

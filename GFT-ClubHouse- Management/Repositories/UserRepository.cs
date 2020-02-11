@@ -6,13 +6,14 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Threading.Tasks;
 using GFT_ClubHouse__Management.Libs.Security;
+using GFT_ClubHouse__Management.Models.Enum;
 
 namespace GFT_ClubHouse__Management.Repositories {
     public class UserRepository : IUserRepository {
         private readonly ApplicationDbContext _dbContext;
-        private static readonly MD5HashTools mD5HashTools = new MD5HashTools();
 
         public UserRepository(ApplicationDbContext dbContext) {
             _dbContext = dbContext;
@@ -35,23 +36,33 @@ namespace GFT_ClubHouse__Management.Repositories {
         }
 
         public void Insert(User obj) {
+            if (_dbContext.Set<User>().Any(x => x.Email.Equals(obj.Email, StringComparison.InvariantCultureIgnoreCase))) {
+                
+            }
             _dbContext.Set<User>().Add(obj);
             Save();
         }
 
-        public User Login(string email, string pass) {
-            return _dbContext.Set<User>().FirstOrDefault(x => x.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase) && x.Password.Equals(mD5HashTools.ReturnMD5(pass), StringComparison.InvariantCulture));
+        public User Login(string email, string pass, UserRoles roles) {
+            return _dbContext.Set<User>().FirstOrDefault(x => x.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase) && x.Password.Equals(pass, StringComparison.InvariantCulture) && x.Roles == roles);
         }
         
         public void Update(User obj) {
             _dbContext.Set<User>().Attach(obj);
             _dbContext.Entry(obj).State = EntityState.Modified;
+            _dbContext.Entry(obj).Property(x => x.Password).IsModified = false;
             Save();
         }
 
         public void Delete(object id) {
+
+            if (id.Equals(1)) {
+                throw new SecurityException("This user cannot be deleted!");
+            }
+            
             User existing = _dbContext.Set<User>().Find(id);
             _dbContext.Set<User>().Remove(existing);
+            
             Save();
         }
 
