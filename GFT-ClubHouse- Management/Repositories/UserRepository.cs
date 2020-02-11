@@ -35,7 +35,6 @@ namespace GFT_ClubHouse__Management.Repositories {
         }
 
         public void Insert(User obj) {
-            obj.Password = mD5HashTools.ReturnMD5(obj.Password);
             _dbContext.Set<User>().Add(obj);
             Save();
         }
