@@ -6,7 +6,7 @@ namespace GFT_ClubHouse__Management.Models {
 
         public int Id { get; set; }
         
-        [Display(Name = "Street")]
+        [Display(Name = "Address")]
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
         [MinLength(3, ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E002")]
         [MaxLength(80, ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E003")]
