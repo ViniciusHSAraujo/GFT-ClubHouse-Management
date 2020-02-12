@@ -31,7 +31,7 @@ namespace GFT_ClubHouse__Management.Libs.Login {
         }
 
         public void Logout() {
-            _session.Clear();
+            _session.Remove(key);
         }
     }
 }

@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace GFT_ClubHouse__Management.Libs.Login {
     public class LoginUser {
         private readonly Session _session;
-        private readonly string key = "Login.Admin";
+        private readonly string key = "Login.User";
 
         public LoginUser(Session session) {
             _session = session;
@@ -31,7 +31,7 @@ namespace GFT_ClubHouse__Management.Libs.Login {
         }
 
         public void Logout() {
-            _session.Clear();
+            _session.Remove(key);
         }
     }
 }

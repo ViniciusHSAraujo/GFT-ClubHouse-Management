@@ -1,0 +1,34 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "Orders";
+    ViewData["SubTitle"] = "Check yours orders ans print yours tickets.";
+    Layout = "_LayoutUserLogin";
+}
+
+<div class="card">
+
+    <div class="card-body p-4">
+        @if (TempData["MSG_S"] != null) {
+            <div class="alert bg-success alert-dismissible" role="alert">
+                <em class="fa fa-lg fa-warning">&nbsp;</em>
+                @TempData["MSG_S"]
+                <a data-dismiss="alert" aria-label="Close" class="pull-right">
+                    <em class="fa fa-lg fa-close"></em>
+                </a>
+            </div>
+        }
+
+        @if (TempData["MSG_E"] != null) {
+            <div class="alert bg-danger alert-dismissible" role="alert">
+                <em class="fa fa-lg fa-warning">&nbsp;</em>
+                @TempData["MSG_E"]
+                <a data-dismiss="alert" aria-label="Close" class="pull-right">
+                    <em class="fa fa-lg fa-close"></em>
+                </a>
+            </div>
+        }
+
+        <h1>TODO - Tickets here!</h1>
+    </div>
+</div>

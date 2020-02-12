@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>@ViewData["Title"] - GFT - Club House Management</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800" rel="stylesheet">
+    <link rel="stylesheet" href="fonts/icomoon/icomon.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/lib/magnific/magnific-popup.css">
+    <link rel="stylesheet" href="~/lib/jquery/dist/jquery-ui.css">
+    <link rel="stylesheet" href="~/lib/owl/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/lib/owl/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/lib/aos/aos.css">
+    <link rel="stylesheet" href="~/lib/rangeslider/rangeslider.css">
+
+    <link rel="stylesheet" href="~/css/user.css">
+
+</head>
+<body>
+
+<div class="site-wrap">
+
+    <div class="site-mobile-menu">
+        <div class="site-mobile-menu-header">
+            <div class="site-mobile-menu-close mt-3">
+                <span class="icon-close2 js-menu-toggle"></span>
+            </div>
+        </div>
+        <div class="site-mobile-menu-body"></div>
+    </div>
+
+    <header class="site-navbar container py-0 " role="banner">
+
+        <!-- <div class="container"> -->
+        <div class="row align-items-center">
+
+            <div class="col-6 col-xl-2">
+                <a asp-controller="Home" asp-action="Index">
+                    <img src="/images/chm.png" width="153" height="28" class="d-inline-block align-top" alt="Club House Management">
+                </a>
+            </div>
+            <div class="col-12 col-md-10 d-none d-xl-block">
+                <nav class="site-navigation position-relative text-right" role="navigation">
+
+                    <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                        <li class="active">
+                            <a asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+
+                        <li class="ml-xl-3 login">
+                            <a asp-controller="Home" asp-action="Login"><span class="border-left pl-xl-4"></span>Log In</a>
+                        </li>
+
+                        <li>
+                            <a asp-controller="Home" asp-action="Register" class="cta">
+                                <span class="bg-primary text-white rounded">Register</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+
+            <div class="d-inline-block d-xl-none ml-auto py-3 col-6 text-right" style="position: relative; top: 3px;">
+                <a href="#" class="site-menu-toggle js-menu-toggle text-white">
+                    <span class="icon-menu h3"></span>
+                </a>
+            </div>
+
+        </div>
+        <!-- </div> -->
+
+    </header>
+
+
+    <div class="site-blocks-cover inner-page-cover overlay aos-init aos-animate" style="background-image: url(/images/bg-ee.png); background-position: 50% -25px;" data-aos="fade" data-stellar-background-ratio="0.5">
+        <div class="container">
+            <div class="row align-items-center justify-content-center text-center">
+                <div class="col-md-10 aos-init aos-animate" data-aos="fade-up" data-aos-delay="400">
+                    <div class="row justify-content-center mt-5">
+                        <div class="col-md-8 text-center">
+                            <h1>@ViewData["Title"]</h1>
+                            <p class="mb-0">@ViewData["SubTitle"]</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="site-section bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-7 mb-5 aos-init aos-animate" data-aos="fade">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h2 class="footer-heading mb-6">About</h2>
+                            <p>CHM Events is a ticket purchase platform that gives you the possibility to get to know the best events that are taking place in the venues close to your home and to buy tickets in a simple and fast way.!</p>
+                        </div>
+
+                        <div class="col-md-2">
+                            <h2 class="footer-heading mb-4">Navigations</h2>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="#">Categories</a>
+                                </li>
+                                <li>
+                                    <a asp-area="Administrator" asp-controller="Home" asp-action="Index">Admin area</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-5 mt-5 text-center">
+                <div class="col-md-12">
+                    <div class="border-top pt-5">
+                        <p>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy; @DateTime.Now.Year All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery-migrate-3.0.1.min.js"></script>
+<script src="~/lib/jquery/dist/jquery-ui.js"></script>
+<script src="~/lib/popper/popper.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/lib/owl/owl.carousel.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.stellar.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.magnific-popup.min.js"></script>
+<script src="~/lib/aos/aos.js"></script>
+<script src="~/lib/rangeslider/rangeslider.min.js"></script>
+<script src="~/js/main-user.js"></script>
+
+</body>
+</html>

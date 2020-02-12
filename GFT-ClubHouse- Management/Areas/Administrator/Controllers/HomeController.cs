@@ -29,6 +29,9 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
         }
 
         public IActionResult Login() {
+            if (_loginAdmin.GetUser() != null) {
+                return RedirectToAction(nameof(Index));
+            }
             return View();
         }
         
