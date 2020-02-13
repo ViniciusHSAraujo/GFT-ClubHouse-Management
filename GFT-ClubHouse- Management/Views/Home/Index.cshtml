@@ -51,7 +51,7 @@
                             <p>
                                 <span class="review">@e.Date.ToLongDateString()</span>
                             </p>
-                            <a href="#" class="btn btn-primary rounded col-12">
+                            <a asp-controller="Events" asp-action="Details" asp-route-id="@e.Id" class="btn btn-primary rounded col-12">
                                 <span class="icon-ticket"></span>
                                 Buy now
                             </a>

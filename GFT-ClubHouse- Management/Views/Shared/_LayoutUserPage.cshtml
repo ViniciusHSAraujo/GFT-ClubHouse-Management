@@ -1,12 +1,12 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-<title>@ViewData["Title"] - GFT - Club House Management</title>
+    <title>@ViewData["Title"] - GFT - Club House Management</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800" rel="stylesheet">
-    <link rel="stylesheet" href="fonts/icomoon/icomon.css">
+    <link rel="stylesheet" href="~/fonts/icomoon/icomon.css">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/lib/magnific/magnific-popup.css">
     <link rel="stylesheet" href="~/lib/jquery/dist/jquery-ui.css">
@@ -14,8 +14,9 @@
     <link rel="stylesheet" href="~/lib/owl/owl.theme.default.min.css">
     <link rel="stylesheet" href="~/lib/aos/aos.css">
     <link rel="stylesheet" href="~/lib/rangeslider/rangeslider.css">
-
     <link rel="stylesheet" href="~/css/user.css">
+    @RenderSection("Css", required: false)
+
 
 </head>
 <body>
@@ -150,6 +151,8 @@
 <script src="~/lib/aos/aos.js"></script>
 <script src="~/lib/rangeslider/rangeslider.min.js"></script>
 <script src="~/js/main-user.js"></script>
+@RenderSection("Scripts", required: false)
+
 
 </body>
 </html>

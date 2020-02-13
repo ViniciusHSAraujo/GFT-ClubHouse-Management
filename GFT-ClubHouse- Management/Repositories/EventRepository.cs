@@ -26,7 +26,7 @@ namespace GFT_ClubHouse__Management.Repositories {
         }
 
         public Event GetById(object id) {
-            return _dbContext.Set<Event>().Include(x => x.ClubHouse).Include(x => x.MusicalGenre)
+            return _dbContext.Set<Event>().Include(x => x.ClubHouse.Address).Include(x => x.MusicalGenre)
                 .Include(x => x.Tickets).AsNoTracking()
                 .FirstOrDefault(x => x.Id.Equals(id));
         }

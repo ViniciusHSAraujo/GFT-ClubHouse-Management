@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GFT_ClubHouse__Management.Data;
 using GFT_ClubHouse__Management.Libs.Login;
 using GFT_ClubHouse__Management.Libs.Sessions;
+using GFT_ClubHouse__Management.Models;
 using GFT_ClubHouse__Management.Repositories;
 using GFT_ClubHouse__Management.Repositories.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -60,6 +61,8 @@ namespace GFT_ClubHouse__Management {
             services.AddTransient<IEventRepository, EventRepository>();
             services.AddTransient<IMusicalGenreRepository, MusicalGenreRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ISaleRepository, SaleRepository>();
+            services.AddTransient<ITicketRepository, TicketRepository>();
 
         }
 

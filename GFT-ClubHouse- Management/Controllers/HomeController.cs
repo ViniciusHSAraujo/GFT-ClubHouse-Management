@@ -11,21 +11,26 @@ using Microsoft.AspNetCore.Mvc;
 using GFT_ClubHouse__Management.Models;
 using GFT_ClubHouse__Management.Models.Enum;
 using GFT_ClubHouse__Management.Repositories.Interfaces;
+using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
 
 namespace GFT_ClubHouse__Management.Controllers {
     [Route("{Action=index}")]
     public class HomeController : Controller {
-
         private readonly IEventRepository _eventRepository;
         private readonly IUserRepository _userRepository;
+        private readonly ISaleRepository _saleRepository;
+        private readonly ITicketRepository _ticketRepository;
         private LoginUser _loginUser;
         private static readonly MD5HashTools MD5HashTools = new MD5HashTools();
 
 
-        public HomeController(IEventRepository eventRepository, LoginUser loginUser, IUserRepository userRepository) {
+        public HomeController(IEventRepository eventRepository, LoginUser loginUser, IUserRepository userRepository,
+            ISaleRepository saleRepository, ITicketRepository ticketRepository) {
             _eventRepository = eventRepository;
             _loginUser = loginUser;
             _userRepository = userRepository;
+            _saleRepository = saleRepository;
+            _ticketRepository = ticketRepository;
         }
 
         public IActionResult Index() {
@@ -36,30 +41,33 @@ namespace GFT_ClubHouse__Management.Controllers {
         public IActionResult Login() {
             return View();
         }
-        
+
         [HttpPost]
         public IActionResult Login([FromForm] User user) {
-            var authenticatedUser = _userRepository.Login(user.Email, MD5HashTools.ReturnMD5(user.Password), UserRoles.User);
+            var authenticatedUser =
+                _userRepository.Login(user.Email, MD5HashTools.ReturnMD5(user.Password), UserRoles.User);
 
             if (authenticatedUser != null) {
                 _loginUser.Login(authenticatedUser);
                 TempData["MSG_S"] = SuccessMessages.MSG_S008;
-                return RedirectToAction("Orders");
+                return RedirectToAction("Index");
             }
+
             TempData["MSG_E"] = ErrorMessages.MSG_E008;
             return View();
         }
-        
+
         [UserAuthorization]
         public IActionResult Logout() {
             _loginUser.Logout();
             TempData["MSG_S"] = SuccessMessages.MSG_S007;
             return RedirectToAction(nameof(Login));
         }
-        
+
         public IActionResult Register() {
             return View();
         }
+
         [HttpPost]
         public IActionResult Register([FromForm] User user) {
             if (ModelState.IsValid) {
@@ -74,17 +82,55 @@ namespace GFT_ClubHouse__Management.Controllers {
                     TempData["MSG_E"] = ErrorMessages.MSG_E007;
                 }
             }
+
             return View();
         }
-        
+
         [UserAuthorization]
         public IActionResult Orders() {
             var user = _loginUser.GetUser();
+            //TODO - Search for all tickets purchased by the user.    
+            var sales = _saleRepository.GetByUser(user.Id);
+            return View(sales);
+        }
 
-            if (user != null) {
-                //TODO - Search for all tickets purchased by the user.    
+        [UserAuthorization]
+        [HttpPost]
+        public IActionResult Checkout([FromForm] Sale sale) {
+            sale.Event = _eventRepository.GetById(sale.EventId);
+            var ticketsLeft = sale.Event.Tickets.Count(x => !x.IsSold);
+            if (sale.Quantity > ticketsLeft) {
+                TempData["MSG_E"] = $"Oops.. There are only {ticketsLeft} tickets left.";
+                return RedirectToAction("Details", "Events", new {id = sale.EventId});
             }
-            return View();
+
+            sale.SinglePrice = sale.Event.Price;
+            //sale.UserId = _loginUser.GetUser().Id;
+            return View(sale);
+        }
+
+
+        [UserAuthorization]
+        [HttpPost]
+        public IActionResult Finish([FromForm] Sale sale) {
+            sale.Event = _eventRepository.GetById(sale.EventId);
+            var ticketsLeft = sale.Event.Tickets.Count(x => !x.IsSold);
+            if (sale.Quantity > ticketsLeft) {
+                TempData["MSG_E"] = $"Oops.. There are only {ticketsLeft} tickets left.";
+                return RedirectToAction("Details", "Events", new {id = sale.EventId});
+            }
+
+            sale = new Sale() {
+                Id = 0,
+                Quantity = sale.Quantity,
+                EventId = sale.EventId,
+                UserId = _loginUser.GetUser().Id,
+                SinglePrice = sale.Event.Price
+            };
+
+            _saleRepository.Insert(sale);
+            _ticketRepository.MarkAsSold(sale.Quantity, sale.EventId, sale.UserId);
+            return RedirectToAction("Index");
         }
     }
 }
