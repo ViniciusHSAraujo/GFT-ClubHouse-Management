@@ -18,7 +18,7 @@
                             <div class="lh-content">
                                 <span class="category">@e.MusicalGenre.Name</span>
                                 <h3>
-                                    <a asp-action="">@e.Name</a>
+                                    <a asp-controller="Events" asp-action="Details" asp-route-id="@e.Id">@e.Name</a>
                                 </h3>
                                 <address>@e.ClubHouse.Name</address>
                                 <p class="mb-0">
@@ -45,7 +45,7 @@
                         <div class="lh-content">
                             <span class="category">@e.MusicalGenre.Name</span>
                             <h3>
-                                <a asp-action="">@e.Name</a>
+                                <a asp-controller="Events" asp-action="Details" asp-route-id="@e.Id">@e.Name</a>
                             </h3>
                             <address>@e.ClubHouse.Name</address>
                             <p>

@@ -25,11 +25,11 @@ namespace GFT_ClubHouse__Management.Repositories {
         }
 
         public Sale GetById(object id) {
-            return _dbContext.Set<Sale>().AsNoTracking().FirstOrDefault(x => x.Id.Equals(id));
+            return _dbContext.Set<Sale>().Include(x => x.Event.ClubHouse.Address).Include(x => x.Event.MusicalGenre).Include(x => x.User).Include(x => x.Tickets).AsNoTracking().FirstOrDefault(x => x.Id.Equals(id));
         }
         
         public IEnumerable<Sale> GetByUser(int id) {
-            return _dbContext.Set<Sale>().AsNoTracking().Where(x => x.UserId.Equals(id)).AsEnumerable();
+            return _dbContext.Set<Sale>().Include(x => x.Event.ClubHouse.Address).Include(x => x.Event.MusicalGenre).Include(x => x.User).Include(x => x.Tickets).AsNoTracking().Where(x => x.UserId.Equals(id)).AsEnumerable();
 
         }
 

@@ -15,6 +15,10 @@ namespace GFT_ClubHouse__Management.Models {
         public int? UserId { get; set; }
 
         [ForeignKey("UserId")] public virtual User User { get; set; }
+        
+        public int? SaleId { get; set; }
+
+        [ForeignKey("SaleId")] public virtual Sale Sale { get; set; }
 
         public bool IsSold { get; set; }
     }

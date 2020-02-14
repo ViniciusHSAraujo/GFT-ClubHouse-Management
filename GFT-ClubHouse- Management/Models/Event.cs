@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using GFT_ClubHouse__Management.Libs.Language;
 
 namespace GFT_ClubHouse__Management.Models {
@@ -44,5 +45,14 @@ namespace GFT_ClubHouse__Management.Models {
         [ForeignKey("MusicalGenreId")] public virtual MusicalGenre MusicalGenre { get; set; }
 
         public virtual List<Ticket> Tickets { get; set; }
+
+        public int TicketsLeft() {
+            return Tickets.Count(x => !x.IsSold);
+        }
+        
+        public int TicketsSold() {
+            return Tickets.Count(x => x.IsSold);
+        }
+        
     }
 }

@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Sale>
+
+@{
+    ViewData["Title"] = "Orders";
+    ViewData["SubTitle"] = "Check yours orders ans print yours tickets.";
+    Layout = "_LayoutUserPage";
+}
+@if (TempData["MSG_S"] != null) {
+    <div class="alert bg-success alert-dismissible text-white" role="alert">
+        <em class="fa fa-lg fa-ok">&nbsp;</em>
+        @TempData["MSG_S"]
+        <a data-dismiss="alert" aria-label="Close" class="pull-right">
+            <em class="fa fa-lg fa-close"></em>
+        </a>
+    </div>
+}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Sale ID
+        </th>
+        <th>
+            Event Name
+        </th>
+        <th>
+            Musical Genre
+        </th>
+        <th>
+            Club House Name
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Total Price
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Event.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Event.MusicalGenre.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Event.ClubHouse.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPrice)
+            </td>
+            
+            <td>
+                @Html.ActionLink("Details", "Details", new {item.Id}, new {@class = "btn btn-info"})
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

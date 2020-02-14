@@ -86,19 +86,13 @@ namespace GFT_ClubHouse__Management.Controllers {
             return View();
         }
 
-        [UserAuthorization]
-        public IActionResult Orders() {
-            var user = _loginUser.GetUser();
-            //TODO - Search for all tickets purchased by the user.    
-            var sales = _saleRepository.GetByUser(user.Id);
-            return View(sales);
-        }
+        
 
         [UserAuthorization]
         [HttpPost]
         public IActionResult Checkout([FromForm] Sale sale) {
             sale.Event = _eventRepository.GetById(sale.EventId);
-            var ticketsLeft = sale.Event.Tickets.Count(x => !x.IsSold);
+            var ticketsLeft = sale.Event.TicketsLeft();
             if (sale.Quantity > ticketsLeft) {
                 TempData["MSG_E"] = $"Oops.. There are only {ticketsLeft} tickets left.";
                 return RedirectToAction("Details", "Events", new {id = sale.EventId});
@@ -114,7 +108,7 @@ namespace GFT_ClubHouse__Management.Controllers {
         [HttpPost]
         public IActionResult Finish([FromForm] Sale sale) {
             sale.Event = _eventRepository.GetById(sale.EventId);
-            var ticketsLeft = sale.Event.Tickets.Count(x => !x.IsSold);
+            var ticketsLeft = sale.Event.TicketsLeft();
             if (sale.Quantity > ticketsLeft) {
                 TempData["MSG_E"] = $"Oops.. There are only {ticketsLeft} tickets left.";
                 return RedirectToAction("Details", "Events", new {id = sale.EventId});
@@ -130,7 +124,8 @@ namespace GFT_ClubHouse__Management.Controllers {
 
             _saleRepository.Insert(sale);
             _ticketRepository.MarkAsSold(sale.Quantity, sale.EventId, sale.UserId);
-            return RedirectToAction("Index");
+            TempData["MSG_S"] = $"Your purchase was successfully done! Order nº {sale.Id:000000}";
+            return RedirectToAction("Index", "Orders");
         }
     }
 }

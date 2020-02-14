@@ -1,0 +1,68 @@
+﻿@using System.Globalization
+@model Sale
+
+@{
+    ViewData["Title"] = "Print your tickets";
+    ViewData["SubTitle"] = $"Order nº {Model.Id:000000}";
+    Layout = "_LayoutUserPage";
+}
+
+
+<div class="card">
+    <button id="btnPrint" class="btn btn-primary">Print all tickets</button>
+
+    <div class="card-body p-4">
+        @if (TempData["MSG_S"] != null) {
+            <div class="alert bg-success alert-dismissible" role="alert">
+                <em class="fa fa-lg fa-warning">&nbsp;</em>
+                @TempData["MSG_S"]
+                <a data-dismiss="alert" aria-label="Close" class="pull-right">
+                    <em class="fa fa-lg fa-close"></em>
+                </a>
+            </div>
+        }
+
+        @if (TempData["MSG_E"] != null) {
+            <div class="alert bg-danger alert-dismissible" role="alert">
+                <em class="fa fa-lg fa-warning">&nbsp;</em>
+                @TempData["MSG_E"]
+                <a data-dismiss="alert" aria-label="Close" class="pull-right">
+                    <em class="fa fa-lg fa-close"></em>
+                </a>
+            </div>
+        }
+        <div id="print">
+            @foreach (var ticket in Model.Tickets) {
+                <div class="card mb-3">
+                    <div class="container row">
+                        <div class="col-7">
+                            <h2 class="card-title">@Model.Event.Name</h2>
+                            <h5 class="card-subtitle mb-2 bold">@Model.Event.Date</h5>
+                            <h5 class="card-subtitle">@Model.Event.ClubHouse.Name</h5>
+                            <p class="card-text text-muted">@Model.Event.ClubHouse.Address.Street</p>
+                            <h3 class="card-title">@Model.SinglePrice.ToString("C2", CultureInfo.CurrentUICulture)</h3>
+                        </div>
+                        <div class="col-5">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?data=@ticket.Hash" alt="qrcode" height="100" class="img-thumbnail border-0">
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/lib/jquery-printpreview/printPreview.js"></script>
+
+    <script type="text/javascript">
+            $(function(){
+                $("#btnPrint").printPreview({
+                    obj2print:'#print',
+                    width:'810',
+                    title:'Print tickets'
+                });
+            });
+        </script>
+
+}

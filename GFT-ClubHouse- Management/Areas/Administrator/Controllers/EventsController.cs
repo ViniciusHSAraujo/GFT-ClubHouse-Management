@@ -60,7 +60,7 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
             var event_ = _eventRepository.GetById(id);
             ViewBag.ClubHouses = _clubHouseRepository.GetSelectList();
             ViewBag.MusicalGenres = _musicalGenreRepository.GetSelectList();
-            ViewBag.SoldTickets = event_.Tickets.Count(x => x.IsSold);
+            ViewBag.SoldTickets = event_.TicketsSold();
             return View(event_);
         }
 
@@ -78,7 +78,7 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
             }
             ViewBag.ClubHouses = _clubHouseRepository.GetSelectList();
             ViewBag.MusicalGenres = _musicalGenreRepository.GetSelectList();
-            ViewBag.SoldTickets = _eventRepository.GetById(event_.Id).Tickets.Count(x => x.IsSold);
+            ViewBag.SoldTickets = _eventRepository.GetById(event_.Id).TicketsSold();
             return View();
         }
 

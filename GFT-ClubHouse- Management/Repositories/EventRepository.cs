@@ -49,7 +49,7 @@ namespace GFT_ClubHouse__Management.Repositories {
         public void Update(Event obj) {
             var objDb = GetById(obj.Id);
 
-            if (objDb.Tickets.Count(x => x.IsSold) >= obj.Capacity) {
+            if (objDb.TicketsLeft() >= obj.Capacity) {
                 throw new Exception("You are trying to set a capacity below the number of tickets sold.");
             }
 
