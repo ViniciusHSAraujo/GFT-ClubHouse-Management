@@ -1,0 +1,24 @@
+﻿@model User
+
+@if (Model == null) {
+    <li class="ml-xl-3 login">
+        <a asp-controller="Home" asp-action="Login"><span class="border-left pl-xl-4"></span>Log In</a>
+    </li>
+
+    <li>
+        <a asp-controller="Home" asp-action="Register" class="cta">
+            <span>Register</span>
+        </a>
+    </li>
+}
+else {
+    <li class="has-children">
+        <a href="#" class="cta">
+            <span class="">My Account</span>
+        </a>
+        <ul class="dropdown">
+            <li><a asp-controller="Orders" asp-action="Index">My Orders</a></li>
+            <li><a asp-controller="Home" asp-action="Logout">Logout</a></li>
+        </ul>
+    </li>
+}
