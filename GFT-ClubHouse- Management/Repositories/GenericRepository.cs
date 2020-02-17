@@ -51,7 +51,7 @@ namespace GFT_ClubHouse__Management.Repositories {
             _dbContext.SaveChanges();
         }
 
-        public IPagedList<T> List(int? page, string search) {
+        public IPagedList<T> GetAll(int? page, string search) {
             throw new NotImplementedException();
         }
     }

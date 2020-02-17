@@ -85,15 +85,14 @@
                     </div>
 
                     <div class="mb-3" data-aos="fade-up" data-aos-delay="200">
-                        <form method="post">
+                        <form method="get">
                             <div class="row align-items-center">
                                 <div class="col-lg-12 mb-4 mb-xl-0 col-xl-10">
-                                    <input type="text" class="form-control rounded" placeholder="What are you looking for?">
+                                    <input type="text" class="form-control rounded" name="search" placeholder="What are you looking for?">
                                 </div>
                                 <div class="col-lg-12 col-xl-2 ml-auto text-right">
                                     <input type="submit" class="btn btn-primary btn-block rounded" value="Search">
                                 </div>
-
                             </div>
                         </form>
                     </div>
@@ -101,10 +100,9 @@
                     <div class="row text-left trending-search" data-aos="fade-up" data-aos-delay="300">
                         <div class="col-12">
                             <h2 class="d-inline-block">Trending Search:</h2>
-                            <a href="#">Rock</a>
-                            <a href="#">Electro</a>
-                            <a href="#">Country</a>
-                            @* TODO - Fazer o trending search aqui *@
+                            <a asp-controller="Home" asp-action="Index" asp-route-search="rock">Rock</a>
+                            <a asp-controller="Home" asp-action="Index" asp-route-search="electro">Electro</a>
+                            <a asp-controller="Home" asp-action="Index" asp-route-search="country">Country</a>
                         </div>
                     </div>
 

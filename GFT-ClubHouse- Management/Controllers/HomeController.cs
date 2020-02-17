@@ -10,6 +10,7 @@ using GFT_ClubHouse__Management.Libs.Security;
 using Microsoft.AspNetCore.Mvc;
 using GFT_ClubHouse__Management.Models;
 using GFT_ClubHouse__Management.Models.Enum;
+using GFT_ClubHouse__Management.Models.ViewModels;
 using GFT_ClubHouse__Management.Repositories.Interfaces;
 using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
 
@@ -33,8 +34,12 @@ namespace GFT_ClubHouse__Management.Controllers {
             _ticketRepository = ticketRepository;
         }
 
-        public IActionResult Index() {
-            var events = _eventRepository.GetAll();
+        public IActionResult Index(int? page, string search) {
+            var events = new NextAndRecentsEventsViewModels() {
+                UpcomingEvents = _eventRepository.GetNext(9),
+                RecentlyAddedEvents = _eventRepository.GetAll(page, search)
+            };
+            
             return View(events);
         }
 
@@ -43,7 +48,7 @@ namespace GFT_ClubHouse__Management.Controllers {
         [HttpPost]
         public IActionResult Checkout([FromForm] Sale sale) {
             sale.Event = _eventRepository.GetById(sale.EventId);
-            var ticketsLeft = sale.Event.TicketsLeft();
+            var ticketsLeft = _ticketRepository.CountRemainingTicketsForAnEvent(sale.EventId);
             if (sale.Quantity > ticketsLeft) {
                 TempData["MSG_E"] = $"Oops.. There are only {ticketsLeft} tickets left.";
                 return RedirectToAction("Details", "Events", new {id = sale.EventId});
@@ -59,7 +64,7 @@ namespace GFT_ClubHouse__Management.Controllers {
         [HttpPost]
         public IActionResult Finish([FromForm] Sale sale) {
             sale.Event = _eventRepository.GetById(sale.EventId);
-            var ticketsLeft = sale.Event.TicketsLeft();
+            var ticketsLeft = _ticketRepository.CountRemainingTicketsForAnEvent(sale.EventId);
             if (sale.Quantity > ticketsLeft) {
                 TempData["MSG_E"] = $"Oops.. There are only {ticketsLeft} tickets left.";
                 return RedirectToAction("Details", "Events", new {id = sale.EventId});

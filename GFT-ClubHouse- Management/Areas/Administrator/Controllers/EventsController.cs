@@ -16,11 +16,13 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
         private readonly IEventRepository _eventRepository;
         private readonly IClubHouseRepository _clubHouseRepository;
         private readonly IMusicalGenreRepository _musicalGenreRepository;
+        private readonly ITicketRepository _ticketRepository;
 
-        public EventsController(IEventRepository eventRepository, IClubHouseRepository clubHouseRepository, IMusicalGenreRepository musicalGenreRepository) {
+        public EventsController(IEventRepository eventRepository, IClubHouseRepository clubHouseRepository, IMusicalGenreRepository musicalGenreRepository, ITicketRepository ticketRepository) {
             _eventRepository = eventRepository;
             _clubHouseRepository = clubHouseRepository;
             _musicalGenreRepository = musicalGenreRepository;
+            _ticketRepository = ticketRepository;
         }
 
         public ActionResult Index() {
@@ -60,7 +62,7 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
             var event_ = _eventRepository.GetById(id);
             ViewBag.ClubHouses = _clubHouseRepository.GetSelectList();
             ViewBag.MusicalGenres = _musicalGenreRepository.GetSelectList();
-            ViewBag.SoldTickets = event_.TicketsSold();
+            ViewBag.SoldTickets = _ticketRepository.CountTicketsSoldForAnEvent(id);
             return View(event_);
         }
 
@@ -78,7 +80,7 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
             }
             ViewBag.ClubHouses = _clubHouseRepository.GetSelectList();
             ViewBag.MusicalGenres = _musicalGenreRepository.GetSelectList();
-            ViewBag.SoldTickets = _eventRepository.GetById(event_.Id).TicketsSold();
+            ViewBag.SoldTickets = _ticketRepository.CountTicketsSoldForAnEvent(event_.Id);
             return View();
         }
 

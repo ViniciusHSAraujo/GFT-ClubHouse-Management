@@ -25,6 +25,22 @@ namespace GFT_ClubHouse__Management.Repositories {
             return _dbContext.Set<Sale>().AsNoTracking().ToList();
         }
 
+        public IPagedList<Sale> GetAll(int? page, string search) {
+            int pageNumber = page ?? 1;
+            int resultsPerPage = 10;
+
+            if (string.IsNullOrEmpty(search)) {
+                return _dbContext.Set<Sale>().ToPagedList(pageNumber, resultsPerPage);
+            }
+
+            search = search.Trim().ToLower();
+            return _dbContext.Set<Sale>().Include(x => x.Event.ClubHouse).Include(x => x.Event.MusicalGenre)
+                .Where(t => t.Event.Name.ToLower().Contains(search) ||
+                            t.Event.ClubHouse.Name.ToLower().Contains(search) ||
+                            t.Event.MusicalGenre.Name.ToLower().Contains(search))
+                .ToPagedList(pageNumber, resultsPerPage);
+        }
+        
         public Sale GetById(object id) {
             return _dbContext.Set<Sale>().Include(x => x.Event.ClubHouse.Address).Include(x => x.Event.MusicalGenre)
                 .Include(x => x.User).Include(x => x.Tickets).AsNoTracking().FirstOrDefault(x => x.Id.Equals(id));
@@ -61,20 +77,6 @@ namespace GFT_ClubHouse__Management.Repositories {
             _dbContext.SaveChanges();
         }
 
-        public IPagedList<Sale> List(int? page, string search) {
-            int pageNumber = page ?? 1;
-            int resultsPerPage = 10;
-
-            if (string.IsNullOrEmpty(search)) {
-                return _dbContext.Set<Sale>().ToPagedList(pageNumber, resultsPerPage);
-            }
-
-            search = search.Trim().ToLower();
-            return _dbContext.Set<Sale>().Include(x => x.Event.ClubHouse).Include(x => x.Event.MusicalGenre)
-                .Where(t => t.Event.Name.ToLower().Contains(search) ||
-                            t.Event.ClubHouse.Name.ToLower().Contains(search) ||
-                            t.Event.MusicalGenre.Name.ToLower().Contains(search))
-                .ToPagedList(pageNumber, resultsPerPage);
-        }
+        
     }
 }

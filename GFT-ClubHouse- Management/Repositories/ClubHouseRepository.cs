@@ -25,6 +25,20 @@ namespace GFT_ClubHouse__Management.Repositories {
             return _dbContext.Set<ClubHouse>().Include(x => x.Address).AsNoTracking().ToList();
         }
 
+        public IPagedList<ClubHouse> GetAll(int? page, string search) {
+            int pageNumber = page ?? 1;
+            int resultsPerPage = 10;
+
+            if (string.IsNullOrEmpty(search)) {
+                return _dbContext.Set<ClubHouse>().ToPagedList(pageNumber, resultsPerPage);
+            }
+
+            search = search.Trim().ToLower();
+            return _dbContext.Set<ClubHouse>()
+                .Where(t => t.Name.ToLower().Contains(search))
+                .ToPagedList(pageNumber, resultsPerPage);
+        }
+        
         public ClubHouse GetById(object id) {
             return _dbContext.Set<ClubHouse>().Include(x => x.Address).AsNoTracking()
                 .FirstOrDefault(x => x.Id.Equals(id));
@@ -56,18 +70,6 @@ namespace GFT_ClubHouse__Management.Repositories {
             _dbContext.SaveChanges();
         }
 
-        public IPagedList<ClubHouse> List(int? page, string search) {
-            int pageNumber = page ?? 1;
-            int resultsPerPage = 10;
-
-            if (string.IsNullOrEmpty(search)) {
-                return _dbContext.Set<ClubHouse>().ToPagedList(pageNumber, resultsPerPage);
-            }
-
-            search = search.Trim().ToLower();
-            return _dbContext.Set<ClubHouse>()
-                .Where(t => t.Name.ToLower().Contains(search))
-                .ToPagedList(pageNumber, resultsPerPage);
-        }
+        
     }
 }

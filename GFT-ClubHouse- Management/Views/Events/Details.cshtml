@@ -59,7 +59,7 @@
             <span class="small">Limited to 10</span>
             <hr/>
 
-            @if (Model.Event.TicketsLeft() == 0) {
+            @if (Model.TicketsLeft == 0) {
                 <div class="card">
                     <div class="card-header">
                         <h5 class="card-title">Tickets are sold out for "@Model.Event.Name"! </h5>

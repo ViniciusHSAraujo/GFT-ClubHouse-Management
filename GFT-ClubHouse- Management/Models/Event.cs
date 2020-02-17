@@ -45,14 +45,5 @@ namespace GFT_ClubHouse__Management.Models {
         [ForeignKey("MusicalGenreId")] public virtual MusicalGenre MusicalGenre { get; set; }
 
         public virtual List<Ticket> Tickets { get; set; }
-
-        public int TicketsLeft() {
-            return Tickets.Count(x => !x.IsSold);
-        }
-        
-        public int TicketsSold() {
-            return Tickets.Count(x => x.IsSold);
-        }
-        
     }
 }

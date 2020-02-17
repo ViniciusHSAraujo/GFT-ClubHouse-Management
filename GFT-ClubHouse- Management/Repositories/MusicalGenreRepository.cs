@@ -25,6 +25,20 @@ namespace GFT_ClubHouse__Management.Repositories {
             return _dbContext.Set<MusicalGenre>().AsNoTracking().ToList();
         }
 
+        public IPagedList<MusicalGenre> GetAll(int? page, string search) {
+            int pageNumber = page ?? 1;
+            int resultsPerPage = 10;
+
+            if (string.IsNullOrEmpty(search)) {
+                return _dbContext.Set<MusicalGenre>().ToPagedList(pageNumber, resultsPerPage);
+            }
+
+            search = search.Trim().ToLower();
+            return _dbContext.Set<MusicalGenre>()
+                .Where(t => t.Name.ToLower().Contains(search))
+                .ToPagedList(pageNumber, resultsPerPage);
+        }
+        
         public MusicalGenre GetById(object id) {
             return _dbContext.Set<MusicalGenre>().AsNoTracking().FirstOrDefault(x => x.Id.Equals(id));
         }
@@ -54,18 +68,6 @@ namespace GFT_ClubHouse__Management.Repositories {
             _dbContext.SaveChanges();
         }
 
-        public IPagedList<MusicalGenre> List(int? page, string search) {
-            int pageNumber = page ?? 1;
-            int resultsPerPage = 10;
-
-            if (string.IsNullOrEmpty(search)) {
-                return _dbContext.Set<MusicalGenre>().ToPagedList(pageNumber, resultsPerPage);
-            }
-
-            search = search.Trim().ToLower();
-            return _dbContext.Set<MusicalGenre>()
-                .Where(t => t.Name.ToLower().Contains(search))
-                .ToPagedList(pageNumber, resultsPerPage);
-        }
+        
     }
 }

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
 
 namespace GFT_ClubHouse__Management.Repositories {
@@ -22,13 +23,38 @@ namespace GFT_ClubHouse__Management.Repositories {
 
         public IEnumerable<Event> GetAll() {
             return _dbContext.Set<Event>().Include(x => x.ClubHouse).Include(x => x.MusicalGenre)
-                .Include(x => x.Tickets).AsNoTracking()
+                .AsNoTracking()
                 .ToList();
+        }
+
+        public IEnumerable<Event> GetNext(int quantity) {
+            return _dbContext.Set<Event>().Include(x => x.ClubHouse).Include(x => x.MusicalGenre)
+                .AsNoTracking()
+                .OrderBy(x => x.Date)
+                .Take(quantity)
+                .ToList();
+        }
+
+        public IPagedList<Event> GetAll(int? page, string search) {
+            int pageNumber = page ?? 1;
+            const int resultsPerPage = 9;
+
+            if (string.IsNullOrEmpty(search)) {
+                return _dbContext.Set<Event>().Include(x => x.ClubHouse).Include(x => x.MusicalGenre)
+                    .ToPagedList(pageNumber, resultsPerPage);
+            }
+
+            search = search.Trim().ToLower();
+            return _dbContext.Set<Event>().Include(x => x.ClubHouse).Include(x => x.MusicalGenre)
+                .Include(x => x.Tickets)
+                .Where(t => t.Name.ToLower().Contains(search) || t.ClubHouse.Name.ToLower().Contains(search) ||
+                            t.MusicalGenre.Name.ToLower().Contains(search))
+                .ToPagedList(pageNumber, resultsPerPage);
         }
 
         public Event GetById(object id) {
             return _dbContext.Set<Event>().Include(x => x.ClubHouse.Address).Include(x => x.MusicalGenre)
-                .Include(x => x.Tickets).AsNoTracking()
+                .AsNoTracking()
                 .FirstOrDefault(x => x.Id.Equals(id));
         }
 
@@ -49,8 +75,8 @@ namespace GFT_ClubHouse__Management.Repositories {
 
         public void Update(Event obj) {
             var objDb = GetById(obj.Id);
-
-            if (objDb.TicketsLeft() >= obj.Capacity) {
+            var ticketsLeft = _dbContext.Set<Ticket>().Where(x => x.EventId == obj.Id).Count(x => !x.IsSold);
+            if (ticketsLeft >= obj.Capacity) {
                 throw new Exception("You are trying to set a capacity below the number of tickets sold.");
             }
 
@@ -86,20 +112,6 @@ namespace GFT_ClubHouse__Management.Repositories {
 
         public void Save() {
             _dbContext.SaveChanges();
-        }
-
-        public IPagedList<Event> List(int? page, string search) {
-            int pageNumber = page ?? 1;
-            int resultsPerPage = 10;
-
-            if (string.IsNullOrEmpty(search)) {
-                return _dbContext.Set<Event>().ToPagedList(pageNumber, resultsPerPage);
-            }
-
-            search = search.Trim().ToLower();
-            return _dbContext.Set<Event>()
-                .Where(t => t.Name.ToLower().Contains(search))
-                .ToPagedList(pageNumber, resultsPerPage);
         }
     }
 }

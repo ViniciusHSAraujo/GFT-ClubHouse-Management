@@ -12,6 +12,14 @@ namespace GFT_ClubHouse__Management.Repositories {
             _dbContext = dbContext;
         }
 
+        public int CountRemainingTicketsForAnEvent(int eventId) {
+            return _dbContext.Set<Ticket>().Where(x => x.EventId == eventId).Count(x => !x.IsSold);
+        }
+        
+        public int CountTicketsSoldForAnEvent(int eventId) {
+            return _dbContext.Set<Ticket>().Where(x => x.EventId == eventId).Count(x => x.IsSold);
+        }
+
         public void MarkAsSold(int quantity, int eventId, int userId, int saleId) {
             var tickets = _dbContext.Set<Ticket>().Where(x => !x.IsSold && x.EventId == eventId).Take(quantity)
                 .ToList();
