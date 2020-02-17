@@ -12,7 +12,7 @@ namespace GFT_ClubHouse__Management.Repositories {
             _dbContext = dbContext;
         }
 
-        public void MarkAsSold(int quantity, int eventId, int userId) {
+        public void MarkAsSold(int quantity, int eventId, int userId, int saleId) {
             var tickets = _dbContext.Set<Ticket>().Where(x => !x.IsSold && x.EventId == eventId).Take(quantity)
                 .ToList();
 
@@ -20,6 +20,7 @@ namespace GFT_ClubHouse__Management.Repositories {
                 ticket.Hash = Guid.NewGuid();
                 ticket.IsSold = true;
                 ticket.UserId = userId;
+                ticket.SaleId = saleId;
             }
 
             _dbContext.SaveChanges();
