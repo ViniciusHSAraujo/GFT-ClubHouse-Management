@@ -38,55 +38,6 @@ namespace GFT_ClubHouse__Management.Controllers {
             return View(events);
         }
 
-        public IActionResult Login() {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Login([FromForm] User user) {
-            var authenticatedUser =
-                _userRepository.Login(user.Email, MD5HashTools.ReturnMD5(user.Password), UserRoles.User);
-
-            if (authenticatedUser != null) {
-                _loginUser.Login(authenticatedUser);
-                TempData["MSG_S"] = SuccessMessages.MSG_S008;
-                return RedirectToAction("Index");
-            }
-
-            TempData["MSG_E"] = ErrorMessages.MSG_E008;
-            return View();
-        }
-
-        [UserAuthorization]
-        public IActionResult Logout() {
-            _loginUser.Logout();
-            TempData["MSG_S"] = SuccessMessages.MSG_S007;
-            return RedirectToAction(nameof(Login));
-        }
-
-        public IActionResult Register() {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Register([FromForm] User user) {
-            if (ModelState.IsValid) {
-                try {
-                    user.Password = MD5HashTools.ReturnMD5(user.Password);
-                    user.Roles = UserRoles.User;
-                    _userRepository.Insert(user);
-                    _loginUser.Login(user);
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (Exception e) {
-                    TempData["MSG_E"] = e.Message;
-                }
-            }
-
-            return View();
-        }
-
-        
 
         [UserAuthorization]
         [HttpPost]
