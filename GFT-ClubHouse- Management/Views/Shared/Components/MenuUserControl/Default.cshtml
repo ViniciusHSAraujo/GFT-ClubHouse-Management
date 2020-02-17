@@ -14,9 +14,10 @@
 else {
     <li class="has-children">
         <a href="#" class="cta">
-            <span class="">My Account</span>
+            <span class="">Hello @Model.Name</span>
         </a>
         <ul class="dropdown">
+            <li><a asp-controller="" asp-action="">My Account</a></li>
             <li><a asp-controller="Orders" asp-action="Index">My Orders</a></li>
             <li><a asp-controller="Home" asp-action="Logout">Logout</a></li>
         </ul>
