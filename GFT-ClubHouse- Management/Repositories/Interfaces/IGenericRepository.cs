@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace GFT_ClubHouse__Management.Repositories.Interfaces {
     public interface IGenericRepository<T> where T : class {
@@ -12,5 +13,7 @@ namespace GFT_ClubHouse__Management.Repositories.Interfaces {
         void Delete(object id);
         int Count();
         void Save();
+        IPagedList<T> List(int? page, string search);
+
     }
 }

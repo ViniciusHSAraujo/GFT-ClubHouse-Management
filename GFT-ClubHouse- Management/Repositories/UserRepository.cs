@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using GFT_ClubHouse__Management.Libs.Language;
 using GFT_ClubHouse__Management.Libs.Security;
 using GFT_ClubHouse__Management.Models.Enum;
+using X.PagedList;
 
 namespace GFT_ClubHouse__Management.Repositories {
     public class UserRepository : IUserRepository {
@@ -76,6 +77,19 @@ namespace GFT_ClubHouse__Management.Repositories {
         public void Save() {
             _dbContext.SaveChanges();
         }
-        
+
+        public IPagedList<User> List(int? page, string search) {
+            int pageNumber = page ?? 1;
+            int resultsPerPage = 10;
+
+            if (string.IsNullOrEmpty(search)) {
+                return _dbContext.Set<User>().ToPagedList(pageNumber, resultsPerPage);
+            }
+
+            search = search.Trim().ToLower();
+            return _dbContext.Set<User>()
+                .Where(t => t.Name.ToLower().Contains(search))
+                .ToPagedList(pageNumber, resultsPerPage);
+        }
     }
 }

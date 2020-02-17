@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace GFT_ClubHouse__Management.Repositories {
     public class MusicalGenreRepository : IMusicalGenreRepository {
@@ -51,6 +52,20 @@ namespace GFT_ClubHouse__Management.Repositories {
 
         public void Save() {
             _dbContext.SaveChanges();
+        }
+
+        public IPagedList<MusicalGenre> List(int? page, string search) {
+            int pageNumber = page ?? 1;
+            int resultsPerPage = 10;
+
+            if (string.IsNullOrEmpty(search)) {
+                return _dbContext.Set<MusicalGenre>().ToPagedList(pageNumber, resultsPerPage);
+            }
+
+            search = search.Trim().ToLower();
+            return _dbContext.Set<MusicalGenre>()
+                .Where(t => t.Name.ToLower().Contains(search))
+                .ToPagedList(pageNumber, resultsPerPage);
         }
     }
 }

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace GFT_ClubHouse__Management.Repositories {
     public class ClubHouseRepository : IClubHouseRepository {
@@ -19,17 +20,19 @@ namespace GFT_ClubHouse__Management.Repositories {
         public int Count() {
             return _dbContext.Set<ClubHouse>().Count();
         }
-        
+
         public IEnumerable<ClubHouse> GetAll() {
             return _dbContext.Set<ClubHouse>().Include(x => x.Address).AsNoTracking().ToList();
         }
 
         public ClubHouse GetById(object id) {
-            return _dbContext.Set<ClubHouse>().Include(x => x.Address).AsNoTracking().FirstOrDefault(x => x.Id.Equals(id));
+            return _dbContext.Set<ClubHouse>().Include(x => x.Address).AsNoTracking()
+                .FirstOrDefault(x => x.Id.Equals(id));
         }
 
         public List<SelectListItem> GetSelectList() {
-            return _dbContext.Set<ClubHouse>().Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).AsNoTracking().ToList();
+            return _dbContext.Set<ClubHouse>()
+                .Select(x => new SelectListItem() {Value = x.Id.ToString(), Text = x.Name}).AsNoTracking().ToList();
         }
 
         public void Insert(ClubHouse obj) {
@@ -51,6 +54,20 @@ namespace GFT_ClubHouse__Management.Repositories {
 
         public void Save() {
             _dbContext.SaveChanges();
+        }
+
+        public IPagedList<ClubHouse> List(int? page, string search) {
+            int pageNumber = page ?? 1;
+            int resultsPerPage = 10;
+
+            if (string.IsNullOrEmpty(search)) {
+                return _dbContext.Set<ClubHouse>().ToPagedList(pageNumber, resultsPerPage);
+            }
+
+            search = search.Trim().ToLower();
+            return _dbContext.Set<ClubHouse>()
+                .Where(t => t.Name.ToLower().Contains(search))
+                .ToPagedList(pageNumber, resultsPerPage);
         }
     }
 }

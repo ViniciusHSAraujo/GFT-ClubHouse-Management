@@ -19,7 +19,7 @@ namespace GFT_ClubHouse__Management.Libs.Language {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class ErrorMessages {
@@ -165,6 +165,15 @@ namespace GFT_ClubHouse__Management.Libs.Language {
         public static string MSG_E012 {
             get {
                 return ResourceManager.GetString("MSG_E012", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must be logged in to continue..
+        /// </summary>
+        public static string MSG_E013 {
+            get {
+                return ResourceManager.GetString("MSG_E013", resourceCulture);
             }
         }
     }

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace GFT_ClubHouse__Management.Repositories {
     public class SaleRepository : ISaleRepository {
@@ -15,7 +16,7 @@ namespace GFT_ClubHouse__Management.Repositories {
         public SaleRepository(ApplicationDbContext dbContext) {
             _dbContext = dbContext;
         }
-        
+
         public int Count() {
             return _dbContext.Set<Sale>().Count();
         }
@@ -25,12 +26,14 @@ namespace GFT_ClubHouse__Management.Repositories {
         }
 
         public Sale GetById(object id) {
-            return _dbContext.Set<Sale>().Include(x => x.Event.ClubHouse.Address).Include(x => x.Event.MusicalGenre).Include(x => x.User).Include(x => x.Tickets).AsNoTracking().FirstOrDefault(x => x.Id.Equals(id));
+            return _dbContext.Set<Sale>().Include(x => x.Event.ClubHouse.Address).Include(x => x.Event.MusicalGenre)
+                .Include(x => x.User).Include(x => x.Tickets).AsNoTracking().FirstOrDefault(x => x.Id.Equals(id));
         }
-        
-        public IEnumerable<Sale> GetByUser(int id) {
-            return _dbContext.Set<Sale>().Include(x => x.Event.ClubHouse.Address).Include(x => x.Event.MusicalGenre).Include(x => x.User).Include(x => x.Tickets).AsNoTracking().Where(x => x.UserId.Equals(id)).AsEnumerable();
 
+        public IEnumerable<Sale> GetByUser(int id) {
+            return _dbContext.Set<Sale>().Include(x => x.Event.ClubHouse.Address).Include(x => x.Event.MusicalGenre)
+                .Include(x => x.User).Include(x => x.Tickets).AsNoTracking().Where(x => x.UserId.Equals(id))
+                .AsEnumerable();
         }
 
         public List<SelectListItem> GetSelectList() {
@@ -56,6 +59,22 @@ namespace GFT_ClubHouse__Management.Repositories {
 
         public void Save() {
             _dbContext.SaveChanges();
+        }
+
+        public IPagedList<Sale> List(int? page, string search) {
+            int pageNumber = page ?? 1;
+            int resultsPerPage = 10;
+
+            if (string.IsNullOrEmpty(search)) {
+                return _dbContext.Set<Sale>().ToPagedList(pageNumber, resultsPerPage);
+            }
+
+            search = search.Trim().ToLower();
+            return _dbContext.Set<Sale>().Include(x => x.Event.ClubHouse).Include(x => x.Event.MusicalGenre)
+                .Where(t => t.Event.Name.ToLower().Contains(search) ||
+                            t.Event.ClubHouse.Name.ToLower().Contains(search) ||
+                            t.Event.MusicalGenre.Name.ToLower().Contains(search))
+                .ToPagedList(pageNumber, resultsPerPage);
         }
     }
 }

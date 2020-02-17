@@ -4,6 +4,8 @@
     ViewData["Title"] = "Login";
     ViewData["SubTitle"] = "Enter your registered email and password to access the administrative panel";
     Layout = "_LayoutUserPage";
+    var returnUrl = @Context.Request.Query["returnurl"];
+
 }
 
 <div class="card">
@@ -29,7 +31,7 @@
             </div>
         }
 
-        <form id="frmLogin" asp-action="Login" method="post">
+        <form id="frmLogin" asp-action="Login" method="post" asp-route-returnurl="@returnUrl">
 
             <div class="form-group mb-3">
                 <label asp-for="Email" class="control-label"></label>
@@ -44,7 +46,8 @@
             </div>
 
             <div class="form-group mb-0 text-center">
-                <button class="btn btn-primary btn-block" type="submit"> Sign in </button>
+                <button class="btn btn-primary btn-block" type="submit" > Sign in </button>
+                <a class="btn btn-secondary btn-block text-white" asp-area="Users" asp-controller="Home" asp-action="Register" asp-route-returnurl="@returnUrl"> Sign up </a>
             </div>
         </form>
     </div>

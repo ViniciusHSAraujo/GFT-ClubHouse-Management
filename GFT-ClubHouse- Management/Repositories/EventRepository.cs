@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace GFT_ClubHouse__Management.Repositories {
     public class EventRepository : IEventRepository {
@@ -73,6 +74,7 @@ namespace GFT_ClubHouse__Management.Repositories {
                     });
                 }
             }
+
             Save();
         }
 
@@ -84,6 +86,20 @@ namespace GFT_ClubHouse__Management.Repositories {
 
         public void Save() {
             _dbContext.SaveChanges();
+        }
+
+        public IPagedList<Event> List(int? page, string search) {
+            int pageNumber = page ?? 1;
+            int resultsPerPage = 10;
+
+            if (string.IsNullOrEmpty(search)) {
+                return _dbContext.Set<Event>().ToPagedList(pageNumber, resultsPerPage);
+            }
+
+            search = search.Trim().ToLower();
+            return _dbContext.Set<Event>()
+                .Where(t => t.Name.ToLower().Contains(search))
+                .ToPagedList(pageNumber, resultsPerPage);
         }
     }
 }

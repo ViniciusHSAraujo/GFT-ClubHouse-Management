@@ -15,31 +15,36 @@ namespace GFT_ClubHouse__Management.Areas.Users.Controllers {
         private readonly IUserRepository _userRepository;
         private static readonly MD5HashTools MD5HashTools = new MD5HashTools();
 
-        
+
         public HomeController(LoginUser loginUser, IUserRepository userRepository) {
             _loginUser = loginUser;
             _userRepository = userRepository;
         }
-        
+
         public IActionResult Login() {
             return View();
         }
-        
+
         public IActionResult Account() {
             var userSession = _loginUser.GetUser();
             var userDb = _userRepository.GetById(userSession.Id);
-            
+
             return View(userDb);
         }
 
         [HttpPost]
-        public IActionResult Login([FromForm] Models.User user) {
+        public IActionResult Login([FromForm] Models.User user, string returnUrl = null) {
+            ViewData["ReturnUrl"] = returnUrl;
+
             var authenticatedUser =
                 _userRepository.Login(user.Email, MD5HashTools.ReturnMD5(user.Password), UserRoles.User);
 
             if (authenticatedUser != null) {
                 _loginUser.Login(authenticatedUser);
-                TempData["MSG_S"] = SuccessMessages.MSG_S008;
+                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl)){
+                    return Redirect(returnUrl);
+                }
+
                 return RedirectToAction("Index", "Home");
             }
 
@@ -59,13 +64,18 @@ namespace GFT_ClubHouse__Management.Areas.Users.Controllers {
         }
 
         [HttpPost]
-        public IActionResult Register([FromForm] Models.User user) {
+        public IActionResult Register([FromForm] Models.User user, string returnUrl = null) {
             if (ModelState.IsValid) {
                 try {
                     user.Password = MD5HashTools.ReturnMD5(user.Password);
                     user.Roles = UserRoles.User;
                     _userRepository.Insert(user);
                     _loginUser.Login(user);
+
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl)){
+                        return Redirect(returnUrl);
+                    }
+                    
                     return RedirectToAction("Index", "Home");
                 }
                 catch (Exception e) {

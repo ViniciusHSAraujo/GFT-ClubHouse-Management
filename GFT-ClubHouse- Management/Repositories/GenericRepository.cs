@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace GFT_ClubHouse__Management.Repositories {
     public class GenericRepository<T> : IGenericRepository<T> where T : class {
@@ -50,6 +51,9 @@ namespace GFT_ClubHouse__Management.Repositories {
             _dbContext.SaveChanges();
         }
 
+        public IPagedList<T> List(int? page, string search) {
+            throw new NotImplementedException();
+        }
     }
 }
     

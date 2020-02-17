@@ -76,7 +76,7 @@ namespace GFT_ClubHouse__Management.Controllers {
             _saleRepository.Insert(sale);
             _ticketRepository.MarkAsSold(sale.Quantity, sale.EventId, sale.UserId, sale.Id);
             TempData["MSG_S"] = $"Your purchase was successfully done! Order nº {sale.Id:000000}";
-            return RedirectToAction("Index", "Orders");
+            return RedirectToAction("Index", "Orders", new{ Area = "Users"});
         }
     }
 }

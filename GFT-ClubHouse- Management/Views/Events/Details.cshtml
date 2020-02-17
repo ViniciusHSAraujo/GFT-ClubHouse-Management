@@ -85,10 +85,7 @@
                     </div>
                     @*<span>Total (BRL)</span>
                 <strong>R$20</strong>*@
-                    <button type="submit" class="btn btn-primary rounded col-12">
-                        <span class="icon-ticket"></span>
-                        Buy now
-                    </button>
+                    @await Component.InvokeAsync("ButtonBuy")
                 </form>
             }
 

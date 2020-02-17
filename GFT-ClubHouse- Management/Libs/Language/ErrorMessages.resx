@@ -165,4 +165,8 @@
     <value>The deletion was not possible. Check for possible relationships and try again.</value>
     <comment>Messages for failed deletions.</comment>
   </data>
+  <data name="MSG_E013" xml:space="preserve">
+    <value>You must be logged in to continue.</value>
+    <comment>Messages for not authorized access.</comment>
+  </data>
 </root>

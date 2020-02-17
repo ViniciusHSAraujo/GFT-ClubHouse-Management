@@ -3,11 +3,11 @@ using GFT_ClubHouse__Management.Libs.Login;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GFT_ClubHouse__Management.Libs.Components {
-    public class MenuUserControlViewComponent: ViewComponent {
+    public class ButtonBuyViewComponent : ViewComponent {
         
         private readonly LoginUser _loginUser;
         
-        public MenuUserControlViewComponent(LoginUser loginUser) {
+        public ButtonBuyViewComponent(LoginUser loginUser) {
             _loginUser = loginUser;
         }
         
