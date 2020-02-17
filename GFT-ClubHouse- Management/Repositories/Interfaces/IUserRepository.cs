@@ -11,5 +11,7 @@ namespace GFT_ClubHouse__Management.Repositories.Interfaces {
 
         User Login(string email, string pass, UserRoles roles);
 
+        bool IsRegistered(string email, UserRoles roles);
+
     }
 }

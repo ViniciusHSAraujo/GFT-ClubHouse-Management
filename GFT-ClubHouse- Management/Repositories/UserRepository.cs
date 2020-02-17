@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using System.Threading.Tasks;
+using GFT_ClubHouse__Management.Libs.Language;
 using GFT_ClubHouse__Management.Libs.Security;
 using GFT_ClubHouse__Management.Models.Enum;
 
@@ -36,9 +37,11 @@ namespace GFT_ClubHouse__Management.Repositories {
         }
 
         public void Insert(User obj) {
-            if (_dbContext.Set<User>().Any(x => x.Email.Equals(obj.Email, StringComparison.InvariantCultureIgnoreCase))) {
-                
+
+            if (IsRegistered(obj.Email, obj.Roles)) {
+                throw new VerificationException(ErrorMessages.MSG_E006);
             }
+            
             _dbContext.Set<User>().Add(obj);
             Save();
         }
@@ -46,7 +49,11 @@ namespace GFT_ClubHouse__Management.Repositories {
         public User Login(string email, string pass, UserRoles roles) {
             return _dbContext.Set<User>().FirstOrDefault(x => x.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase) && x.Password.Equals(pass, StringComparison.InvariantCulture) && x.Roles == roles);
         }
-        
+
+        public bool IsRegistered(string email, UserRoles roles) {
+            return _dbContext.Set<User>().Any(x => x.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase) && x.Roles == roles);
+        }
+
         public void Update(User obj) {
             _dbContext.Set<User>().Attach(obj);
             _dbContext.Entry(obj).State = EntityState.Modified;

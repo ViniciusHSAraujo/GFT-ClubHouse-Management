@@ -48,8 +48,8 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
                     TempData["MSG_S"] = SuccessMessages.MSG_S001;
                     return RedirectToAction(nameof(Index));
                 }
-                catch (Exception) {
-                    TempData["MSG_E"] = ErrorMessages.MSG_E007;
+                catch (Exception e) {
+                    TempData["MSG_E"] = e.Message;
                 }
             }
 

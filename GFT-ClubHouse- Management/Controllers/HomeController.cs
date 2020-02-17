@@ -75,11 +75,11 @@ namespace GFT_ClubHouse__Management.Controllers {
                     user.Password = MD5HashTools.ReturnMD5(user.Password);
                     user.Roles = UserRoles.User;
                     _userRepository.Insert(user);
-                    TempData["MSG_S"] = SuccessMessages.MSG_S001;
+                    _loginUser.Login(user);
                     return RedirectToAction(nameof(Index));
                 }
-                catch (Exception) {
-                    TempData["MSG_E"] = ErrorMessages.MSG_E007;
+                catch (Exception e) {
+                    TempData["MSG_E"] = e.Message;
                 }
             }
 
