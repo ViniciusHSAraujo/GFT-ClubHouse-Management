@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
 
 namespace GFT_ClubHouse__Management.Areas.Users.Controllers {
     [Area("Users")]
-    [Route("{area}/{action=Index}")]
+    [Route("{area}/{action=Index}/{id?}")]
     public class HomeController : Controller {
         private readonly LoginUser _loginUser;
         private readonly IUserRepository _userRepository;
@@ -80,12 +80,19 @@ namespace GFT_ClubHouse__Management.Areas.Users.Controllers {
             return View();
         }
 
+        [UserAuthorization]
         public ActionResult EditPassword(int id) {
             var user = _userRepository.GetById(id);
-            return View(user);
+            if (_loginUser.GetUser().Id == id) {
+                return View(user);
+            }
+            else {
+                return new UnauthorizedResult();
+            }
         }
 
         [HttpPost]
+        [UserAuthorization]
         [ValidateAntiForgeryToken]
         public ActionResult EditPassword([FromForm] User user) {
             if (ModelState["Password"].Errors.Count == 0 && ModelState["ConfirmPassword"].Errors.Count == 0) {
@@ -116,7 +123,7 @@ namespace GFT_ClubHouse__Management.Areas.Users.Controllers {
         }
 
         [HttpPost]
-        public IActionResult Register([FromForm] Models.User user, string returnUrl = null) {
+        public IActionResult Register([FromForm] User user, string returnUrl = null) {
             if (ModelState.IsValid) {
                 try {
                     user.Password = MD5HashTools.ReturnMD5(user.Password);
