@@ -15,9 +15,9 @@ namespace GFT_ClubHouse__Management.Areas.Users.Controllers {
             _loginUser = loginUser;
         }
 
-        public IActionResult Index() {
+        public IActionResult Index(int? page, string search) {
             var user = _loginUser.GetUser();
-            var sales = _saleRepository.GetByUser(user.Id);
+            var sales = _saleRepository.GetByUser(user.Id, page, search);
             return View(sales);
         }
         
