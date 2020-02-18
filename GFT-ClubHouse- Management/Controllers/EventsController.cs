@@ -26,10 +26,11 @@ namespace GFT_ClubHouse__Management.Controllers {
         }
 
         public IActionResult Details(int id) {
+            var event_ = _eventRepository.GetById(id);
             var eventAndSaleViewModel = new EventSaleViewModel() {
-                Event = _eventRepository.GetById(id),
+                Event = event_,
                 Sale = new Sale(),
-                TicketsLeft = _ticketRepository.CountRemainingTicketsForAnEvent(id)
+                TicketsLeft = event_.Capacity - _ticketRepository.CountTicketsSoldForAnEvent(id)
             };
             return View(eventAndSaleViewModel);
         }

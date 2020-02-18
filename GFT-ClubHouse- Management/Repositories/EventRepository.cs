@@ -46,7 +46,6 @@ namespace GFT_ClubHouse__Management.Repositories {
 
             search = search.Trim().ToLower();
             return _dbContext.Set<Event>().Include(x => x.ClubHouse).Include(x => x.MusicalGenre)
-                .Include(x => x.Tickets)
                 .Where(t => t.Name.ToLower().Contains(search) || t.ClubHouse.Name.ToLower().Contains(search) ||
                             t.MusicalGenre.Name.ToLower().Contains(search))
                 .ToPagedList(pageNumber, resultsPerPage);
@@ -59,48 +58,19 @@ namespace GFT_ClubHouse__Management.Repositories {
         }
 
         public void Insert(Event obj) {
-            obj.Tickets = new List<Ticket>();
-            for (int i = 0; i < obj.Capacity; i++) {
-                obj.Tickets.Add(new Ticket() {
-                    Id = 0,
-                    Hash = null,
-                    Event = obj,
-                    IsSold = false
-                });
-            }
-
             _dbContext.Set<Event>().Add(obj);
             Save();
         }
 
         public void Update(Event obj) {
-            var objDb = GetById(obj.Id);
-            var ticketsLeft = _dbContext.Set<Ticket>().Where(x => x.EventId == obj.Id).Count(x => !x.IsSold);
-            if (ticketsLeft >= obj.Capacity) {
+            var ticketsSold = _dbContext.Set<Ticket>().Count(x => x.EventId == obj.Id);
+
+            if (ticketsSold > obj.Capacity) {
                 throw new Exception("You are trying to set a capacity below the number of tickets sold.");
             }
 
             _dbContext.Set<Event>().Attach(obj);
             _dbContext.Entry(obj).State = EntityState.Modified;
-            var dif = obj.Capacity - objDb.Capacity;
-
-            if (dif < 0) {
-                var ticketsToRemove = _dbContext.Set<Ticket>().Where(x => x.EventId == obj.Id && !x.IsSold)
-                    .OrderByDescending(x => x.Id)
-                    .Take(Math.Abs(dif)).ToList();
-                _dbContext.Set<Ticket>().RemoveRange(ticketsToRemove);
-            }
-            else {
-                for (int i = 0; i < dif; i++) {
-                    _dbContext.Set<Ticket>().Add(new Ticket() {
-                        Id = 0,
-                        Hash = null,
-                        Event = obj,
-                        IsSold = false
-                    });
-                }
-            }
-
             Save();
         }
 

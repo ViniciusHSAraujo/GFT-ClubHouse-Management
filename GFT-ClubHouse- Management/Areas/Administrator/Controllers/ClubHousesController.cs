@@ -20,8 +20,8 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
             _clubHouseRepository = clubHouseRepository;
         }
 
-        public ActionResult Index() {
-            var clubHouses = _clubHouseRepository.GetAll();
+        public ActionResult Index(int? page, string search) {
+            var clubHouses = _clubHouseRepository.GetAll(page, search);
             return View(clubHouses);
         }
 

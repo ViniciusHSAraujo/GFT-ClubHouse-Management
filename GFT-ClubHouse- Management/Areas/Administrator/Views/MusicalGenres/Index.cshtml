@@ -1,8 +1,10 @@
-﻿@model IEnumerable<GFT_ClubHouse__Management.Models.MusicalGenre>
+﻿@model IPagedList<GFT_ClubHouse__Management.Models.MusicalGenre>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var search = Context.Request.Query["search"];
+
 }
 
 <p>
@@ -31,42 +33,48 @@
 
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
-                Actions
-            </th>
-        </tr>
+    <tr>
+        <th>
+            Id
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsActive)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { item.Id }, new { @class = "btn btn-warning" })
-                    @Html.ActionLink("Details", "Details", new { item.Id }, new { @class = "btn btn-info" })
-                    <form method="post" asp-action="Delete" style="display: inline">
-                        <input name="id" id="id" value="@item.Id" hidden />
-                        <input type="submit" value="Delete" class="btn btn-danger" />
-                    </form>
-                </td>
-            </tr>
-        }
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {item.Id}, new {@class = "btn btn-warning"})
+                @Html.ActionLink("Details", "Details", new {item.Id}, new {@class = "btn btn-info"})
+                <form method="post" asp-action="Delete" style="display: inline">
+                    <input name="id" id="id" value="@item.Id" hidden/>
+                    <input type="submit" value="Delete" class="btn btn-danger"/>
+                </form>
+            </td>
+        </tr>
+    }
     </tbody>
 </table>
+<div class="justify-content-center">
+    @Html.PagedListPager((IPagedList) Model, page => Url.Action("Index", new {search, page}), new PagedListRenderOptions {
+        FunctionToTransformEachPageLink = (liTag, aTag) => {
+            aTag.Attributes.Add("class", "page-link".ToString());
+            return aTag;
+        },
+        LiElementClasses = new[] {"page-item"}, UlElementClasses = new[] {"pagination  justify-content-center"}
+    })
+    <div class="text-center">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    </div>
+</div>

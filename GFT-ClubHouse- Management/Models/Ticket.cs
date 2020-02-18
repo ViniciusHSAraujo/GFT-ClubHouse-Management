@@ -20,6 +20,5 @@ namespace GFT_ClubHouse__Management.Models {
 
         [ForeignKey("SaleId")] public virtual Sale Sale { get; set; }
 
-        public bool IsSold { get; set; }
     }
 }

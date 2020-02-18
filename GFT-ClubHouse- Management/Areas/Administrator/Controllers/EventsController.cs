@@ -25,8 +25,8 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
             _ticketRepository = ticketRepository;
         }
 
-        public ActionResult Index() {
-            var events = _eventRepository.GetAll();
+        public ActionResult Index(int? page, string search) {
+            var events = _eventRepository.GetAll(page, search);
             return View(events);
         }
 

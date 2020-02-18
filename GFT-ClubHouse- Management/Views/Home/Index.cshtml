@@ -63,8 +63,6 @@
 
         </div>
         <div>
-
-
             <div class="justify-content-center">
                 @Html.PagedListPager(Model.RecentlyAddedEvents, page => Url.Action("Index", new {search, page}),  new PagedListRenderOptions {
                     FunctionToTransformEachPageLink = (liTag, aTag) => {

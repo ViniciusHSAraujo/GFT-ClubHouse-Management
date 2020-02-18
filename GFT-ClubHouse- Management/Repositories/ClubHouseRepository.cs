@@ -27,7 +27,7 @@ namespace GFT_ClubHouse__Management.Repositories {
 
         public IPagedList<ClubHouse> GetAll(int? page, string search) {
             int pageNumber = page ?? 1;
-            int resultsPerPage = 10;
+            const int resultsPerPage = 10;
 
             if (string.IsNullOrEmpty(search)) {
                 return _dbContext.Set<ClubHouse>().ToPagedList(pageNumber, resultsPerPage);

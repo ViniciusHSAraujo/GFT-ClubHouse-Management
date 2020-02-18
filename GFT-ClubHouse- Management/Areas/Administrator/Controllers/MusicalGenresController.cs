@@ -18,8 +18,8 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
             _musicalGenreRepository = musicalGenreRepository;
         }
 
-        public ActionResult Index() {
-            var musicalGenres = _musicalGenreRepository.GetAll();
+        public ActionResult Index(int? page, string search) {
+            var musicalGenres = _musicalGenreRepository.GetAll(page, search);
             return View(musicalGenres);
         }
 

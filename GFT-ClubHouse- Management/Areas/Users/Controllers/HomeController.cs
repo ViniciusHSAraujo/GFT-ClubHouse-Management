@@ -25,6 +25,7 @@ namespace GFT_ClubHouse__Management.Areas.Users.Controllers {
             return View();
         }
 
+        [UserAuthorization]
         public IActionResult Account() {
             var userSession = _loginUser.GetUser();
             var userDb = _userRepository.GetById(userSession.Id);

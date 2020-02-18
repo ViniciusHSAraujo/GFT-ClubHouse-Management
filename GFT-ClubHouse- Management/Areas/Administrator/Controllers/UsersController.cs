@@ -24,8 +24,8 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
         }
 
 
-        public ActionResult Index() {
-            var users = _userRepository.GetAll();
+        public ActionResult Index(int? page, string search) {
+            var users = _userRepository.GetAll(page, search);
             return View(users);
         }
 

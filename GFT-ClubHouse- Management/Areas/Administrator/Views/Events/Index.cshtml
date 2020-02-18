@@ -1,8 +1,10 @@
-﻿@model IEnumerable<GFT_ClubHouse__Management.Models.Event>
+﻿@model IPagedList<GFT_ClubHouse__Management.Models.Event>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var search = Context.Request.Query["search"];
+
 }
 
 <p>
@@ -33,22 +35,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Capacity)
+                Capacity
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                Price
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ClubHouse)
+                Club House
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MusicalGenre)
+                Musical Genre
             </th>
             <th>
                 Actions
@@ -88,3 +90,15 @@
         }
     </tbody>
 </table>
+<div class="justify-content-center">
+    @Html.PagedListPager((IPagedList) Model, page => Url.Action("Index", new {search, page}), new PagedListRenderOptions {
+        FunctionToTransformEachPageLink = (liTag, aTag) => {
+            aTag.Attributes.Add("class", "page-link".ToString());
+            return aTag;
+        },
+        LiElementClasses = new[] {"page-item"}, UlElementClasses = new[] {"pagination  justify-content-center"}
+    })
+    <div class="text-center">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    </div>
+</div>
