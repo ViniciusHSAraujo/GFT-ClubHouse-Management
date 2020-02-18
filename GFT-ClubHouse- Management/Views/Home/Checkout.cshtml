@@ -1,0 +1,65 @@
+﻿@using System.Globalization
+@model Sale
+@{
+    ViewData["Title"] = "Event Details";
+    Layout = "_LayoutUserPage";
+}
+
+@if (TempData["MSG_E"] != null) {
+    <div class="alert bg-danger alert-dismissible text-white" role="alert">
+        <em class="fa fa-lg fa-warning">&nbsp;</em>
+        @TempData["MSG_E"]
+        <a data-dismiss="alert" aria-label="Close" class="pull-right">
+            <em class="fa fa-lg fa-close"></em>
+        </a>
+    </div>
+}
+
+<div class="container payment-form">
+    <form asp-action="Finish">
+        <div class="products">
+            <h3 class="title">Checkout</h3>
+            <div class="item">
+                <span class="price">@Model.SinglePrice.ToString("C2", CultureInfo.CurrentUICulture)</span>
+                <p class="item-name">@Model.Quantity x - @Model.Event.Name</p>
+                <p class="item-description">@Model.Event.ClubHouse.Name - @Model.Event.ClubHouse.Address.Street, @Model.Event.ClubHouse.Address.State - @Model.Event.ClubHouse.Address.City, @Model.Event.ClubHouse.Address.State - @Model.Event.ClubHouse.Address.Zip</p>
+            </div>
+            <div class="total">Total<span class="price">@Model.TotalPrice.ToString("c2", CultureInfo.CurrentUICulture)</span></div>
+        </div>
+        <div class="card-details align-items-center">
+            <h3 class="title text-center">All right? Click on button to confirm your order.</h3>
+            <div class="row">
+                @*<div class="form-group col-sm-7">
+                    <label for="card-holder">Card Holder</label>
+                    <input id="card-holder" type="text" class="form-control" placeholder="Card Holder" aria-label="Card Holder" aria-describedby="basic-addon1">
+                  </div>
+                  <div class="form-group col-sm-5">
+                    <label for="">Expiration Date</label>
+                    <div class="input-group expiration-date">
+                      <input type="text" class="form-control" placeholder="MM" aria-label="MM" aria-describedby="basic-addon1">
+                      <span class="date-separator">/</span>
+                      <input type="text" class="form-control" placeholder="YY" aria-label="YY" aria-describedby="basic-addon1">
+                    </div>
+                  </div>
+                  <div class="form-group col-sm-8">
+                    <label for="card-number">Card Number</label>
+                    <input id="card-number" type="text" class="form-control" placeholder="Card Number" aria-label="Card Holder" aria-describedby="basic-addon1">
+                  </div>
+                  <div class="form-group col-sm-4">
+                    <label for="cvc">CVC</label>
+                    <input id="cvc" type="text" class="form-control" placeholder="CVC" aria-label="Card Holder" aria-describedby="basic-addon1">
+                  </div>*@
+                <div class="form-group col-sm-12">
+                    <input type="hidden" asp-for="Quantity" value="@Model.Quantity"/>
+                    <input type="hidden" asp-for="EventId" value="@Model.EventId"/>
+                    <button type="submit" class="btn btn-primary btn-block">Checkout and Leave</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@section Css {
+    <link rel="stylesheet" href="~/css/payment.css">
+}

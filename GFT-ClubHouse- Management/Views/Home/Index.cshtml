@@ -1,8 +1,80 @@
-﻿@{
+﻿@model NextAndRecentsEventsViewModels
+@{
     ViewData["Title"] = "Home Page";
+    Layout = "_LayoutUser";
+    var search = Context.Request.Query["search"];
 }
+<div class="site-section bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="font-weight-light text-primary">Upcoming events:</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12  block-13">
+                <div class="owl-carousel nonloop-block-13">
+                    @foreach (var e in Model.UpcomingEvents) {
+                        <div class="d-block d-md-flex listing vertical">
+                            <div class="lh-content">
+                                <span class="category">@e.MusicalGenre.Name</span>
+                                <h3>
+                                    <a asp-controller="Events" asp-action="Details" asp-route-id="@e.Id">@e.Name</a>
+                                </h3>
+                                <address>@e.ClubHouse.Name</address>
+                                <p class="mb-0">
+                                    <span class="review">@e.Date.ToLongDateString()</span>
+                                </p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="site-section aos-init aos-animate" data-aos="fade">
+    <div class="container">
+        <div class="row mb-5">
+            <h2 class="font-weight-light text-primary">Recently added:</h2>
+        </div>
+        <div class="row mt-5" id="RecentlyAdded">
+            @foreach (var e in Model.RecentlyAddedEvents) {
+                <div class="col-lg-4">
+                    <div class="d-block d-md-flex listing">
+                        <div class="lh-content">
+                            <span class="category">@e.MusicalGenre.Name</span>
+                            <h3>
+                                <a asp-controller="Events" asp-action="Details" asp-route-id="@e.Id">@e.Name</a>
+                            </h3>
+                            <address>@e.ClubHouse.Name</address>
+                            <p>
+                                <span class="review">@e.Date.ToLongDateString()</span>
+                            </p>
+                            <a asp-controller="Events" asp-action="Details" asp-route-id="@e.Id" class="btn btn-primary rounded col-12">
+                                <span class="icon-ticket"></span>
+                                Buy now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+        <div>
+            <div class="justify-content-center">
+                @Html.PagedListPager(Model.RecentlyAddedEvents, page => Url.Action("Index", new {search, page}),  new PagedListRenderOptions {
+                    FunctionToTransformEachPageLink = (liTag, aTag) => {
+                        aTag.Attributes.Add("class", "page-link".ToString());
+                        return aTag;
+                    },
+                    LiElementClasses = new[] {"page-item"}, UlElementClasses = new[] {"pagination  justify-content-center"}
+                })
+                <div class="text-center">
+                    Page @(Model.RecentlyAddedEvents.PageCount < Model.RecentlyAddedEvents.PageNumber ? 0 : Model.RecentlyAddedEvents.PageNumber) of @Model.RecentlyAddedEvents.PageCount
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

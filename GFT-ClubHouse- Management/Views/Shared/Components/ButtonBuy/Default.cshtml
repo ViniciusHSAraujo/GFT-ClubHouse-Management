@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Http.Extensions
+@model User
+
+@if (Model == null) {
+    <a type="button" asp-area="Users" asp-controller="Home" asp-action="Login" asp-route-returnUrl="@Context.Request.Path" class="btn btn-primary rounded col-12">
+        <span class="icon-ticket"></span>
+        Buy now
+    </a>
+}
+else {
+    <button type="submit" class="btn btn-primary rounded col-12">
+        <span class="icon-ticket"></span>
+        Buy now
+    </button>
+}

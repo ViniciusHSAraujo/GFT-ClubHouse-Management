@@ -1,0 +1,123 @@
+﻿@using System.Globalization
+@model EventSaleViewModel
+@{
+    ViewData["Title"] = $"Details about \"{@Model.Event.Name}\"";
+    Layout = "_LayoutUserPage";
+}
+
+@if (TempData["MSG_E"] != null) {
+    <div class="alert bg-danger alert-dismissible text-white" role="alert">
+        <em class="fa fa-lg fa-warning">&nbsp;</em>
+        @TempData["MSG_E"]
+        <a data-dismiss="alert" aria-label="Close" class="pull-right">
+            <em class="fa fa-lg fa-close"></em>
+        </a>
+    </div>
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <dt>
+                Club House name
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Event.ClubHouse.Name)
+            </dd>
+            <hr/>
+            <dt>
+                Musical Genre
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Event.MusicalGenre.Name)
+            </dd>
+            <hr/>
+            <dt>
+                Unit price
+            </dt>
+            <dd>
+                @Model.Event.Price.ToString("C2", CultureInfo.CurrentUICulture)
+            </dd>
+            <hr/>
+            <dt>
+                Date and Time
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Event.Date)
+            </dd>
+            <hr/>
+            <dt>
+                Capacity
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Event.Capacity)
+            </dd>
+        </div>
+
+        <div class="col-md-8">
+            <h4>Ticket buyer</h4>
+            <span class="small">Limited to 10</span>
+            <hr/>
+
+            @if (Model.TicketsLeft == 0) {
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Tickets are sold out for "@Model.Event.Name"! </h5>
+                        <h6 class="card-subtitle mb-2">Try again later, new tickets may be available.</h6>
+                    </div>
+                </div>
+            }
+            else {
+                <form method="post" asp-controller="Home" asp-action="Checkout">
+
+                    <input type="hidden" asp-for="Sale.EventId" value="@Model.Event.Id"/>
+
+                    <div class="form-group">
+                        <div class="form-row align-items-center">
+                            <label asp-for="Sale.Quantity" class="control-label mr-3 h6"></label>
+                            <div class="handle-counter" id="handleCounter">
+                                <button class="counter-minus btn btn-primary" type="button">-</button>
+                                <input asp-for="Sale.Quantity" class="" type="text" value="1">
+                                <button class="counter-plus btn btn-primary" type="button" disabled="">+</button>
+                            </div>
+                            <span asp-validation-for="Sale.Quantity" class="text-danger"></span>
+                        </div>
+                    </div>
+                    @*<span>Total (BRL)</span>
+                <strong>R$20</strong>*@
+                    @await Component.InvokeAsync("ButtonBuy")
+                </form>
+            }
+
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="~/lib/counter/js/handleCounter.js"></script>
+
+    <script>
+            $(function ($) {
+                var options = {
+                    minimum: 1,
+                    maximize: 10,
+                    onChange: valChanged,
+                    onMinimum: function(e) {
+                        console.log('Reached minimum: '+e)
+                    },
+                    onMaximize: function(e) {
+                        console.log('Reached maximize'+e)
+                    }
+                };
+                $('#handleCounter').handleCounter(options);
+            });
+            function valChanged(d) {
+            }
+        </script>
+}
+
+@section Css {
+    <link rel="stylesheet" href="~/lib/counter/css/handle-counter.min.css">
+}

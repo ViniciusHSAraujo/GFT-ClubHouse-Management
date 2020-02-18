@@ -1,0 +1,104 @@
+﻿@model IPagedList<GFT_ClubHouse__Management.Models.Event>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var search = Context.Request.Query["search"];
+
+}
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+</p>
+
+@if (TempData["MSG_S"] != null) {
+    <div class="alert bg-success alert-dismissible" role="alert">
+        <em class="fa fa-lg fa-warning">&nbsp;</em>
+        @TempData["MSG_S"]
+        <a data-dismiss="alert" aria-label="Close" class="pull-right">
+            <em class="fa fa-lg fa-close"></em>
+        </a>
+    </div>
+}
+
+@if (TempData["MSG_E"] != null) {
+    <div class="alert bg-danger alert-dismissible" role="alert">
+        <em class="fa fa-lg fa-warning">&nbsp;</em>
+        @TempData["MSG_E"]
+        <a data-dismiss="alert" aria-label="Close" class="pull-right">
+            <em class="fa fa-lg fa-close"></em>
+        </a>
+    </div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Capacity
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Club House
+            </th>
+            <th>
+                Musical Genre
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Capacity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClubHouse.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MusicalGenre.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { item.Id }, new { @class = "btn btn-warning" })
+                    @Html.ActionLink("Details", "Details", new { item.Id }, new { @class = "btn btn-info" })
+                    <form method="post" asp-action="Delete" style="display: inline">
+                        <input name="id" id="id" value="@item.Id" hidden />
+                        <input type="submit" value="Delete" class="btn btn-danger" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="justify-content-center">
+    @Html.PagedListPager((IPagedList) Model, page => Url.Action("Index", new {search, page}), new PagedListRenderOptions {
+        FunctionToTransformEachPageLink = (liTag, aTag) => {
+            aTag.Attributes.Add("class", "page-link".ToString());
+            return aTag;
+        },
+        LiElementClasses = new[] {"page-item"}, UlElementClasses = new[] {"pagination  justify-content-center"}
+    })
+    <div class="text-center">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    </div>
+</div>

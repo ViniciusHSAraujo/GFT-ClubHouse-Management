@@ -1,0 +1,84 @@
+﻿@model X.PagedList.IPagedList<Sale>
+
+@{
+    ViewData["Title"] = "Orders";
+    ViewData["SubTitle"] = "Check yours orders ans print yours tickets.";
+    Layout = "_LayoutUserPage";
+    var search = Context.Request.Query["search"];
+}
+@if (TempData["MSG_S"] != null) {
+    <div class="alert bg-success alert-dismissible text-white" role="alert">
+        <em class="fa fa-lg fa-ok">&nbsp;</em>
+        @TempData["MSG_S"]
+        <a data-dismiss="alert" aria-label="Close" class="pull-right">
+            <em class="fa fa-lg fa-close"></em>
+        </a>
+    </div>
+}
+<div class="container mb-2">
+    <form method="get">
+        <div class="row align-items-center">
+            <div class="col-lg-12 mb-4 mb-xl-0 col-xl-10">
+                <input type="text" class="form-control rounded" name="search" value="@search" placeholder="Looking for a ticket?">
+            </div>
+            <div class="col-lg-12 col-xl-2 ml-auto text-right">
+                <input type="submit" class="btn btn-primary btn-block rounded" value="Search">
+            </div>
+        </div>
+    </form>
+</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Sale ID
+        </th>
+        <th>
+            Event Name
+        </th>
+        <th>
+            Musical Genre
+        </th>
+        <th>
+            Club House Name
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Total Price
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Event.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Event.MusicalGenre.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Event.ClubHouse.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @item.TotalPrice.ToString("C2", CultureInfo.CurrentUICulture)
+            </td>
+
+            <td>
+                @Html.ActionLink("Details", "Details", new {item.Id}, new {@class = "btn btn-info"})
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
