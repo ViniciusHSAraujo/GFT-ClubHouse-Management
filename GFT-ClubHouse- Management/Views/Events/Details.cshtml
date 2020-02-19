@@ -66,6 +66,13 @@
                         <h6 class="card-subtitle mb-2">Try again later, new tickets may be available.</h6>
                     </div>
                 </div>
+            }else if(Model.Event.Date <= DateTime.Now) {
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Tickets are not being sold to "@Model.Event.Name"! </h5>
+                        <h6 class="card-subtitle mb-2">This event has already occurred..</h6>
+                    </div>
+                </div>
             }
             else {
                 <form method="post" asp-controller="Home" asp-action="Checkout">

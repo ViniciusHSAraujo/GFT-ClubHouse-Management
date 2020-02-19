@@ -36,7 +36,8 @@ namespace GFT_ClubHouse__Management.Models {
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
         public int ClubHouseId { get; set; }
 
-        [ForeignKey("ClubHouseId")] public virtual ClubHouse ClubHouse { get; set; }
+        [ForeignKey("ClubHouseId")]
+        public virtual ClubHouse ClubHouse { get; set; }
 
         [Display(Name = "Musical Genre")]
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]

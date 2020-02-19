@@ -31,6 +31,9 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
 
         public ActionResult Details(int id) {
             var user = _userRepository.GetById(id);
+            if (user == null) {
+                return new NotFoundResult();
+            }
             return View(user);
         }
 
@@ -58,6 +61,9 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
 
         public ActionResult Edit(int id) {
             var user = _userRepository.GetById(id);
+            if (user == null) {
+                return new NotFoundResult();
+            }
             return View(user);
         }
 
@@ -83,6 +89,9 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
 
         public ActionResult EditPassword(int id) {
             var user = _userRepository.GetById(id);
+            if (user == null) {
+                return new NotFoundResult();
+            }
             return View(user);
         }
 

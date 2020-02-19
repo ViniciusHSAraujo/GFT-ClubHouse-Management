@@ -25,6 +25,9 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
 
         public ActionResult Details(int id) {
             var musicalGenre = _musicalGenreRepository.GetById(id);
+            if (musicalGenre == null) {
+                return new NotFoundResult();
+            }
             return View(musicalGenre);
         }
 
@@ -49,6 +52,9 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
 
         public ActionResult Edit(int id) {
             var musicalGenre = _musicalGenreRepository.GetById(id);
+            if (musicalGenre == null) {
+                return new NotFoundResult();
+            }
             return View(musicalGenre);
         }
 

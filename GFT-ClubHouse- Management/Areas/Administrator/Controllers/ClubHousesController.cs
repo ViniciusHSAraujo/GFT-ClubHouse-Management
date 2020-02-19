@@ -27,6 +27,9 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
 
         public ActionResult Details(int id) {
             var clubHouse = _clubHouseRepository.GetById(id);
+            if (clubHouse == null) {
+                return new NotFoundResult();
+            }
             return View(clubHouse);
         }
 
@@ -51,6 +54,9 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
 
         public ActionResult Edit(int id) {
             var clubHouse = _clubHouseRepository.GetById(id);
+            if (clubHouse == null) {
+                return new NotFoundResult();
+            }
             return View(clubHouse);
         }
 

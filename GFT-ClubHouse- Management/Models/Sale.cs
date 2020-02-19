@@ -19,6 +19,10 @@ namespace GFT_ClubHouse__Management.Models {
         [Display(Name = "Total Price")]
         public double TotalPrice => SinglePrice * Quantity;
 
+        [Display(Name = "Date")]
+        [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
+        public DateTime Date { get; set; }
+        
         [Display(Name = "Event")]
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
         public int EventId { get; set; }

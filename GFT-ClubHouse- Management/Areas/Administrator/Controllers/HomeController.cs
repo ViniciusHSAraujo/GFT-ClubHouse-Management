@@ -15,16 +15,26 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
 
         private readonly IUserRepository _userRepository;
         private readonly LoginAdmin _loginAdmin;
+        private readonly IClubHouseRepository _clubHouseRepository;
+        private readonly IEventRepository _eventRepository;
+        private readonly ITicketRepository _ticketRepository;
         private static readonly MD5HashTools MD5HashTools = new MD5HashTools();
 
         
-        public HomeController(IUserRepository userRepository, LoginAdmin loginAdmin) {
+        public HomeController(IUserRepository userRepository, LoginAdmin loginAdmin, IClubHouseRepository clubHouseRepository, IEventRepository eventRepository, ITicketRepository ticketRepository) {
             _userRepository = userRepository;
             _loginAdmin = loginAdmin;
+            _clubHouseRepository = clubHouseRepository;
+            _eventRepository = eventRepository;
+            _ticketRepository = ticketRepository;
         }
 
         [AdminAuthorization]
         public IActionResult Index() {
+            ViewBag.CountClubHouses = _clubHouseRepository.Count();
+            ViewBag.CountEvents = _eventRepository.CountThisMonthEvents();
+            ViewBag.CountUsers = _userRepository.Count();
+            ViewBag.CountTickets = _ticketRepository.CountTicketsSoldThisMonth();
             return View();
         }
 

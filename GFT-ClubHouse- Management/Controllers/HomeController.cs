@@ -74,7 +74,8 @@ namespace GFT_ClubHouse__Management.Controllers {
                 Quantity = sale.Quantity,
                 EventId = sale.EventId,
                 UserId = _loginUser.GetUser().Id,
-                SinglePrice = sale.Event.Price
+                SinglePrice = sale.Event.Price,
+                Date = DateTime.Now
             };
 
             _saleRepository.Insert(sale);

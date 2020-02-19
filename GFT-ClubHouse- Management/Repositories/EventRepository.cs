@@ -20,6 +20,10 @@ namespace GFT_ClubHouse__Management.Repositories {
         public int Count() {
             return _dbContext.Set<Event>().Count();
         }
+        
+        public int CountThisMonthEvents() {
+            return _dbContext.Set<Event>().Count(x => x.Date.Month == DateTime.Now.Month && x.Date.Year == DateTime.Now.Year);
+        }
 
         public IEnumerable<Event> GetAll() {
             return _dbContext.Set<Event>().Include(x => x.ClubHouse).Include(x => x.MusicalGenre)

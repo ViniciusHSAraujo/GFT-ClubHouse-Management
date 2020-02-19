@@ -32,12 +32,17 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
 
         public ActionResult Details(int id) {
             var event_ = _eventRepository.GetById(id);
+            if (event_ == null) {
+                return new NotFoundResult();
+            }
             return View(event_);
         }
 
         public ActionResult Create() {
             ViewBag.ClubHouses = _clubHouseRepository.GetSelectList();
+            ViewBag.ClubHousesQuantity = _clubHouseRepository.Count();
             ViewBag.MusicalGenres = _musicalGenreRepository.GetSelectList();
+            ViewBag.MusicalGenresQuantity = _clubHouseRepository.Count();
             return View();
         }
 
@@ -54,12 +59,17 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
                 }
             }
             ViewBag.ClubHouses = _clubHouseRepository.GetSelectList();
+            ViewBag.ClubHousesQuantity = _clubHouseRepository.Count();
             ViewBag.MusicalGenres = _musicalGenreRepository.GetSelectList();
+            ViewBag.MusicalGenresQuantity = _clubHouseRepository.Count();
             return View(event_);
         }
 
         public ActionResult Edit(int id) {
             var event_ = _eventRepository.GetById(id);
+            if (event_ == null) {
+                return new NotFoundResult();
+            }
             ViewBag.ClubHouses = _clubHouseRepository.GetSelectList();
             ViewBag.MusicalGenres = _musicalGenreRepository.GetSelectList();
             ViewBag.SoldTickets = _ticketRepository.CountTicketsSoldForAnEvent(id);
