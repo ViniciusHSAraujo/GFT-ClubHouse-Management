@@ -1,8 +1,8 @@
 ﻿@model User
 
 @{
-    ViewData["Title"] = "Login";
-    ViewData["SubTitle"] = "Enter your registered email and password to access the administrative panel";
+    ViewData["Title"] = $"Informations about {Model.Name}'s account.";
+    ViewData["SubTitle"] = "You can update any info here.";
     Layout = "_LayoutUserPage";
 }
 
@@ -75,3 +75,7 @@
     </div>
 
 </form>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

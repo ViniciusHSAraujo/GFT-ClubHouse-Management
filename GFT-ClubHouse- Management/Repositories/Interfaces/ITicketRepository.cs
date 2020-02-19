@@ -7,5 +7,6 @@ namespace GFT_ClubHouse__Management.Repositories.Interfaces {
         
         void Insert(IEnumerable<Ticket> objs);
         int CountTicketsSoldForAnEvent(int eventId);
+        int CountTicketsSoldThisMonth();
     }
 }

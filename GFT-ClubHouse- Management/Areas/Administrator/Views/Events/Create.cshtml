@@ -1,68 +1,83 @@
 ﻿@model GFT_ClubHouse__Management.Models.Event
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create a event";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    var clubHousesQuantity = ViewBag.ClubHousesQuantity;
+    var musicalGenresQuantity = ViewBag.MusicalGenresQuantity;
 }
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+@if (clubHousesQuantity == 0 || musicalGenresQuantity == 0) {
+    <h2 class="text-center">You must have at least one Club House and Musical Genre to register an event.</h2>
 
-            <input type="hidden" asp-for="Id" value="0"/>
-
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control"/>
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Capacity" class="control-label"></label>
-                <input asp-for="Capacity" class="form-control"/>
-                <span asp-validation-for="Capacity" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control"/>
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control"/>
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="ClubHouseId" class="control-label"></label>
-                <select asp-for="ClubHouseId" class="form-control" asp-items="ViewBag.ClubHouses">
-                    <option disabled selected>Choose the Club House</option>
-                </select>
-                <span asp-validation-for="ClubHouseId" class="text-danger"></span>
-
-            </div>
-
-            <div class="form-group">
-                <label asp-for="MusicalGenreId" class="control-label"></label>
-                <select asp-for="MusicalGenreId" class="form-control" asp-items="ViewBag.MusicalGenres">
-                    <option disabled selected>Choose the Musical Genre</option>
-                </select>
-                <span asp-validation-for="MusicalGenreId" class="text-danger"></span>
-
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary"/>
-                <a class="btn btn-info" asp-action="Index">Back to List</a>
-            </div>
-
-        </form>
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <a class="btn btn-info" asp-action="Create" asp-controller="ClubHouses">Register a Club House</a>
+        </div>
+        <div class="col-md-6 text-center">
+            <a class="btn btn-info" asp-action="Create" asp-controller="MusicalGenres">Register a Musical Genre</a>
+        </div>
     </div>
-</div>
+}
+else {
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+                <input type="hidden" asp-for="Id" value="0"/>
+
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control"/>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Capacity" class="control-label"></label>
+                    <input asp-for="Capacity" class="form-control"/>
+                    <span asp-validation-for="Capacity" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Date" class="control-label"></label>
+                    <input asp-for="Date" class="form-control"/>
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" class="form-control"/>
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ClubHouseId" class="control-label"></label>
+                    <select asp-for="ClubHouseId" class="form-control" asp-items="ViewBag.ClubHouses">
+                        <option disabled selected>Choose the Club House</option>
+                    </select>
+                    <span asp-validation-for="ClubHouseId" class="text-danger"></span>
+
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="MusicalGenreId" class="control-label"></label>
+                    <select asp-for="MusicalGenreId" class="form-control" asp-items="ViewBag.MusicalGenres">
+                        <option disabled selected>Choose the Musical Genre</option>
+                    </select>
+                    <span asp-validation-for="MusicalGenreId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary"/>
+                    <a class="btn btn-info" asp-action="Index">Back to List</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+}
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
