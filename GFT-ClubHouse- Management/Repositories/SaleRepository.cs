@@ -67,6 +67,7 @@ namespace GFT_ClubHouse__Management.Repositories {
                 return _dbContext.Set<Sale>()
                     .Include(x => x.Event.ClubHouse)
                     .Include(x => x.Event.MusicalGenre)
+                    .Where(x => x.UserId == userId)
                     .ToPagedList(pageNumber, resultsPerPage);
             }
 
