@@ -35,7 +35,7 @@
             <dt>
                 Unit price
             </dt>
-            <dd>
+            <dd id="UnitPrice">
                 @Model.Event.Price.ToString("C2", CultureInfo.CurrentUICulture)
             </dd>
             <hr/>
@@ -66,7 +66,8 @@
                         <h6 class="card-subtitle mb-2">Try again later, new tickets may be available.</h6>
                     </div>
                 </div>
-            }else if(Model.Event.Date <= DateTime.Now) {
+            }
+            else if (Model.Event.Date <= DateTime.Now) {
                 <div class="card">
                     <div class="card-header">
                         <h5 class="card-title">Tickets are not being sold to "@Model.Event.Name"! </h5>
@@ -90,8 +91,13 @@
                             <span asp-validation-for="Sale.Quantity" class="text-danger"></span>
                         </div>
                     </div>
-                    @*<span>Total (BRL)</span>
-                <strong>R$20</strong>*@
+                    <div class="form-group mb-3">
+                        <div class="form-row align-items-center">
+                            <span>Total (USD):</span>
+                            <strong id="TotalValue"></strong>
+                        </div>
+                    </div>
+
                     @await Component.InvokeAsync("ButtonBuy")
                 </form>
             }
@@ -106,6 +112,8 @@
     <script src="~/lib/counter/js/handleCounter.js"></script>
 
     <script>
+            var TotalValue = 0.00;  
+            var TotalValueString = ` $ ${TotalValue}`;
             $(function ($) {
                 var options = {
                     minimum: 1,
@@ -121,6 +129,13 @@
                 $('#handleCounter').handleCounter(options);
             });
             function valChanged(d) {
+                TotalValue = d * parseFloat($("#UnitPrice").html().replace(/[^0-9\.]+/g, ""));
+                TotalValueString = ` $ ${TotalValue}`;
+                RefreshTotalValue();
+            }
+            
+            function RefreshTotalValue() {
+                $("#TotalValue").html(TotalValueString);
             }
         </script>
 }
