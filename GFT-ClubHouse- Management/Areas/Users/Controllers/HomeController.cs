@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
 namespace GFT_ClubHouse__Management.Areas.Users.Controllers {
     [Area("Users")]
     [Route("{area}/{action=Index}/{id?}")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class HomeController : Controller {
         private readonly LoginUser _loginUser;
         private readonly IUserRepository _userRepository;

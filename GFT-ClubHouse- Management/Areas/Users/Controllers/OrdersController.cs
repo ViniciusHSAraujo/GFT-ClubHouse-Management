@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GFT_ClubHouse__Management.Areas.Users.Controllers {
     [UserAuthorization]
     [Area("Users")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class OrdersController : Controller {
         private readonly ISaleRepository _saleRepository;
         private readonly LoginUser _loginUser;

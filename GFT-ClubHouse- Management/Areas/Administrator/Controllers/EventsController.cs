@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
     [Area("Administrator")]
     [AdminAuthorization]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class EventsController : Controller {
         private readonly IEventRepository _eventRepository;
         private readonly IClubHouseRepository _clubHouseRepository;

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
     [Area("Administrator")]
     [AdminAuthorization]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class MusicalGenresController : Controller {
         private readonly IMusicalGenreRepository _musicalGenreRepository;
 

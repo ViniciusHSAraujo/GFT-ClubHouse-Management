@@ -15,6 +15,8 @@ using GFT_ClubHouse__Management.Repositories;
 using GFT_ClubHouse__Management.Repositories.Interfaces;
 
 namespace GFT_ClubHouse__Management.Controllers {
+    [ApiExplorerSettings(IgnoreApi = true)]
+
     public class EventsController : Controller {
 
         private readonly IEventRepository _eventRepository;

@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
     [Area("Administrator")]
     [AdminAuthorization]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class UsersController : Controller {
         private readonly IUserRepository _userRepository;
         private static readonly MD5HashTools mD5HashTools = new MD5HashTools();
@@ -34,6 +35,7 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
             if (user == null) {
                 return new NotFoundResult();
             }
+
             return View(user);
         }
 
@@ -64,6 +66,7 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
             if (user == null) {
                 return new NotFoundResult();
             }
+
             return View(user);
         }
 
@@ -92,6 +95,7 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
             if (user == null) {
                 return new NotFoundResult();
             }
+
             return View(user);
         }
 
@@ -121,8 +125,8 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
                 _userRepository.Delete(id);
                 TempData["MSG_S"] = SuccessMessages.MSG_S003;
             }
-            catch(Exception e) {
-                TempData["MSG_E"] = e.GetType() == typeof(SecurityException)? e.Message : ErrorMessages.MSG_E012;
+            catch (Exception e) {
+                TempData["MSG_E"] = e.GetType() == typeof(SecurityException) ? e.Message : ErrorMessages.MSG_E012;
             }
 
             return RedirectToAction(nameof(Index));

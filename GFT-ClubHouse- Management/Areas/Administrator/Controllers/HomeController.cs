@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
     [Area("Administrator")]
     [Route("{Area}/{Action=index}")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class HomeController : Controller {
 
         private readonly IUserRepository _userRepository;
