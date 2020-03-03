@@ -11,11 +11,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace GFT_ClubHouse__Management.Controllers.API {
     [Route("api/")]
-    public class ClubHouseController : Controller {
+    public class ClubHousesController : Controller {
         private readonly IClubHouseRepository _clubHouseRepository;
         private readonly IAddressRepository _addressRepository;
 
-        public ClubHouseController(IClubHouseRepository clubHouseRepository, IAddressRepository addressRepository) {
+        public ClubHousesController(IClubHouseRepository clubHouseRepository, IAddressRepository addressRepository) {
             _clubHouseRepository = clubHouseRepository;
             _addressRepository = addressRepository;
         }

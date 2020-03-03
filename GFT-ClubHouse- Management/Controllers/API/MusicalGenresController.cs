@@ -12,10 +12,10 @@ using Microsoft.AspNetCore.Http;
 
 namespace GFT_ClubHouse__Management.Controllers.API {
     [Route("api/")]
-    public class MusicalGenreController : Controller {
+    public class MusicalGenresController : Controller {
         private readonly IMusicalGenreRepository _musicalGenreRepository;
 
-        public MusicalGenreController(IMusicalGenreRepository musicalGenreRepository) {
+        public MusicalGenresController(IMusicalGenreRepository musicalGenreRepository) {
             _musicalGenreRepository = musicalGenreRepository;
         }
 
