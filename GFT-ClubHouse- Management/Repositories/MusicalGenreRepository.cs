@@ -51,6 +51,10 @@ namespace GFT_ClubHouse__Management.Repositories {
             return _dbContext.Set<MusicalGenre>().Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name }).AsNoTracking().ToList();
         }
 
+        public List<MusicalGenre> GetAllByName(string name) {
+            return _dbContext.Set<MusicalGenre>().AsNoTracking()
+                .Where(x => x.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase)).ToList();        }
+
         public void Insert(MusicalGenre obj) {
             _dbContext.Set<MusicalGenre>().Add(obj);
             Save();

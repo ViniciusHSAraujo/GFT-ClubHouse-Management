@@ -5,7 +5,7 @@ using GFT_ClubHouse__Management.Libs.Utils;
 using Microsoft.AspNetCore.Mvc;
 using GFT_ClubHouse__Management.Models;
 using GFT_ClubHouse__Management.Models.ViewModels;
-using GFT_ClubHouse__Management.Models.ViewModels.API.ClubHouseViewModel;
+using GFT_ClubHouse__Management.Models.ViewModels.API.ClubHouseViewModels;
 using GFT_ClubHouse__Management.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 

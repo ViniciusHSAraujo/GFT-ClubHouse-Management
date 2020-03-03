@@ -5,7 +5,6 @@ using GFT_ClubHouse__Management.Libs.Utils;
 using Microsoft.AspNetCore.Mvc;
 using GFT_ClubHouse__Management.Models;
 using GFT_ClubHouse__Management.Models.ViewModels;
-using GFT_ClubHouse__Management.Models.ViewModels.API.ClubHouseViewModel;
 using GFT_ClubHouse__Management.Models.ViewModels.API.EventViewModels;
 using GFT_ClubHouse__Management.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -141,6 +140,118 @@ namespace GFT_ClubHouse__Management.Controllers.API {
                 return ResponseUtils.GenerateObjectResult("Unable to delete the event, contact support!",
                     schEvent);
             }
+        }
+        
+        [HttpGet]
+        [Route("v1/events/capacity/asc")]
+        public ObjectResult GetCapacityAsc() {
+            var schEvents = _eventRepository.GetAll().OrderBy(x => x.Capacity);
+
+            if (!schEvents.Any()) {
+                Response.StatusCode = StatusCodes.Status404NotFound;
+                return ResponseUtils.GenerateObjectResult("Events not found!", null);
+            }
+
+            Response.StatusCode = StatusCodes.Status200OK;
+            return ResponseUtils.GenerateObjectResult("Events successfully found!", schEvents);
+        }
+        
+        [HttpGet]
+        [Route("v1/events/capacity/desc")]
+        public ObjectResult GetCapacityDesc() {
+            var schEvents = _eventRepository.GetAll().OrderByDescending(x => x.Capacity);
+
+            if (!schEvents.Any()) {
+                Response.StatusCode = StatusCodes.Status404NotFound;
+                return ResponseUtils.GenerateObjectResult("Events not found!", null);
+            }
+
+            Response.StatusCode = StatusCodes.Status200OK;
+            return ResponseUtils.GenerateObjectResult("Events successfully found!", schEvents);
+        }
+        
+        [HttpGet]
+        [Route("v1/events/capacity/Date/asc")]
+        public ObjectResult GetDateAsc() {
+            var schEvents = _eventRepository.GetAll().OrderBy(x => x.Date);
+
+            if (!schEvents.Any()) {
+                Response.StatusCode = StatusCodes.Status404NotFound;
+                return ResponseUtils.GenerateObjectResult("Events not found!", null);
+            }
+
+            Response.StatusCode = StatusCodes.Status200OK;
+            return ResponseUtils.GenerateObjectResult("Events successfully found!", schEvents);
+        }
+        
+        [HttpGet]
+        [Route("v1/events/capacity/Date/desc")]
+        public ObjectResult GetDateDesc() {
+            var schEvents = _eventRepository.GetAll().OrderByDescending(x => x.Date);
+
+            if (!schEvents.Any()) {
+                Response.StatusCode = StatusCodes.Status404NotFound;
+                return ResponseUtils.GenerateObjectResult("Events not found!", null);
+            }
+
+            Response.StatusCode = StatusCodes.Status200OK;
+            return ResponseUtils.GenerateObjectResult("Events successfully found!", schEvents);
+        }
+        
+        [HttpGet]
+        [Route("v1/events/capacity/name/asc")]
+        public ObjectResult GetNameAsc() {
+            var schEvents = _eventRepository.GetAll().OrderBy(x => x.Name);
+
+            if (!schEvents.Any()) {
+                Response.StatusCode = StatusCodes.Status404NotFound;
+                return ResponseUtils.GenerateObjectResult("Events not found!", null);
+            }
+
+            Response.StatusCode = StatusCodes.Status200OK;
+            return ResponseUtils.GenerateObjectResult("Events successfully found!", schEvents);
+        }
+        
+        [HttpGet]
+        [Route("v1/events/capacity/name/desc")]
+        public ObjectResult GetNameDesc() {
+            var schEvents = _eventRepository.GetAll().OrderByDescending(x => x.Name);
+
+            if (!schEvents.Any()) {
+                Response.StatusCode = StatusCodes.Status404NotFound;
+                return ResponseUtils.GenerateObjectResult("Events not found!", null);
+            }
+
+            Response.StatusCode = StatusCodes.Status200OK;
+            return ResponseUtils.GenerateObjectResult("Events successfully found!", schEvents);
+        }
+        
+        [HttpGet]
+        [Route("v1/events/capacity/price/asc")]
+        public ObjectResult GetPriceAsc() {
+            var schEvents = _eventRepository.GetAll().OrderBy(x => x.Price);
+
+            if (!schEvents.Any()) {
+                Response.StatusCode = StatusCodes.Status404NotFound;
+                return ResponseUtils.GenerateObjectResult("Events not found!", null);
+            }
+
+            Response.StatusCode = StatusCodes.Status200OK;
+            return ResponseUtils.GenerateObjectResult("Events successfully found!", schEvents);
+        }
+        
+        [HttpGet]
+        [Route("v1/events/capacity/price/desc")]
+        public ObjectResult GetPriceDesc() {
+            var schEvents = _eventRepository.GetAll().OrderByDescending(x => x.Price);
+
+            if (!schEvents.Any()) {
+                Response.StatusCode = StatusCodes.Status404NotFound;
+                return ResponseUtils.GenerateObjectResult("Events not found!", null);
+            }
+
+            Response.StatusCode = StatusCodes.Status200OK;
+            return ResponseUtils.GenerateObjectResult("Events successfully found!", schEvents);
         }
     }
 }
