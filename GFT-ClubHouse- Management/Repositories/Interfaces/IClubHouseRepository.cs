@@ -8,5 +8,6 @@ using System.Threading.Tasks;
 namespace GFT_ClubHouse__Management.Repositories.Interfaces {
     public interface IClubHouseRepository : IGenericRepository<ClubHouse>{
         List<SelectListItem> GetSelectList();
+        List<ClubHouse> GetAllByName(string name);
     }
 }

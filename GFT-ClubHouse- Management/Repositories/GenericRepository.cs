@@ -21,7 +21,15 @@ namespace GFT_ClubHouse__Management.Repositories {
         public int Count() {
             return _dbContext.Set<T>().Count();
         }
-        
+
+        public bool Exists() {
+            throw new NotImplementedException();
+        }
+
+        public bool Exists(int id) {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<T> GetAll() {
             return table.AsNoTracking().ToList();
         }

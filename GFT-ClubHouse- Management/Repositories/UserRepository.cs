@@ -25,6 +25,10 @@ namespace GFT_ClubHouse__Management.Repositories {
             return _dbContext.Set<User>().Count();
         }
 
+        public bool Exists(int id) {
+            return _dbContext.Set<User>().Any(x => x.Id.Equals(id));
+        }
+        
         public IEnumerable<User> GetAll() {
             return _dbContext.Set<User>().Include(x => x.Address).AsNoTracking().ToList();
         }

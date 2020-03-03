@@ -21,6 +21,10 @@ namespace GFT_ClubHouse__Management.Repositories {
             return _dbContext.Set<MusicalGenre>().Count();
         }
 
+        public bool Exists(int id) {
+            return _dbContext.Set<MusicalGenre>().Any(x => x.Id.Equals(id));
+        }
+        
         public IEnumerable<MusicalGenre> GetAll() {
             return _dbContext.Set<MusicalGenre>().AsNoTracking().ToList();
         }

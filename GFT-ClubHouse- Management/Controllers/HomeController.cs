@@ -16,6 +16,7 @@ using GFT_ClubHouse__Management.Repositories.Interfaces;
 using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
 
 namespace GFT_ClubHouse__Management.Controllers {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("{Action=index}")]
     public class HomeController : Controller {
         private readonly IEventRepository _eventRepository;

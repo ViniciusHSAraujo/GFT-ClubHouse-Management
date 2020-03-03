@@ -25,14 +25,18 @@ namespace GFT_ClubHouse__Management.Repositories {
             return _dbContext.Set<Event>().Count(x => x.Date.Month == DateTime.Now.Month && x.Date.Year == DateTime.Now.Year);
         }
 
+        public bool Exists(int id) {
+            return _dbContext.Set<Event>().Any(x => x.Id.Equals(id));
+        }
+        
         public IEnumerable<Event> GetAll() {
-            return _dbContext.Set<Event>().Include(x => x.ClubHouse).Include(x => x.MusicalGenre)
+            return _dbContext.Set<Event>().Include(x => x.ClubHouse.Address).Include(x => x.MusicalGenre)
                 .AsNoTracking()
                 .ToList();
         }
 
         public IEnumerable<Event> GetNext(int quantity) {
-            return _dbContext.Set<Event>().Include(x => x.ClubHouse).Include(x => x.MusicalGenre)
+            return _dbContext.Set<Event>().Include(x => x.ClubHouse.Address).Include(x => x.MusicalGenre)
                 .AsNoTracking()
                 .OrderBy(x => x.Date)
                 .Take(quantity)
@@ -44,12 +48,12 @@ namespace GFT_ClubHouse__Management.Repositories {
             const int resultsPerPage = 9;
 
             if (string.IsNullOrEmpty(search)) {
-                return _dbContext.Set<Event>().Include(x => x.ClubHouse).Include(x => x.MusicalGenre)
+                return _dbContext.Set<Event>().Include(x => x.ClubHouse.Address).Include(x => x.MusicalGenre)
                     .ToPagedList(pageNumber, resultsPerPage);
             }
 
             search = search.Trim().ToLower();
-            return _dbContext.Set<Event>().Include(x => x.ClubHouse).Include(x => x.MusicalGenre)
+            return _dbContext.Set<Event>().Include(x => x.ClubHouse.Address).Include(x => x.MusicalGenre)
                 .Where(t => t.Name.ToLower().Contains(search) || t.ClubHouse.Name.ToLower().Contains(search) ||
                             t.MusicalGenre.Name.ToLower().Contains(search))
                 .ToPagedList(pageNumber, resultsPerPage);

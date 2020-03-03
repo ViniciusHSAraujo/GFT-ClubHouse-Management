@@ -6,6 +6,7 @@ using X.PagedList;
 
 namespace GFT_ClubHouse__Management.Repositories.Interfaces {
     public interface IGenericRepository<T> where T : class {
+        bool Exists(int id);
         IEnumerable<T> GetAll();
         IPagedList<T> GetAll(int? page, string search);
         T GetById(object id);

@@ -21,6 +21,10 @@ namespace GFT_ClubHouse__Management.Repositories {
             return _dbContext.Set<ClubHouse>().Count();
         }
 
+        public bool Exists(int id) {
+            return _dbContext.Set<ClubHouse>().Any(x => x.Id.Equals(id));
+        }
+        
         public IEnumerable<ClubHouse> GetAll() {
             return _dbContext.Set<ClubHouse>().Include(x => x.Address).AsNoTracking().ToList();
         }
@@ -44,10 +48,16 @@ namespace GFT_ClubHouse__Management.Repositories {
                 .FirstOrDefault(x => x.Id.Equals(id));
         }
 
+        public List<ClubHouse> GetAllByName(string name) {
+            return _dbContext.Set<ClubHouse>().Include(x => x.Address).AsNoTracking()
+                .Where(x => x.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase)).ToList();
+        }
+        
         public List<SelectListItem> GetSelectList() {
             return _dbContext.Set<ClubHouse>()
                 .Select(x => new SelectListItem() {Value = x.Id.ToString(), Text = x.Name}).AsNoTracking().ToList();
         }
+        
 
         public void Insert(ClubHouse obj) {
             _dbContext.Set<ClubHouse>().Add(obj);

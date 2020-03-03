@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace GFT_ClubHouse__Management {
     public class Startup {
@@ -28,12 +29,9 @@ namespace GFT_ClubHouse__Management {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
-            
             services.AddMemoryCache();
-            services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromMinutes(120);
-            });
-            
+            services.AddSession(options => { options.IdleTimeout = TimeSpan.FromMinutes(120); });
+
             services.AddHttpContextAccessor();
 
             services.Configure<CookiePolicyOptions>(options => {
@@ -42,9 +40,7 @@ namespace GFT_ClubHouse__Management {
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.Configure<CookieTempDataProviderOptions>(options => {
-                options.Cookie.IsEssential = true;
-            });
+            services.Configure<CookieTempDataProviderOptions>(options => { options.Cookie.IsEssential = true; });
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseMySql(
@@ -63,7 +59,20 @@ namespace GFT_ClubHouse__Management {
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ISaleRepository, SaleRepository>();
             services.AddTransient<ITicketRepository, TicketRepository>();
+            services.AddTransient<IAddressRepository, AddressRepository>();
 
+            services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1", new Info {
+                    Version = "v1",
+                    Title = "CHM API",
+                    Description = "Club House Management API",
+                    Contact = new Contact {
+                        Name = "Vinícius Henrique Santos Araújo",
+                        Email = "viniciushsaraujoo@gmail.com",
+                        Url = "https://linkedin.com/in/ViniciusHSAraujo",
+                    }
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,7 +89,10 @@ namespace GFT_ClubHouse__Management {
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSession();
-            
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(opt => { opt.SwaggerEndpoint("/swagger/v1/swagger.json", "CHM API V1"); });
 
             app.UseMvc(routes => {
                 //Rota para quando há áreas.
@@ -93,6 +105,8 @@ namespace GFT_ClubHouse__Management {
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            
         }
     }
 }
