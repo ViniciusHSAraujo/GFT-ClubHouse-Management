@@ -1,13 +1,18 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using GFT_ClubHouse__Management.Libs.ExtensionsMethods;
 using GFT_ClubHouse__Management.Libs.Utils;
 using Microsoft.AspNetCore.Mvc;
 using GFT_ClubHouse__Management.Models;
 using GFT_ClubHouse__Management.Models.ViewModels;
+using GFT_ClubHouse__Management.Models.ViewModels.API;
 using GFT_ClubHouse__Management.Models.ViewModels.API.ClubHouseViewModels;
 using GFT_ClubHouse__Management.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace GFT_ClubHouse__Management.Controllers.API {
     [Route("api/")]
@@ -20,77 +25,127 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             _addressRepository = addressRepository;
         }
 
+        /// <summary>
+        /// List Club Houses.
+        /// </summary>
+        /// <response code="200">Returns a list of Club Houses.</response>
+        /// <response code="404">Don't exists any Club House registered.</response>
         [HttpGet]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(ResultViewModel<IEnumerable<ClubHouse>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/clubhouses/")]
         public ObjectResult Get() {
             var clubHouses = _clubHouseRepository.GetAll();
 
             if (!clubHouses.Any()) {
                 Response.StatusCode = StatusCodes.Status404NotFound;
-                return ResponseUtils.GenerateObjectResult("Club House not found!", null);
+                return ResponseUtils.GenerateObjectResult("Club House not found!");
             }
 
             Response.StatusCode = StatusCodes.Status200OK;
             return ResponseUtils.GenerateObjectResult("Club Houses successfully found!", clubHouses);
         }
 
+        /// <summary>
+        /// List Club Houses ordered by name ascending.
+        /// </summary>
+        /// <response code="200">Returns a list of Club Houses ordered by name ascending.</response>
+        /// <response code="404">Don't exists any Club House registered.</response>
         [HttpGet]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(ResultViewModel<IEnumerable<ClubHouse>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/clubhouses/asc")]
         public ObjectResult GetAsc() {
             var clubHouses = _clubHouseRepository.GetAll().OrderBy(x => x.Name);
 
             if (!clubHouses.Any()) {
                 Response.StatusCode = StatusCodes.Status404NotFound;
-                return ResponseUtils.GenerateObjectResult("Club House not found!", null);
+                return ResponseUtils.GenerateObjectResult("Club House not found!");
             }
 
             Response.StatusCode = StatusCodes.Status200OK;
             return ResponseUtils.GenerateObjectResult("Club Houses successfully found!", clubHouses);
         }
 
+        /// <summary>
+        /// List Club Houses ordered by name descending.
+        /// </summary>
+        /// <response code="200">Returns a list of Club Houses ordered by name descending.</response>
+        /// <response code="404">Don't exists any Club House registered.</response>
         [HttpGet]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(ResultViewModel<IEnumerable<ClubHouse>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/clubhouses/desc")]
         public ObjectResult GetDesc() {
             var clubHouses = _clubHouseRepository.GetAll().OrderByDescending(x => x.Name);
 
             if (!clubHouses.Any()) {
                 Response.StatusCode = StatusCodes.Status404NotFound;
-                return ResponseUtils.GenerateObjectResult("Club House not found!", null);
+                return ResponseUtils.GenerateObjectResult("Club House not found!");
             }
 
             Response.StatusCode = StatusCodes.Status200OK;
             return ResponseUtils.GenerateObjectResult("Club Houses successfully found!", clubHouses);
         }
 
+        /// <summary>
+        /// Search for a Club Houses with the specified ID.
+        /// </summary>
+        /// <response code="200">Returns a Club House with the specified ID.</response>
+        /// <response code="404">Don't exists any Club House registered with this ID.</response>
         [HttpGet]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(ResultViewModel<ClubHouse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/clubhouses/{id}")]
         public ObjectResult Get(int id) {
             var clubHouse = _clubHouseRepository.GetById(id);
 
             if (clubHouse == null) {
                 Response.StatusCode = StatusCodes.Status404NotFound;
-                return ResponseUtils.GenerateObjectResult("Club House not found!", null);
+                return ResponseUtils.GenerateObjectResult("Club House not found!");
             }
 
             Response.StatusCode = StatusCodes.Status200OK;
             return ResponseUtils.GenerateObjectResult("Club House successfully found!", clubHouse);
         }
 
+        /// <summary>
+        /// Search Club Houses by name.
+        /// </summary>
+        /// <param name="name">Name for search</param>
+        /// <response code="200">Returns a list of Club Houses that were found.</response>
+        /// <response code="404">No Club House found in the search.</response>
         [HttpGet]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(ResultViewModel<IEnumerable<ClubHouse>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/clubhouses/name/{name}")]
         public ObjectResult Get(string name) {
-            var clubHouse = _clubHouseRepository.GetAllByName(name);
+            var clubHouses = _clubHouseRepository.GetAllByName(name);
 
-            if (clubHouse == null) {
+            if (!clubHouses.Any()) {
                 Response.StatusCode = StatusCodes.Status404NotFound;
-                return ResponseUtils.GenerateObjectResult("Club House not found!", null);
+                return ResponseUtils.GenerateObjectResult("Club House not found!");
             }
 
             Response.StatusCode = StatusCodes.Status200OK;
-            return ResponseUtils.GenerateObjectResult("Club Houses successfully found by name!", clubHouse);
+            return ResponseUtils.GenerateObjectResult("Club Houses successfully found by name!", clubHouses);
         }
 
+        /// <summary>
+        /// Create a new Club House.
+        /// </summary>
+        /// <response code="201">Returns the Club House that was created</response>
+        /// <response code="400">Returns a list of strings describing validation errors.</response>
         [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(ResultViewModel<ClubHouse>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ResultViewModel<List<string>>), StatusCodes.Status400BadRequest)]
         [Route("v1/clubhouses/")]
         public ObjectResult Post([FromBody] ClubHouseCreateViewModel clubHouseTemp) {
             if (!ModelState.IsValid) {
@@ -116,8 +171,16 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             return ResponseUtils.GenerateObjectResult("Club House successfully registered!", clubhouse);
         }
 
-
+        /// <summary>
+        /// Edit a Club House.
+        /// </summary>
+        /// <response code="200">Returns the Club House that was edited</response>
+        /// <response code="400">Returns a list of strings describing validation errors.</response>
         [HttpPut]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(ResultViewModel<ClubHouse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResultViewModel<List<string>>), StatusCodes.Status400BadRequest)]
         [Route("v1/clubhouses/{id}")]
         public ObjectResult Put(int id, [FromBody] ClubHouseEditViewModel clubHouseTemp) {
             if (id != clubHouseTemp.Id) {
@@ -154,14 +217,24 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             return ResponseUtils.GenerateObjectResult("Club House successfully edited!", clubHouse);
         }
 
+        /// <summary>
+        /// Delete a Club House.
+        /// </summary>
+        /// <response code="200">Returns the Club House that was deleted.</response>
+        /// <response code="404">Don't Exist a Club House with this ID.</response>
+        /// <response code="406">This Club House was not possible to delete because there are restricted relationships.</response>
         [HttpDelete]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(ResultViewModel<ClubHouse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResultViewModel<List<string>>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ResultViewModel<ClubHouse>), StatusCodes.Status406NotAcceptable)]
         [Route("v1/clubhouses/{id}")]
         public ObjectResult Delete(int id) {
             var clubhouse = _clubHouseRepository.GetById(id);
 
             if (clubhouse == null) {
                 Response.StatusCode = StatusCodes.Status404NotFound;
-                return ResponseUtils.GenerateObjectResult("Non-existent Club House.", null);
+                return ResponseUtils.GenerateObjectResult("Non-existent Club House.");
             }
 
             try {

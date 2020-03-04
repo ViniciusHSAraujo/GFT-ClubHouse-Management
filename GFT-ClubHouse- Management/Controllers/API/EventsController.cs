@@ -53,7 +53,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
 
         [HttpPost]
         [Route("v1/events/")]
-        public ObjectResult Post([FromBody] EventCreateViewModel eventTemp) {
+            public ObjectResult Post([FromBody] EventCreateViewModel eventTemp) {
             if (!_clubHouseRepository.Exists(eventTemp.ClubHouseId)) {
                 ModelState.AddModelError("ClubHouseId", "This Club House ID does not exist.");
             }
