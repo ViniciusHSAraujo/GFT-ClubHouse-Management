@@ -46,8 +46,8 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             Response.StatusCode = StatusCodes.Status200OK;
             return ResponseUtils.GenerateObjectResult("Club Houses successfully found!", clubHouses);
         }
-
-        /// <summary>
+        
+         /// <summary>
         /// List Club Houses ordered by name ascending.
         /// </summary>
         /// <response code="200">Returns a list of Club Houses ordered by name ascending.</response>
@@ -91,6 +91,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             return ResponseUtils.GenerateObjectResult("Club Houses successfully found!", clubHouses);
         }
 
+        
         /// <summary>
         /// Search for a Club Houses with the specified ID.
         /// </summary>
@@ -101,7 +102,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         [ProducesResponseType(typeof(ResultViewModel<ClubHouse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/clubhouses/{id}")]
-        public ObjectResult Get(int id) {
+        public ObjectResult GetById(int id) {
             var clubHouse = _clubHouseRepository.GetById(id);
 
             if (clubHouse == null) {
@@ -124,7 +125,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         [ProducesResponseType(typeof(ResultViewModel<IEnumerable<ClubHouse>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/clubhouses/name/{name}")]
-        public ObjectResult Get(string name) {
+        public ObjectResult GetByName(string name) {
             var clubHouses = _clubHouseRepository.GetAllByName(name);
 
             if (!clubHouses.Any()) {
@@ -135,7 +136,8 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             Response.StatusCode = StatusCodes.Status200OK;
             return ResponseUtils.GenerateObjectResult("Club Houses successfully found by name!", clubHouses);
         }
-
+        
+       
         /// <summary>
         /// Create a new Club House.
         /// </summary>
