@@ -29,7 +29,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// List Club Houses.
         /// </summary>
         /// <response code="200">Returns a list of Club Houses.</response>
-        /// <response code="404">Don't exists any Club House registered.</response>
+        /// <response code="404">There is no Club House registered.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<IEnumerable<ClubHouse>>), StatusCodes.Status200OK)]
@@ -51,7 +51,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// List Club Houses ordered by name ascending.
         /// </summary>
         /// <response code="200">Returns a list of Club Houses ordered by name ascending.</response>
-        /// <response code="404">Don't exists any Club House registered.</response>
+        /// <response code="404">There is no Club House registered.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<IEnumerable<ClubHouse>>), StatusCodes.Status200OK)]
@@ -73,7 +73,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// List Club Houses ordered by name descending.
         /// </summary>
         /// <response code="200">Returns a list of Club Houses ordered by name descending.</response>
-        /// <response code="404">Don't exists any Club House registered.</response>
+        /// <response code="404">There is no Club House registered.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<IEnumerable<ClubHouse>>), StatusCodes.Status200OK)]
@@ -95,7 +95,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// Search for a Club Houses with the specified ID.
         /// </summary>
         /// <response code="200">Returns a Club House with the specified ID.</response>
-        /// <response code="404">Don't exists any Club House registered with this ID.</response>
+        /// <response code="404">There is no Club House registered with this ID.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<ClubHouse>), StatusCodes.Status200OK)]
@@ -117,8 +117,8 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// Search Club Houses by name.
         /// </summary>
         /// <param name="name">Name for search</param>
-        /// <response code="200">Returns a list of Club Houses that were found.</response>
-        /// <response code="404">No Club House found in the search.</response>
+        /// <response code="200">Returns a list of Club Houses that was found.</response>
+        /// <response code="404">In this search nothing was found.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<IEnumerable<ClubHouse>>), StatusCodes.Status200OK)]
@@ -139,7 +139,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// <summary>
         /// Create a new Club House.
         /// </summary>
-        /// <response code="201">Returns the Club House that was created</response>
+        /// <response code="201">Returns the created Club House.</response>
         /// <response code="400">Returns a list of strings describing validation errors.</response>
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -220,9 +220,9 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// <summary>
         /// Delete a Club House.
         /// </summary>
-        /// <response code="200">Returns the Club House that was deleted.</response>
-        /// <response code="404">Don't Exist a Club House with this ID.</response>
-        /// <response code="406">This Club House was not possible to delete because there are restricted relationships.</response>
+        /// <response code="200">Returns the deleted Club House.</response>
+        /// <response code="404">Doesn't exist any Club House with the ID.</response>
+        /// <response code="406">This Club House can't be deleted because there are restricted relationships.</response>
         [HttpDelete]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<ClubHouse>), StatusCodes.Status200OK)]
