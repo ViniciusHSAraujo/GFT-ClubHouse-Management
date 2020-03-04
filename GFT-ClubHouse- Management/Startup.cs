@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using GFT_ClubHouse__Management.Data;
 using GFT_ClubHouse__Management.Libs.Login;
@@ -61,6 +63,8 @@ namespace GFT_ClubHouse__Management {
             services.AddTransient<ITicketRepository, TicketRepository>();
             services.AddTransient<IAddressRepository, AddressRepository>();
 
+            services.AddResponseCompression();
+
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new Info {
                     Version = "v1",
@@ -72,6 +76,11 @@ namespace GFT_ClubHouse__Management {
                         Url = "https://linkedin.com/in/ViniciusHSAraujo",
                     }
                 });
+                
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+
             });
         }
 
@@ -90,6 +99,8 @@ namespace GFT_ClubHouse__Management {
             app.UseStaticFiles();
             app.UseSession();
 
+            app.UseResponseCompression();
+            
             app.UseSwagger();
 
             app.UseSwaggerUI(opt => { opt.SwaggerEndpoint("/swagger/v1/swagger.json", "CHM API V1"); });
