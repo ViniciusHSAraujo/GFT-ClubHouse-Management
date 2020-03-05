@@ -62,7 +62,7 @@ jQuery(document).ready(function($) {
 					$('body').removeClass('offcanvas-menu');
 				}
 			}
-		})
+		});
 
 		$('body').on('click', '.js-menu-toggle', function(e) {
 			var $this = $(this);
@@ -75,7 +75,7 @@ jQuery(document).ready(function($) {
 				$('body').addClass('offcanvas-menu');
 				$this.addClass('active');
 			}
-		}) 
+		}); 
 
 		// click outisde offcanvas
 		$(document).mouseup(function(e) {

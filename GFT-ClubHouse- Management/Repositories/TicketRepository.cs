@@ -16,7 +16,6 @@ namespace GFT_ClubHouse__Management.Repositories {
 
         public void Insert(IEnumerable<Ticket> objs) {
             _dbContext.Set<Ticket>().AddRange(objs);
-
         }
 
         public int CountTicketsSoldForAnEvent(int eventId) {

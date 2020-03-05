@@ -1,26 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace GFT_ClubHouse__Management.Migrations
-{
-    public partial class SaleTable : Migration
-    {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+namespace GFT_ClubHouse__Management.Migrations {
+    public partial class SaleTable : Migration {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.AddColumn<int>(
-                name: "SaleId",
-                table: "Tickets",
+                "SaleId",
+                "Tickets",
                 nullable: true);
 
             migrationBuilder.AddColumn<int>(
-                name: "UserId",
-                table: "Tickets",
+                "UserId",
+                "Tickets",
                 nullable: true);
 
             migrationBuilder.CreateTable(
-                name: "Sales",
-                columns: table => new
-                {
+                "Sales",
+                table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Quantity = table.Column<int>(nullable: false),
@@ -28,102 +24,100 @@ namespace GFT_ClubHouse__Management.Migrations
                     EventId = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Sales", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Sales_Events_EventId",
-                        column: x => x.EventId,
-                        principalTable: "Events",
-                        principalColumn: "Id",
+                        "FK_Sales_Events_EventId",
+                        x => x.EventId,
+                        "Events",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Sales_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
+                        "FK_Sales_Users_UserId",
+                        x => x.UserId,
+                        "Users",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.UpdateData(
-                table: "Users",
-                keyColumn: "Id",
-                keyValue: 1,
-                column: "Password",
-                value: "690e2695b6aa8f08dc1fd736072e5819");
+                "Users",
+                "Id",
+                1,
+                "Password",
+                "690e2695b6aa8f08dc1fd736072e5819");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tickets_SaleId",
-                table: "Tickets",
-                column: "SaleId");
+                "IX_Tickets_SaleId",
+                "Tickets",
+                "SaleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tickets_UserId",
-                table: "Tickets",
-                column: "UserId");
+                "IX_Tickets_UserId",
+                "Tickets",
+                "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sales_EventId",
-                table: "Sales",
-                column: "EventId");
+                "IX_Sales_EventId",
+                "Sales",
+                "EventId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sales_UserId",
-                table: "Sales",
-                column: "UserId");
+                "IX_Sales_UserId",
+                "Sales",
+                "UserId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Tickets_Sales_SaleId",
-                table: "Tickets",
-                column: "SaleId",
-                principalTable: "Sales",
+                "FK_Tickets_Sales_SaleId",
+                "Tickets",
+                "SaleId",
+                "Sales",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Tickets_Users_UserId",
-                table: "Tickets",
-                column: "UserId",
-                principalTable: "Users",
+                "FK_Tickets_Users_UserId",
+                "Tickets",
+                "UserId",
+                "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
         }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropForeignKey(
-                name: "FK_Tickets_Sales_SaleId",
-                table: "Tickets");
+                "FK_Tickets_Sales_SaleId",
+                "Tickets");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Tickets_Users_UserId",
-                table: "Tickets");
+                "FK_Tickets_Users_UserId",
+                "Tickets");
 
             migrationBuilder.DropTable(
-                name: "Sales");
+                "Sales");
 
             migrationBuilder.DropIndex(
-                name: "IX_Tickets_SaleId",
-                table: "Tickets");
+                "IX_Tickets_SaleId",
+                "Tickets");
 
             migrationBuilder.DropIndex(
-                name: "IX_Tickets_UserId",
-                table: "Tickets");
+                "IX_Tickets_UserId",
+                "Tickets");
 
             migrationBuilder.DropColumn(
-                name: "SaleId",
-                table: "Tickets");
+                "SaleId",
+                "Tickets");
 
             migrationBuilder.DropColumn(
-                name: "UserId",
-                table: "Tickets");
+                "UserId",
+                "Tickets");
 
             migrationBuilder.UpdateData(
-                table: "Users",
-                keyColumn: "Id",
-                keyValue: 1,
-                column: "Password",
-                value: "2285d2badca55370a0d794a9df898c29922d21504c5c2c7fcb984c75328ad424");
+                "Users",
+                "Id",
+                1,
+                "Password",
+                "2285d2badca55370a0d794a9df898c29922d21504c5c2c7fcb984c75328ad424");
         }
     }
 }

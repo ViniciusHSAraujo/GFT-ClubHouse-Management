@@ -17,9 +17,15 @@ else {
             <span class="">Hello, @Model.Name</span>
         </a>
         <ul class="dropdown">
-            <li><a asp-area="Users" asp-controller="Home" asp-action="Account">My Account</a></li>
-            <li><a asp-area="Users" asp-controller="Orders" asp-action="Index">My Orders</a></li>
-            <li><a asp-area="Users" asp-controller="Home" asp-action="Logout">Logout</a></li>
+            <li>
+                <a asp-area="Users" asp-controller="Home" asp-action="Account">My Account</a>
+            </li>
+            <li>
+                <a asp-area="Users" asp-controller="Orders" asp-action="Index">My Orders</a>
+            </li>
+            <li>
+                <a asp-area="Users" asp-controller="Home" asp-action="Logout">Logout</a>
+            </li>
         </ul>
     </li>
 }

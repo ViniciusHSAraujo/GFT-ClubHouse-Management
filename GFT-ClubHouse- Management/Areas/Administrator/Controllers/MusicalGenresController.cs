@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using GFT_ClubHouse__Management.Libs.Filters.Security;
 using GFT_ClubHouse__Management.Libs.Language;
 using GFT_ClubHouse__Management.Models;
@@ -26,9 +23,7 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
 
         public ActionResult Details(int id) {
             var musicalGenre = _musicalGenreRepository.GetById(id);
-            if (musicalGenre == null) {
-                return new NotFoundResult();
-            }
+            if (musicalGenre == null) return new NotFoundResult();
             return View(musicalGenre);
         }
 
@@ -39,38 +34,38 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([FromForm] MusicalGenre musicalGenre) {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
                 try {
                     _musicalGenreRepository.Insert(musicalGenre);
                     TempData["MSG_S"] = SuccessMessages.MSG_S001;
                     return RedirectToAction(nameof(Index));
-                } catch (Exception) {
+                }
+                catch (Exception) {
                     TempData["MSG_E"] = ErrorMessages.MSG_E007;
                 }
-            }
+
             return View();
         }
 
         public ActionResult Edit(int id) {
             var musicalGenre = _musicalGenreRepository.GetById(id);
-            if (musicalGenre == null) {
-                return new NotFoundResult();
-            }
+            if (musicalGenre == null) return new NotFoundResult();
             return View(musicalGenre);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([FromForm] MusicalGenre musicalGenre) {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
                 try {
                     _musicalGenreRepository.Update(musicalGenre);
                     TempData["MSG_S"] = SuccessMessages.MSG_S002;
                     return RedirectToAction(nameof(Index));
-                } catch (Exception) {
+                }
+                catch (Exception) {
                     TempData["MSG_E"] = ErrorMessages.MSG_E007;
                 }
-            }
+
             return View();
         }
 
@@ -80,12 +75,12 @@ namespace GFT_ClubHouse__Management.Areas.Administrator.Controllers {
             try {
                 _musicalGenreRepository.Delete(id);
                 TempData["MSG_S"] = SuccessMessages.MSG_S003;
-            } catch {
+            }
+            catch {
                 TempData["MSG_E"] = ErrorMessages.MSG_E012;
             }
-            return RedirectToAction(nameof(Index));
 
+            return RedirectToAction(nameof(Index));
         }
     }
-
 }

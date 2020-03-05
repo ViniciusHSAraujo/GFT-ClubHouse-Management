@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using X.PagedList;
 
 namespace GFT_ClubHouse__Management.Repositories.Interfaces {
@@ -15,6 +12,5 @@ namespace GFT_ClubHouse__Management.Repositories.Interfaces {
         void Delete(object id);
         int Count();
         void Save();
-
     }
 }

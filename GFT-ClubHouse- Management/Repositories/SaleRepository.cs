@@ -1,12 +1,11 @@
-﻿using GFT_ClubHouse__Management.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using GFT_ClubHouse__Management.Data;
 using GFT_ClubHouse__Management.Models;
 using GFT_ClubHouse__Management.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using X.PagedList;
 
 namespace GFT_ClubHouse__Management.Repositories {
@@ -24,21 +23,20 @@ namespace GFT_ClubHouse__Management.Repositories {
         public bool Exists(int id) {
             return _dbContext.Set<Sale>().Any(x => x.Id.Equals(id));
         }
-        
+
         public IEnumerable<Sale> GetAll() {
             return _dbContext.Set<Sale>().AsNoTracking().ToList();
         }
 
         public IPagedList<Sale> GetAll(int? page, string search) {
-            int pageNumber = page ?? 1;
+            var pageNumber = page ?? 1;
             const int resultsPerPage = 10;
 
-            if (string.IsNullOrEmpty(search)) {
+            if (string.IsNullOrEmpty(search))
                 return _dbContext.Set<Sale>()
                     .Include(x => x.Event.ClubHouse)
                     .Include(x => x.Event.MusicalGenre)
                     .ToPagedList(pageNumber, resultsPerPage);
-            }
 
             search = search.Trim().ToLower();
             return _dbContext.Set<Sale>()
@@ -64,32 +62,27 @@ namespace GFT_ClubHouse__Management.Repositories {
         }
 
         public IPagedList<Sale> GetByUser(int userId, int? page, string search) {
-            int pageNumber = page ?? 1;
+            var pageNumber = page ?? 1;
             const int resultsPerPage = 10;
 
-            if (string.IsNullOrEmpty(search)) {
+            if (string.IsNullOrEmpty(search))
                 return _dbContext.Set<Sale>()
                     .Include(x => x.Event.ClubHouse)
                     .Include(x => x.Event.MusicalGenre)
                     .Where(x => x.UserId == userId)
                     .ToPagedList(pageNumber, resultsPerPage);
-            }
 
             search = search.Trim().ToLower();
             return _dbContext.Set<Sale>()
                 .Include(x => x.Event.ClubHouse)
                 .Include(x => x.Event.MusicalGenre)
-                .Where(t => t.UserId == userId && 
+                .Where(t => t.UserId == userId &&
                             (t.Event.Name.ToLower().Contains(search) ||
-                            t.Event.ClubHouse.Name.ToLower().Contains(search) ||
-                            t.Event.MusicalGenre.Name.ToLower().Contains(search) ||
-                            t.Event.Date.ToLocalTime().ToString().Contains(search)))
+                             t.Event.ClubHouse.Name.ToLower().Contains(search) ||
+                             t.Event.MusicalGenre.Name.ToLower().Contains(search) ||
+                             t.Event.Date.ToLocalTime().ToString().Contains(search)))
                 .OrderByDescending(x => x.Id)
                 .ToPagedList(pageNumber, resultsPerPage);
-        }
-
-        public List<SelectListItem> GetSelectList() {
-            throw new NotImplementedException();
         }
 
         public void Insert(Sale obj) {
@@ -103,13 +96,17 @@ namespace GFT_ClubHouse__Management.Repositories {
         }
 
         public void Delete(object id) {
-            Sale existing = _dbContext.Set<Sale>().Find(id);
+            var existing = _dbContext.Set<Sale>().Find(id);
             _dbContext.Set<Sale>().Remove(existing);
             Save();
         }
 
         public void Save() {
             _dbContext.SaveChanges();
+        }
+
+        public List<SelectListItem> GetSelectList() {
+            throw new NotImplementedException();
         }
     }
 }

@@ -4,15 +4,13 @@ using System.Linq;
 using System.Net.Mime;
 using GFT_ClubHouse__Management.Libs.ExtensionsMethods;
 using GFT_ClubHouse__Management.Libs.Utils;
-using Microsoft.AspNetCore.Mvc;
 using GFT_ClubHouse__Management.Models;
-using GFT_ClubHouse__Management.Models.ViewModels;
 using GFT_ClubHouse__Management.Models.ViewModels.API;
-using GFT_ClubHouse__Management.Models.ViewModels.API.ClubHouseViewModels;
 using GFT_ClubHouse__Management.Models.ViewModels.API.MusicalGenreViewModels;
 using GFT_ClubHouse__Management.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GFT_ClubHouse__Management.Controllers.API {
     [Route("api/")]
@@ -32,7 +30,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<IEnumerable<MusicalGenre>>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]        
+        [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/musicalgenres/")]
         public ObjectResult Get() {
             var musicalGenres = _musicalGenreRepository.GetAll();
@@ -91,7 +89,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             Response.StatusCode = StatusCodes.Status200OK;
             return ResponseUtils.GenerateObjectResult("Musical genre successfully found!", musicalGenres);
         }
-        
+
         /// <summary>
         /// Search for a Musical Genre with the specified ID.
         /// </summary>
@@ -157,7 +155,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
                     ModelState.ListErrors());
             }
 
-            MusicalGenre musicalGenre = new MusicalGenre() {
+            var musicalGenre = new MusicalGenre() {
                 Id = 0,
                 Name = musicalGenreTemp.Name,
                 IsActive = true
@@ -181,9 +179,8 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         [HttpPut]
         [Route("v1/musicalgenres/{id}")]
         public ObjectResult Put(int id, [FromBody] MusicalGenreEditViewModel musicalGenreTemp) {
-            if (id != musicalGenreTemp.Id) {
+            if (id != musicalGenreTemp.Id)
                 ModelState.AddModelError("Id", "Request Id differs from musical genre Id passed in body");
-            }
 
             if (!ModelState.IsValid) {
                 Response.StatusCode = StatusCodes.Status400BadRequest;
@@ -191,7 +188,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
                     ModelState.ListErrors());
             }
 
-            MusicalGenre musicalGenre = new MusicalGenre() {
+            var musicalGenre = new MusicalGenre() {
                 Id = musicalGenreTemp.Id,
                 Name = musicalGenreTemp.Name,
                 IsActive = musicalGenreTemp.IsActive

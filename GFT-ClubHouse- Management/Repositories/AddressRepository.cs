@@ -5,9 +5,8 @@ using GFT_ClubHouse__Management.Repositories.Interfaces;
 
 namespace GFT_ClubHouse__Management.Repositories {
     public class AddressRepository : IAddressRepository {
-
         private readonly ApplicationDbContext _dbContext;
-        
+
         public AddressRepository(ApplicationDbContext dbContext) {
             _dbContext = dbContext;
         }

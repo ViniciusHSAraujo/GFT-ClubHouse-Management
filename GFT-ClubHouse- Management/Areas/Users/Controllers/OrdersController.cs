@@ -8,9 +8,9 @@ namespace GFT_ClubHouse__Management.Areas.Users.Controllers {
     [Area("Users")]
     [ApiExplorerSettings(IgnoreApi = true)]
     public class OrdersController : Controller {
-        private readonly ISaleRepository _saleRepository;
         private readonly LoginUser _loginUser;
-        
+        private readonly ISaleRepository _saleRepository;
+
         public OrdersController(ISaleRepository saleRepository, LoginUser loginUser) {
             _saleRepository = saleRepository;
             _loginUser = loginUser;
@@ -21,15 +21,12 @@ namespace GFT_ClubHouse__Management.Areas.Users.Controllers {
             var sales = _saleRepository.GetByUser(user.Id, page, search);
             return View(sales);
         }
-        
+
         public IActionResult Details(int id) {
             var user = _loginUser.GetUser();
             var sale = _saleRepository.GetById(id);
-            if (sale.UserId != user.Id) {
-                return new UnauthorizedResult();
-            }
+            if (sale.UserId != user.Id) return new UnauthorizedResult();
             return View(sale);
         }
-        
     }
 }

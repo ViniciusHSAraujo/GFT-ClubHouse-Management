@@ -1,7 +1,6 @@
 ﻿using GFT_ClubHouse__Management.Models;
 using GFT_ClubHouse__Management.Models.Enum;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Policy;
 
 namespace GFT_ClubHouse__Management.Data {
     public class ApplicationDbContext : DbContext {

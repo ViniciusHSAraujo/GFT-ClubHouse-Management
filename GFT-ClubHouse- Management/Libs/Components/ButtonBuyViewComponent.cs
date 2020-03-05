@@ -4,14 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GFT_ClubHouse__Management.Libs.Components {
     public class ButtonBuyViewComponent : ViewComponent {
-        
         private readonly LoginUser _loginUser;
-        
+
         public ButtonBuyViewComponent(LoginUser loginUser) {
             _loginUser = loginUser;
         }
-        
-        public async Task<IViewComponentResult> InvokeAsync() {
+
+        public IViewComponentResult Invoke() {
             var user = _loginUser.GetUser();
             return View(user);
         }

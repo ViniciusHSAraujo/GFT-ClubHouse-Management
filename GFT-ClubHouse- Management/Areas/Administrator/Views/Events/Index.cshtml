@@ -1,4 +1,4 @@
-﻿@model IPagedList<GFT_ClubHouse__Management.Models.Event>
+﻿@model IPagedList<Event>
 
 @{
     ViewData["Title"] = "Registered Events";
@@ -33,61 +33,61 @@
 
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Capacity
-            </th>
-            <th>
-                Date
-            </th>
-            <th>
-                Price
-            </th>
-            <th>
-                Club House
-            </th>
-            <th>
-                Musical Genre
-            </th>
-            <th>
-                Actions
-            </th>
-        </tr>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Capacity
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Club House
+        </th>
+        <th>
+            Musical Genre
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Capacity)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ClubHouse.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MusicalGenre.Name)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { item.Id }, new { @class = "btn btn-warning" })
-                    @Html.ActionLink("Details", "Details", new { item.Id }, new { @class = "btn btn-info" })
-                    <form method="post" asp-action="Delete" style="display: inline">
-                        <input name="id" id="id" value="@item.Id" hidden />
-                        <input type="submit" value="Delete" class="btn btn-danger" />
-                    </form>
-                </td>
-            </tr>
-        }
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Capacity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClubHouse.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MusicalGenre.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {item.Id}, new {@class = "btn btn-warning"})
+                @Html.ActionLink("Details", "Details", new {item.Id}, new {@class = "btn btn-info"})
+                <form method="post" asp-action="Delete" style="display: inline">
+                    <input name="id" id="id" value="@item.Id" hidden/>
+                    <input type="submit" value="Delete" class="btn btn-danger"/>
+                </form>
+            </td>
+        </tr>
+    }
     </tbody>
 </table>
 <div class="justify-content-center">

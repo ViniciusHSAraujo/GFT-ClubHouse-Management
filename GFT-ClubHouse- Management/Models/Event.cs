@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Runtime.Serialization;
 using GFT_ClubHouse__Management.Libs.Language;
 
@@ -37,8 +35,7 @@ namespace GFT_ClubHouse__Management.Models {
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
         public int ClubHouseId { get; set; }
 
-        [ForeignKey("ClubHouseId")]
-        public virtual ClubHouse ClubHouse { get; set; }
+        [ForeignKey("ClubHouseId")] public virtual ClubHouse ClubHouse { get; set; }
 
         [Display(Name = "Musical Genre")]
         [Required(ErrorMessageResourceType = typeof(ErrorMessages), ErrorMessageResourceName = "MSG_E001")]
@@ -46,7 +43,6 @@ namespace GFT_ClubHouse__Management.Models {
 
         [ForeignKey("MusicalGenreId")] public virtual MusicalGenre MusicalGenre { get; set; }
 
-        [IgnoreDataMember]
-        public virtual List<Ticket> Tickets { get; set; }
+        [IgnoreDataMember] public virtual List<Ticket> Tickets { get; set; }
     }
 }

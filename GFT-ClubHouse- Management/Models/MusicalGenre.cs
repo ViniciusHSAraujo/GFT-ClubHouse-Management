@@ -3,7 +3,6 @@ using GFT_ClubHouse__Management.Libs.Language;
 
 namespace GFT_ClubHouse__Management.Models {
     public class MusicalGenre {
-    
         public int Id { get; set; }
 
         [Display(Name = "Genre Name")]

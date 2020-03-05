@@ -1,15 +1,13 @@
-﻿using GFT_ClubHouse__Management.Data;
-using GFT_ClubHouse__Management.Repositories.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using GFT_ClubHouse__Management.Data;
+using GFT_ClubHouse__Management.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 
 namespace GFT_ClubHouse__Management.Repositories {
     public class GenericRepository<T> : IGenericRepository<T> where T : class {
-
         private readonly ApplicationDbContext _dbContext;
         private readonly DbSet<T> table;
 
@@ -20,10 +18,6 @@ namespace GFT_ClubHouse__Management.Repositories {
 
         public int Count() {
             return _dbContext.Set<T>().Count();
-        }
-
-        public bool Exists() {
-            throw new NotImplementedException();
         }
 
         public bool Exists(int id) {
@@ -50,7 +44,7 @@ namespace GFT_ClubHouse__Management.Repositories {
         }
 
         public void Delete(object id) {
-            T existing = table.Find(id);
+            var existing = table.Find(id);
             table.Remove(existing);
             Save();
         }
@@ -62,6 +56,9 @@ namespace GFT_ClubHouse__Management.Repositories {
         public IPagedList<T> GetAll(int? page, string search) {
             throw new NotImplementedException();
         }
+
+        public bool Exists() {
+            throw new NotImplementedException();
+        }
     }
 }
-    
