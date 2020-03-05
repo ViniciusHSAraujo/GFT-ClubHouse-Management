@@ -10,10 +10,12 @@ using GFT_ClubHouse__Management.Models.ViewModels;
 using GFT_ClubHouse__Management.Models.ViewModels.API;
 using GFT_ClubHouse__Management.Models.ViewModels.API.EventViewModels;
 using GFT_ClubHouse__Management.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
 namespace GFT_ClubHouse__Management.Controllers.API {
     [Route("api/")]
+    [Authorize]
     public class EventsController : Controller {
         private readonly IEventRepository _eventRepository;
         private readonly IClubHouseRepository _clubHouseRepository;
