@@ -259,6 +259,11 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         [ProducesResponseType(typeof(ResultViewModel<List<string>>), StatusCodes.Status400BadRequest)]
         [Route("v1/events/")]
         public ObjectResult Post([FromBody] EventCreateViewModel eventTemp) {
+            if (eventTemp == null) {
+                Response.StatusCode = StatusCodes.Status406NotAcceptable;
+                return ResponseUtils.GenerateObjectResult("Error when registering the club house!", "Invalid model received.");
+            }
+            
             if (!_clubHouseRepository.Exists(eventTemp.ClubHouseId))
                 ModelState.AddModelError("ClubHouseId", "This Club House ID does not exist.");
 
@@ -298,6 +303,12 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         [ProducesResponseType(typeof(ResultViewModel<List<string>>), StatusCodes.Status400BadRequest)]
         [Route("v1/events/{id}")]
         public ObjectResult Put(int id, [FromBody] EventEditViewModel eventTemp) {
+            
+            if (eventTemp == null) {
+                Response.StatusCode = StatusCodes.Status406NotAcceptable;
+                return ResponseUtils.GenerateObjectResult("Error when editing the club house!", "Invalid model received.");
+            }
+            
             if (id != eventTemp.Id) ModelState.AddModelError("Id", "Request Id differs from Event Id passed in body");
 
             if (!_clubHouseRepository.Exists(eventTemp.ClubHouseId))

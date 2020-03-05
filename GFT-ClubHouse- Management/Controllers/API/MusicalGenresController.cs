@@ -149,6 +149,11 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         [ProducesResponseType(typeof(ResultViewModel<List<string>>), StatusCodes.Status400BadRequest)]
         [Route("v1/musicalgenres/")]
         public ObjectResult Post([FromBody] MusicalGenreCreateViewModel musicalGenreTemp) {
+            if (musicalGenreTemp == null) {
+                Response.StatusCode = StatusCodes.Status406NotAcceptable;
+                return ResponseUtils.GenerateObjectResult("Error when registering the musical genre!", "Invalid model received.");
+            }
+            
             if (!ModelState.IsValid) {
                 Response.StatusCode = StatusCodes.Status400BadRequest;
                 return ResponseUtils.GenerateObjectResult("Error when registering the musical genre.",
@@ -179,6 +184,11 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         [HttpPut]
         [Route("v1/musicalgenres/{id}")]
         public ObjectResult Put(int id, [FromBody] MusicalGenreEditViewModel musicalGenreTemp) {
+            if (musicalGenreTemp == null) {
+                Response.StatusCode = StatusCodes.Status406NotAcceptable;
+                return ResponseUtils.GenerateObjectResult("Error when editing the musical genre!", "Invalid model received.");
+            }
+            
             if (id != musicalGenreTemp.Id)
                 ModelState.AddModelError("Id", "Request Id differs from musical genre Id passed in body");
 

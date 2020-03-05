@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using GFT_ClubHouse__Management.Data;
@@ -48,7 +50,8 @@ namespace GFT_ClubHouse__Management {
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddSingleton<IConfiguration>(Configuration);
+            services.AddSingleton(Configuration);
+            
             services.AddScoped<Session>();
             services.AddScoped<LoginAdmin>();
             services.AddScoped<LoginUser>();
@@ -85,6 +88,9 @@ namespace GFT_ClubHouse__Management {
                     Name = "Authorization",
                     In = "header",
                     Type = "apiKey"
+                });
+                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> {
+                    { "Bearer", Enumerable.Empty<string>() },
                 });
             });
 

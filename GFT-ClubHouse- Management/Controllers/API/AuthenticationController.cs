@@ -1,11 +1,15 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Mime;
 using System.Text;
 using GFT_ClubHouse__Management.Libs.Security;
 using GFT_ClubHouse__Management.Libs.Utils;
+using GFT_ClubHouse__Management.Models;
 using GFT_ClubHouse__Management.Models.Enum;
+using GFT_ClubHouse__Management.Models.ViewModels.API;
 using GFT_ClubHouse__Management.Models.ViewModels.API.UserViewModels;
 using GFT_ClubHouse__Management.Repositories.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -23,17 +27,29 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Login to get the Authorization KEY.
+        /// </summary>
+        /// <response code="200">Authorized. Returns a token valid for 120 minutes to be sent in requests.</response>
+        /// <response code="401">Not Authorized.</response>
         [Route("v1/login/")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(ResultViewModel<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status401Unauthorized)]
         [HttpPost]
         public IActionResult Login([FromBody] UserLoginViewModel user) {
             var authenticatedUser =
                 _userRepository.Login(user.Email, MD5HashTools.ReturnMD5(user.Password), UserRoles.Admin);
 
-            if (authenticatedUser == null) return ResponseUtils.GenerateObjectResult("Login failed");
+            if (authenticatedUser == null) {
+                Response.StatusCode = StatusCodes.Status401Unauthorized;
+                return ResponseUtils.GenerateObjectResult("Username or Password is invalid!");
+            }
 
             var tokenString = JwtGenerator();
-
-            return ResponseUtils.GenerateObjectResult("Authorized", new {token = tokenString});
+            Response.StatusCode = StatusCodes.Status200OK;
+            return ResponseUtils.GenerateObjectResult("Authorized", tokenString);
         }
 
         private string JwtGenerator() {
