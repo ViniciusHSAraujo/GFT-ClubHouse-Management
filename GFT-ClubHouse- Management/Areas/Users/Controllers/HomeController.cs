@@ -7,16 +7,15 @@ using GFT_ClubHouse__Management.Models;
 using GFT_ClubHouse__Management.Models.Enum;
 using GFT_ClubHouse__Management.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
 
 namespace GFT_ClubHouse__Management.Areas.Users.Controllers {
     [Area("Users")]
     [Route("{area}/{action=Index}/{id?}")]
     [ApiExplorerSettings(IgnoreApi = true)]
     public class HomeController : Controller {
+        private static readonly MD5HashTools MD5HashTools = new MD5HashTools();
         private readonly LoginUser _loginUser;
         private readonly IUserRepository _userRepository;
-        private static readonly MD5HashTools MD5HashTools = new MD5HashTools();
 
 
         public HomeController(LoginUser loginUser, IUserRepository userRepository) {
@@ -43,7 +42,7 @@ namespace GFT_ClubHouse__Management.Areas.Users.Controllers {
             ModelState.Remove("Password");
             ModelState.Remove("ConfirmPassword");
 
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
                 try {
                     user.Roles = UserRoles.User;
                     _userRepository.Update(user);
@@ -56,13 +55,12 @@ namespace GFT_ClubHouse__Management.Areas.Users.Controllers {
                 catch (Exception) {
                     TempData["MSG_E"] = ErrorMessages.MSG_E007;
                 }
-            }
 
             return View();
         }
 
         [HttpPost]
-        public IActionResult Login([FromForm] Models.User user, string returnUrl = null) {
+        public IActionResult Login([FromForm] User user, string returnUrl = null) {
             ViewData["ReturnUrl"] = returnUrl;
 
             var authenticatedUser =
@@ -70,9 +68,7 @@ namespace GFT_ClubHouse__Management.Areas.Users.Controllers {
 
             if (authenticatedUser != null) {
                 _loginUser.Login(authenticatedUser);
-                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl)) {
-                    return Redirect(returnUrl);
-                }
+                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl)) return Redirect(returnUrl);
 
                 return RedirectToAction("Index", "Home");
             }
@@ -84,19 +80,17 @@ namespace GFT_ClubHouse__Management.Areas.Users.Controllers {
         [UserAuthorization]
         public ActionResult EditPassword(int id) {
             var user = _userRepository.GetById(id);
-            if (_loginUser.GetUser().Id == id) {
+            if (_loginUser.GetUser().Id == id)
                 return View(user);
-            }
-            else {
+            else
                 return new UnauthorizedResult();
-            }
         }
 
         [HttpPost]
         [UserAuthorization]
         [ValidateAntiForgeryToken]
         public ActionResult EditPassword([FromForm] User user) {
-            if (ModelState["Password"].Errors.Count == 0 && ModelState["ConfirmPassword"].Errors.Count == 0) {
+            if (ModelState["Password"].Errors.Count == 0 && ModelState["ConfirmPassword"].Errors.Count == 0)
                 try {
                     var userDb = _userRepository.GetById(user.Id);
                     userDb.Password = MD5HashTools.ReturnMD5(user.Password);
@@ -107,11 +101,10 @@ namespace GFT_ClubHouse__Management.Areas.Users.Controllers {
                 catch (Exception) {
                     TempData["MSG_E"] = ErrorMessages.MSG_E007;
                 }
-            }
 
             return View();
         }
-        
+
         [UserAuthorization]
         public IActionResult Logout() {
             _loginUser.Logout();
@@ -125,23 +118,20 @@ namespace GFT_ClubHouse__Management.Areas.Users.Controllers {
 
         [HttpPost]
         public IActionResult Register([FromForm] User user, string returnUrl = null) {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
                 try {
                     user.Password = MD5HashTools.ReturnMD5(user.Password);
                     user.Roles = UserRoles.User;
                     _userRepository.Insert(user);
                     _loginUser.Login(user);
 
-                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl)) {
-                        return Redirect(returnUrl);
-                    }
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl)) return Redirect(returnUrl);
 
                     return RedirectToAction("Index", "Home");
                 }
                 catch (Exception e) {
                     TempData["MSG_E"] = e.Message;
                 }
-            }
 
             return View();
         }

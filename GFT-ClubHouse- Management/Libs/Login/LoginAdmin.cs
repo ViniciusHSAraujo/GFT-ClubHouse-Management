@@ -26,7 +26,7 @@ namespace GFT_ClubHouse__Management.Libs.Login {
         public User GetUser() {
             var userJson = _session.Get(key);
             if (userJson == null) return null;
-            User user = JsonConvert.DeserializeObject<User>(userJson);
+            var user = JsonConvert.DeserializeObject<User>(userJson);
             return user;
         }
 

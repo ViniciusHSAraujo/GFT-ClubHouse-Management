@@ -1,21 +1,21 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AuthoringTagHelpers.TagHelpers {
     [HtmlTargetElement(Attributes = "asp-active-route")]
     public class ActiveRouteTagHelper : TagHelper {
         private readonly IHttpContextAccessor _contextAccessor;
 
+        private IDictionary<string, string> _routeValues;
+
         public ActiveRouteTagHelper(IHttpContextAccessor contextAccessor) {
             _contextAccessor = contextAccessor;
         }
-
-        private IDictionary<string, string> _routeValues;
 
         /// <summary>The name of the action method.</summary>
         /// <remarks>Must be <c>null</c> if <see cref="P:Microsoft.AspNetCore.Mvc.TagHelpers.AnchorTagHelper.Route" /> is non-<c>null</c>.</remarks>
@@ -27,20 +27,19 @@ namespace AuthoringTagHelpers.TagHelpers {
         [HtmlAttributeName("asp-controller")]
         public string Controller { get; set; }
 
-        [HtmlAttributeName("asp-page")]
-        public string Page { get; set; }
+        [HtmlAttributeName("asp-page")] public string Page { get; set; }
 
         /// <summary>Additional parameters for the route.</summary>
         [HtmlAttributeName("asp-all-route-data", DictionaryAttributePrefix = "asp-route-")]
         public IDictionary<string, string> RouteValues {
             get {
-                if (this._routeValues == null)
-                    this._routeValues = (IDictionary<string, string>)new Dictionary<string, string>((IEqualityComparer<string>)StringComparer.OrdinalIgnoreCase);
-                return this._routeValues;
+                if (_routeValues == null)
+                    _routeValues =
+                        (IDictionary<string, string>) new Dictionary<string, string>(
+                            (IEqualityComparer<string>) StringComparer.OrdinalIgnoreCase);
+                return _routeValues;
             }
-            set {
-                this._routeValues = value;
-            }
+            set => _routeValues = value;
         }
 
         /// <summary>
@@ -53,47 +52,37 @@ namespace AuthoringTagHelpers.TagHelpers {
         public override void Process(TagHelperContext context, TagHelperOutput output) {
             base.Process(context, output);
 
-            if (ShouldBeActive()) {
-                MakeActive(output);
-            }
+            if (ShouldBeActive()) MakeActive(output);
 
             output.Attributes.RemoveAll("is-active-route");
         }
 
         private bool ShouldBeActive() {
-            string currentController = string.Empty;
-            string currentAction = string.Empty;
+            var currentController = string.Empty;
+            var currentAction = string.Empty;
 
-            if (ViewContext.RouteData.Values["Controller"] != null) {
+            if (ViewContext.RouteData.Values["Controller"] != null)
                 currentController = ViewContext.RouteData.Values["Controller"].ToString();
-            }
 
-            if (ViewContext.RouteData.Values["Action"] != null) {
+            if (ViewContext.RouteData.Values["Action"] != null)
                 currentAction = ViewContext.RouteData.Values["Action"].ToString();
-            }
 
             if (Controller != null) {
-                if (!string.IsNullOrWhiteSpace(Controller) && Controller.ToLower() != currentController.ToLower()) {
+                if (!string.IsNullOrWhiteSpace(Controller) && Controller.ToLower() != currentController.ToLower())
                     return false;
-                }
 
-                if (!string.IsNullOrWhiteSpace(Action) && Action.ToLower() != currentAction.ToLower()) {
-                    return false;
-                }
+                if (!string.IsNullOrWhiteSpace(Action) && Action.ToLower() != currentAction.ToLower()) return false;
             }
 
-            if (Page != null) {
-                if (!string.IsNullOrWhiteSpace(Page) && Page.ToLower() != _contextAccessor.HttpContext.Request.Path.Value.ToLower()) {
+            if (Page != null)
+                if (!string.IsNullOrWhiteSpace(Page) &&
+                    Page.ToLower() != _contextAccessor.HttpContext.Request.Path.Value.ToLower())
                     return false;
-                }
-            }
 
-            foreach (KeyValuePair<string, string> routeValue in RouteValues) {
+            foreach (var routeValue in RouteValues)
                 if (!ViewContext.RouteData.Values.ContainsKey(routeValue.Key) ||
-                    ViewContext.RouteData.Values[routeValue.Key].ToString() != routeValue.Value) {
+                    ViewContext.RouteData.Values[routeValue.Key].ToString() != routeValue.Value)
                     return false;
-                }
-            }
 
             return true;
         }
@@ -103,7 +92,8 @@ namespace AuthoringTagHelpers.TagHelpers {
             if (classAttr == null) {
                 classAttr = new TagHelperAttribute("class", "active");
                 output.Attributes.Add(classAttr);
-            } else if (classAttr.Value == null || classAttr.Value.ToString().IndexOf("active") < 0) {
+            }
+            else if (classAttr.Value == null || classAttr.Value.ToString().IndexOf("active") < 0) {
                 output.Attributes.SetAttribute("class", classAttr.Value == null
                     ? "active"
                     : classAttr.Value.ToString() + " active");

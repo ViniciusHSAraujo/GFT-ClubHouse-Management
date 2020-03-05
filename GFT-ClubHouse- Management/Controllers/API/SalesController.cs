@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
-using GFT_ClubHouse__Management.Libs.ExtensionsMethods;
 using GFT_ClubHouse__Management.Libs.Utils;
-using Microsoft.AspNetCore.Mvc;
 using GFT_ClubHouse__Management.Models;
-using GFT_ClubHouse__Management.Models.ViewModels;
 using GFT_ClubHouse__Management.Models.ViewModels.API;
-using GFT_ClubHouse__Management.Models.ViewModels.API.ClubHouseViewModels;
-using GFT_ClubHouse__Management.Models.ViewModels.API.MusicalGenreViewModels;
 using GFT_ClubHouse__Management.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GFT_ClubHouse__Management.Controllers.API {
     [Route("api/")]
+    [Authorize]
     public class SalesController : Controller {
         private readonly ISaleRepository _saleRepository;
-        
+
         public SalesController(ISaleRepository saleRepository) {
             _saleRepository = saleRepository;
         }
-        
+
         /// <summary>
         /// List Sales.
         /// </summary>
@@ -44,7 +41,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             return ResponseUtils.GenerateObjectResult("Sales successfully found!", sales);
         }
 
-        
+
         /// <summary>
         /// Search for a sale with the specified ID.
         /// </summary>

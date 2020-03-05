@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
+using System.Text;
 using GFT_ClubHouse__Management.Data;
 using GFT_ClubHouse__Management.Libs.Login;
 using GFT_ClubHouse__Management.Libs.Sessions;
-using GFT_ClubHouse__Management.Models;
 using GFT_ClubHouse__Management.Repositories;
 using GFT_ClubHouse__Management.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace GFT_ClubHouse__Management {
@@ -51,6 +50,8 @@ namespace GFT_ClubHouse__Management {
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddSingleton(Configuration);
+            
             services.AddScoped<Session>();
             services.AddScoped<LoginAdmin>();
             services.AddScoped<LoginUser>();
@@ -76,12 +77,38 @@ namespace GFT_ClubHouse__Management {
                         Url = "https://linkedin.com/in/ViniciusHSAraujo",
                     }
                 });
-                
+
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
 
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme {
+                    Description =
+                        "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey"
+                });
+                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> {
+                    { "Bearer", Enumerable.Empty<string>() },
+                });
             });
+
+            services.AddAuthentication
+                    (JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => {
+                    options.TokenValidationParameters = new TokenValidationParameters {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        ValidAudience = Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey
+                            (Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -100,7 +127,9 @@ namespace GFT_ClubHouse__Management {
             app.UseSession();
 
             app.UseResponseCompression();
-            
+
+            app.UseAuthentication();
+
             app.UseSwagger();
 
             app.UseSwaggerUI(opt => { opt.SwaggerEndpoint("/swagger/v1/swagger.json", "CHM API V1"); });
@@ -108,16 +137,14 @@ namespace GFT_ClubHouse__Management {
             app.UseMvc(routes => {
                 //Rota para quando há áreas.
                 routes.MapRoute(
-                    name: "areas",
-                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                    "areas",
+                    "{area:exists}/{controller=Home}/{action=Index}/{id?}"
                 );
                 //Rota padrão.
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}");
             });
-
-            
         }
     }
 }

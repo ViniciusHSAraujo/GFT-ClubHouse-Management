@@ -1,24 +1,23 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
 using GFT_ClubHouse__Management.Libs.ExtensionsMethods;
 using GFT_ClubHouse__Management.Libs.Utils;
-using Microsoft.AspNetCore.Mvc;
 using GFT_ClubHouse__Management.Models;
-using GFT_ClubHouse__Management.Models.ViewModels;
 using GFT_ClubHouse__Management.Models.ViewModels.API;
 using GFT_ClubHouse__Management.Models.ViewModels.API.ClubHouseViewModels;
 using GFT_ClubHouse__Management.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GFT_ClubHouse__Management.Controllers.API {
     [Route("api/")]
+    [Authorize]
     public class ClubHousesController : Controller {
-        private readonly IClubHouseRepository _clubHouseRepository;
         private readonly IAddressRepository _addressRepository;
+        private readonly IClubHouseRepository _clubHouseRepository;
 
         public ClubHousesController(IClubHouseRepository clubHouseRepository, IAddressRepository addressRepository) {
             _clubHouseRepository = clubHouseRepository;
@@ -46,8 +45,8 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             Response.StatusCode = StatusCodes.Status200OK;
             return ResponseUtils.GenerateObjectResult("Club Houses successfully found!", clubHouses);
         }
-        
-         /// <summary>
+
+        /// <summary>
         /// List Club Houses ordered by name ascending.
         /// </summary>
         /// <response code="200">Returns a list of Club Houses ordered by name ascending.</response>
@@ -91,7 +90,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             return ResponseUtils.GenerateObjectResult("Club Houses successfully found!", clubHouses);
         }
 
-        
+
         /// <summary>
         /// Search for a Club Houses with the specified ID.
         /// </summary>
@@ -136,8 +135,8 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             Response.StatusCode = StatusCodes.Status200OK;
             return ResponseUtils.GenerateObjectResult("Club Houses successfully found by name!", clubHouses);
         }
-        
-       
+
+
         /// <summary>
         /// Create a new Club House.
         /// </summary>
@@ -150,6 +149,12 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         [ProducesResponseType(typeof(ResultViewModel<List<string>>), StatusCodes.Status400BadRequest)]
         [Route("v1/clubhouses/")]
         public ObjectResult Post([FromBody] ClubHouseCreateViewModel clubHouseTemp) {
+            
+            if (clubHouseTemp == null) {
+                Response.StatusCode = StatusCodes.Status406NotAcceptable;
+                return ResponseUtils.GenerateObjectResult("Error when registering the club house!", "Invalid model received.");
+            }
+            
             if (!ModelState.IsValid) {
                 Response.StatusCode = StatusCodes.Status400BadRequest;
                 return ResponseUtils.GenerateObjectResult("Error when registering the club house.",
@@ -185,17 +190,20 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         [ProducesResponseType(typeof(ResultViewModel<List<string>>), StatusCodes.Status400BadRequest)]
         [Route("v1/clubhouses/{id}")]
         public ObjectResult Put(int id, [FromBody] ClubHouseEditViewModel clubHouseTemp) {
-            if (id != clubHouseTemp.Id) {
+            
+            if (clubHouseTemp == null) {
+                Response.StatusCode = StatusCodes.Status406NotAcceptable;
+                return ResponseUtils.GenerateObjectResult("Error when editing the club house!", "Invalid model received.");
+            }
+            
+            if (id != clubHouseTemp.Id)
                 ModelState.AddModelError("Id", "Request Id differs from Club House Id passed in body");
-            }
 
-            if (!_clubHouseRepository.Exists(clubHouseTemp.AddressId)) {
+            if (!_clubHouseRepository.Exists(clubHouseTemp.AddressId))
                 ModelState.AddModelError("Id", "This Club House ID does not exist.");
-            }
 
-            if (!_addressRepository.Exists(clubHouseTemp.AddressId)) {
+            if (!_addressRepository.Exists(clubHouseTemp.AddressId))
                 ModelState.AddModelError("AddressId", "This Address ID does not exist.");
-            }
 
             if (!ModelState.IsValid) {
                 Response.StatusCode = StatusCodes.Status400BadRequest;

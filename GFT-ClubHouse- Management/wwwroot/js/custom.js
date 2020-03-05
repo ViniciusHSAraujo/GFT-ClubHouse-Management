@@ -6,15 +6,15 @@ $('#calendar').datepicker({
         $(this).find('em').toggleClass("fa-minus");      
     }); 
     $(".sidebar span.icon").find('em:first').addClass("fa-plus");
-}
+};
 
 (window.jQuery);
 	$(window).on('resize', function () {
   if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
-})
+});
 $(window).on('resize', function () {
   if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
-})
+});
 
 $(document).on('click', '.panel-heading span.clickable', function(e){
     var $this = $(this);
@@ -27,4 +27,4 @@ $(document).on('click', '.panel-heading span.clickable', function(e){
 		$this.removeClass('panel-collapsed');
 		$this.find('em').removeClass('fa-toggle-down').addClass('fa-toggle-up');
 	}
-})
+});

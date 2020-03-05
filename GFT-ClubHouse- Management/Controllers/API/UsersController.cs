@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
-using GFT_ClubHouse__Management.Libs.ExtensionsMethods;
 using GFT_ClubHouse__Management.Libs.Utils;
-using Microsoft.AspNetCore.Mvc;
 using GFT_ClubHouse__Management.Models;
-using GFT_ClubHouse__Management.Models.ViewModels;
 using GFT_ClubHouse__Management.Models.ViewModels.API;
-using GFT_ClubHouse__Management.Models.ViewModels.API.ClubHouseViewModels;
-using GFT_ClubHouse__Management.Models.ViewModels.API.MusicalGenreViewModels;
 using GFT_ClubHouse__Management.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GFT_ClubHouse__Management.Controllers.API {
     [Route("api/")]
+    [Authorize]
     public class UsersController : Controller {
         private readonly IUserRepository _userRepository;
-        
+
         public UsersController(IUserRepository userRepository) {
             _userRepository = userRepository;
         }
@@ -30,7 +27,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<IEnumerable<User>>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]        
+        [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/users/")]
         public ObjectResult Get() {
             var users = _userRepository.GetAllSimplified();
@@ -52,7 +49,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<User>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]        
+        [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/users/{id}")]
         public ObjectResult GetById(int id) {
             var user = _userRepository.GetSimplified(id);

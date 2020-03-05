@@ -2,16 +2,12 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace GFT_ClubHouse__Management.Migrations
-{
-    public partial class InitialMigrationFixed : Migration
-    {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+namespace GFT_ClubHouse__Management.Migrations {
+    public partial class InitialMigrationFixed : Migration {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.CreateTable(
-                name: "Addresses",
-                columns: table => new
-                {
+                "Addresses",
+                table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Street = table.Column<string>(maxLength: 80, nullable: false),
@@ -19,49 +15,39 @@ namespace GFT_ClubHouse__Management.Migrations
                     Zip = table.Column<string>(nullable: false),
                     State = table.Column<string>(maxLength: 12, nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Addresses", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Addresses", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "MusicalGenres",
-                columns: table => new
-                {
+                "MusicalGenres",
+                table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 80, nullable: false),
                     IsActive = table.Column<bool>(nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MusicalGenres", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_MusicalGenres", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "ClubHouses",
-                columns: table => new
-                {
+                "ClubHouses",
+                table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(maxLength: 80, nullable: false),
                     AddressId = table.Column<int>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_ClubHouses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ClubHouses_Addresses_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Addresses",
-                        principalColumn: "Id",
+                        "FK_ClubHouses_Addresses_AddressId",
+                        x => x.AddressId,
+                        "Addresses",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
+                "Users",
+                table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
@@ -72,21 +58,19 @@ namespace GFT_ClubHouse__Management.Migrations
                     Password = table.Column<string>(maxLength: 64, nullable: false),
                     Roles = table.Column<int>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Addresses_AddressId",
-                        column: x => x.AddressId,
-                        principalTable: "Addresses",
-                        principalColumn: "Id",
+                        "FK_Users_Addresses_AddressId",
+                        x => x.AddressId,
+                        "Addresses",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Events",
-                columns: table => new
-                {
+                "Events",
+                table => new {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 80, nullable: false),
@@ -96,70 +80,69 @@ namespace GFT_ClubHouse__Management.Migrations
                     ClubHouseId = table.Column<int>(nullable: false),
                     MusicalGenreId = table.Column<int>(nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Events", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Events_ClubHouses_ClubHouseId",
-                        column: x => x.ClubHouseId,
-                        principalTable: "ClubHouses",
-                        principalColumn: "Id",
+                        "FK_Events_ClubHouses_ClubHouseId",
+                        x => x.ClubHouseId,
+                        "ClubHouses",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Events_MusicalGenres_MusicalGenreId",
-                        column: x => x.MusicalGenreId,
-                        principalTable: "MusicalGenres",
-                        principalColumn: "Id",
+                        "FK_Events_MusicalGenres_MusicalGenreId",
+                        x => x.MusicalGenreId,
+                        "MusicalGenres",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
-                table: "Addresses",
-                columns: new[] { "Id", "City", "State", "Street", "Zip" },
-                values: new object[] { 1, "Seattle", "Washington", "1234 1St Ave", "98101" });
+                "Addresses",
+                new[] {"Id", "City", "State", "Street", "Zip"},
+                new object[] {1, "Seattle", "Washington", "1234 1St Ave", "98101"});
 
             migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "AddressId", "Email", "LastName", "Name", "Password", "Phone", "Roles" },
-                values: new object[] { 1, 1, "admin@admin.com", "Default", "Admin", "690e2695b6aa8f08dc1fd736072e5819", "123456789", 0 });
+                "Users",
+                new[] {"Id", "AddressId", "Email", "LastName", "Name", "Password", "Phone", "Roles"},
+                new object[]
+                    {1, 1, "admin@admin.com", "Default", "Admin", "690e2695b6aa8f08dc1fd736072e5819", "123456789", 0});
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClubHouses_AddressId",
-                table: "ClubHouses",
-                column: "AddressId");
+                "IX_ClubHouses_AddressId",
+                "ClubHouses",
+                "AddressId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Events_ClubHouseId",
-                table: "Events",
-                column: "ClubHouseId");
+                "IX_Events_ClubHouseId",
+                "Events",
+                "ClubHouseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Events_MusicalGenreId",
-                table: "Events",
-                column: "MusicalGenreId");
+                "IX_Events_MusicalGenreId",
+                "Events",
+                "MusicalGenreId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_AddressId",
-                table: "Users",
-                column: "AddressId");
+                "IX_Users_AddressId",
+                "Users",
+                "AddressId");
         }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropTable(
-                name: "Events");
+                "Events");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                "Users");
 
             migrationBuilder.DropTable(
-                name: "ClubHouses");
+                "ClubHouses");
 
             migrationBuilder.DropTable(
-                name: "MusicalGenres");
+                "MusicalGenres");
 
             migrationBuilder.DropTable(
-                name: "Addresses");
+                "Addresses");
         }
     }
 }

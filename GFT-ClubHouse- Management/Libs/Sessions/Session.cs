@@ -18,9 +18,7 @@ namespace GFT_ClubHouse__Management.Libs.Sessions {
         }
 
         public void Remove(string key) {
-            if (Exists(key)) {
-                _context.HttpContext.Session.Remove(key);
-            }
+            if (Exists(key)) _context.HttpContext.Session.Remove(key);
         }
 
         public void Clear() {
@@ -32,7 +30,7 @@ namespace GFT_ClubHouse__Management.Libs.Sessions {
         }
 
         public bool Exists(string key) {
-            return _context.HttpContext.Session.TryGetValue(key, out byte[] value);
+            return _context.HttpContext.Session.TryGetValue(key, out var value);
         }
     }
 }

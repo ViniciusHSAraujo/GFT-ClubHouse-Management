@@ -1,17 +1,15 @@
-﻿using GFT_ClubHouse__Management.Data;
-using GFT_ClubHouse__Management.Models;
-using GFT_ClubHouse__Management.Repositories.Interfaces;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
-using System.Threading.Tasks;
+using GFT_ClubHouse__Management.Data;
 using GFT_ClubHouse__Management.Libs.Language;
-using GFT_ClubHouse__Management.Libs.Security;
+using GFT_ClubHouse__Management.Models;
 using GFT_ClubHouse__Management.Models.Enum;
 using GFT_ClubHouse__Management.Models.ViewModels.API.UserViewModels;
+using GFT_ClubHouse__Management.Repositories.Interfaces;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using X.PagedList;
 
 namespace GFT_ClubHouse__Management.Repositories {
@@ -35,12 +33,10 @@ namespace GFT_ClubHouse__Management.Repositories {
         }
 
         public IPagedList<User> GetAll(int? page, string search) {
-            int pageNumber = page ?? 1;
+            var pageNumber = page ?? 1;
             const int resultsPerPage = 10;
 
-            if (string.IsNullOrEmpty(search)) {
-                return _dbContext.Set<User>().ToPagedList(pageNumber, resultsPerPage);
-            }
+            if (string.IsNullOrEmpty(search)) return _dbContext.Set<User>().ToPagedList(pageNumber, resultsPerPage);
 
             search = search.Trim().ToLower();
             return _dbContext.Set<User>()
@@ -52,15 +48,8 @@ namespace GFT_ClubHouse__Management.Repositories {
             return _dbContext.Set<User>().Include(x => x.Address).AsNoTracking().FirstOrDefault(x => x.Id.Equals(id));
         }
 
-        public List<SelectListItem> GetSelectList() {
-            return _dbContext.Set<User>().Select(x => new SelectListItem() {Value = x.Id.ToString(), Text = x.Name})
-                .AsNoTracking().ToList();
-        }
-
         public void Insert(User obj) {
-            if (IsRegistered(obj.Email, obj.Roles)) {
-                throw new VerificationException(ErrorMessages.MSG_E006);
-            }
+            if (IsRegistered(obj.Email, obj.Roles)) throw new VerificationException(ErrorMessages.MSG_E006);
 
             _dbContext.Set<User>().Add(obj);
             Save();
@@ -81,7 +70,7 @@ namespace GFT_ClubHouse__Management.Repositories {
                     Name = x.Name,
                     Phone = x.Phone,
                     LastName = x.LastName,
-                    Roles = Enum.GetName(typeof(UserRoles), x.Roles) 
+                    Roles = Enum.GetName(typeof(UserRoles), x.Roles)
                 }).AsNoTracking().ToList();
         }
 
@@ -111,11 +100,9 @@ namespace GFT_ClubHouse__Management.Repositories {
         }
 
         public void Delete(object id) {
-            if (id.Equals(1)) {
-                throw new SecurityException("This user cannot be deleted!");
-            }
+            if (id.Equals(1)) throw new SecurityException("This user cannot be deleted!");
 
-            User existing = _dbContext.Set<User>().Find(id);
+            var existing = _dbContext.Set<User>().Find(id);
             _dbContext.Set<User>().Remove(existing);
 
             Save();
@@ -123,6 +110,11 @@ namespace GFT_ClubHouse__Management.Repositories {
 
         public void Save() {
             _dbContext.SaveChanges();
+        }
+
+        public List<SelectListItem> GetSelectList() {
+            return _dbContext.Set<User>().Select(x => new SelectListItem() {Value = x.Id.ToString(), Text = x.Name})
+                .AsNoTracking().ToList();
         }
     }
 }

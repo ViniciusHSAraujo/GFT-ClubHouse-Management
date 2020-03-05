@@ -4,19 +4,20 @@ using System.Linq;
 using System.Net.Mime;
 using GFT_ClubHouse__Management.Libs.ExtensionsMethods;
 using GFT_ClubHouse__Management.Libs.Utils;
-using Microsoft.AspNetCore.Mvc;
 using GFT_ClubHouse__Management.Models;
-using GFT_ClubHouse__Management.Models.ViewModels;
 using GFT_ClubHouse__Management.Models.ViewModels.API;
 using GFT_ClubHouse__Management.Models.ViewModels.API.EventViewModels;
 using GFT_ClubHouse__Management.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GFT_ClubHouse__Management.Controllers.API {
     [Route("api/")]
+    [Authorize]
     public class EventsController : Controller {
-        private readonly IEventRepository _eventRepository;
         private readonly IClubHouseRepository _clubHouseRepository;
+        private readonly IEventRepository _eventRepository;
         private readonly IMusicalGenreRepository _musicalGenreRepository;
 
         public EventsController(IEventRepository eventRepository, IMusicalGenreRepository musicalGenreRepository,
@@ -47,7 +48,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             Response.StatusCode = StatusCodes.Status200OK;
             return ResponseUtils.GenerateObjectResult("Events successfully found!", schEvents);
         }
-        
+
         /// <summary>
         /// List Events ordered by capacity ascending.
         /// </summary>
@@ -69,7 +70,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             Response.StatusCode = StatusCodes.Status200OK;
             return ResponseUtils.GenerateObjectResult("Events successfully found!", schEvents);
         }
-        
+
         /// <summary>
         /// List Events ordered by capacity descending.
         /// </summary>
@@ -91,7 +92,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             Response.StatusCode = StatusCodes.Status200OK;
             return ResponseUtils.GenerateObjectResult("Events successfully found!", schEvents);
         }
-        
+
         /// <summary>
         /// List Events ordered by date ascending.
         /// </summary>
@@ -113,7 +114,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             Response.StatusCode = StatusCodes.Status200OK;
             return ResponseUtils.GenerateObjectResult("Events successfully found!", schEvents);
         }
-        
+
         /// <summary>
         /// List Events ordered by date descending.
         /// </summary>
@@ -135,7 +136,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             Response.StatusCode = StatusCodes.Status200OK;
             return ResponseUtils.GenerateObjectResult("Events successfully found!", schEvents);
         }
-        
+
         /// <summary>
         /// List Events ordered by name ascending.
         /// </summary>
@@ -157,7 +158,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             Response.StatusCode = StatusCodes.Status200OK;
             return ResponseUtils.GenerateObjectResult("Events successfully found!", schEvents);
         }
-        
+
         /// <summary>
         /// List Events ordered by name descending.
         /// </summary>
@@ -179,7 +180,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             Response.StatusCode = StatusCodes.Status200OK;
             return ResponseUtils.GenerateObjectResult("Events successfully found!", schEvents);
         }
-        
+
         /// <summary>
         /// List Events ordered by price ascending.
         /// </summary>
@@ -201,7 +202,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             Response.StatusCode = StatusCodes.Status200OK;
             return ResponseUtils.GenerateObjectResult("Events successfully found!", schEvents);
         }
-        
+
         /// <summary>
         /// List Events ordered by price descending.
         /// </summary>
@@ -245,7 +246,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
             Response.StatusCode = StatusCodes.Status200OK;
             return ResponseUtils.GenerateObjectResult("Event successfully found!", schEvent);
         }
-        
+
         /// <summary>
         /// Create a new Event.
         /// </summary>
@@ -258,13 +259,16 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         [ProducesResponseType(typeof(ResultViewModel<List<string>>), StatusCodes.Status400BadRequest)]
         [Route("v1/events/")]
         public ObjectResult Post([FromBody] EventCreateViewModel eventTemp) {
-            if (!_clubHouseRepository.Exists(eventTemp.ClubHouseId)) {
+            if (eventTemp == null) {
+                Response.StatusCode = StatusCodes.Status406NotAcceptable;
+                return ResponseUtils.GenerateObjectResult("Error when registering the club house!", "Invalid model received.");
+            }
+            
+            if (!_clubHouseRepository.Exists(eventTemp.ClubHouseId))
                 ModelState.AddModelError("ClubHouseId", "This Club House ID does not exist.");
-            }
 
-            if (!_clubHouseRepository.Exists(eventTemp.MusicalGenreId)) {
+            if (!_clubHouseRepository.Exists(eventTemp.MusicalGenreId))
                 ModelState.AddModelError("MusicalGenreId", "This Musical Genre ID does not exist.");
-            }
 
             if (!ModelState.IsValid) {
                 Response.StatusCode = StatusCodes.Status400BadRequest;
@@ -272,7 +276,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
                     ModelState.ListErrors());
             }
 
-            Event schEvent = new Event() {
+            var schEvent = new Event() {
                 Id = 0,
                 Name = eventTemp.Name,
                 Capacity = eventTemp.Capacity,
@@ -299,17 +303,19 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         [ProducesResponseType(typeof(ResultViewModel<List<string>>), StatusCodes.Status400BadRequest)]
         [Route("v1/events/{id}")]
         public ObjectResult Put(int id, [FromBody] EventEditViewModel eventTemp) {
-            if (id != eventTemp.Id) {
-                ModelState.AddModelError("Id", "Request Id differs from Event Id passed in body");
+            
+            if (eventTemp == null) {
+                Response.StatusCode = StatusCodes.Status406NotAcceptable;
+                return ResponseUtils.GenerateObjectResult("Error when editing the club house!", "Invalid model received.");
             }
+            
+            if (id != eventTemp.Id) ModelState.AddModelError("Id", "Request Id differs from Event Id passed in body");
 
-            if (!_clubHouseRepository.Exists(eventTemp.ClubHouseId)) {
+            if (!_clubHouseRepository.Exists(eventTemp.ClubHouseId))
                 ModelState.AddModelError("ClubHouseId", "This Club House ID does not exist.");
-            }
 
-            if (!_clubHouseRepository.Exists(eventTemp.MusicalGenreId)) {
+            if (!_clubHouseRepository.Exists(eventTemp.MusicalGenreId))
                 ModelState.AddModelError("MusicalGenreId", "This Musical Genre ID does not exist.");
-            }
 
             if (!ModelState.IsValid) {
                 Response.StatusCode = StatusCodes.Status400BadRequest;
@@ -317,7 +323,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
                     ModelState.ListErrors());
             }
 
-            Event schEvent = new Event() {
+            var schEvent = new Event() {
                 Id = eventTemp.Id,
                 Name = eventTemp.Name,
                 Capacity = eventTemp.Capacity,
@@ -342,7 +348,7 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<Event>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultViewModel<List<string>>), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ResultViewModel<Event>), StatusCodes.Status406NotAcceptable)]        
+        [ProducesResponseType(typeof(ResultViewModel<Event>), StatusCodes.Status406NotAcceptable)]
         [Route("v1/events/{id}")]
         public ObjectResult Delete(int id) {
             var schEvent = _eventRepository.GetById(id);
@@ -357,13 +363,11 @@ namespace GFT_ClubHouse__Management.Controllers.API {
                 _eventRepository.Delete(schEvent.Id);
                 return ResponseUtils.GenerateObjectResult("Event successfully deleted!", schEvent);
             }
-            catch (Exception e) {
+            catch (Exception) {
                 Response.StatusCode = StatusCodes.Status406NotAcceptable;
                 return ResponseUtils.GenerateObjectResult("Unable to delete the event, contact support!",
                     schEvent);
             }
         }
-        
-        
     }
 }

@@ -1,5 +1,3 @@
-using System;
-
 namespace GFT_ClubHouse__Management.Models.ViewModels.API {
     /**
      * Classe que será retornada nas requisições HTTP da API.

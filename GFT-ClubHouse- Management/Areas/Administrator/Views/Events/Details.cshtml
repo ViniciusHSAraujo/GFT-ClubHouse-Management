@@ -1,4 +1,4 @@
-﻿@model GFT_ClubHouse__Management.Models.Event
+﻿@model Event
 
 @{
     ViewData["Title"] = "Details";
@@ -46,6 +46,6 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { Model.Id }, new { @class = "btn btn-warning" })
+    @Html.ActionLink("Edit", "Edit", new {Model.Id}, new {@class = "btn btn-warning"})
     <a class="btn btn-info" asp-action="Index">Back to List</a>
 </div>
