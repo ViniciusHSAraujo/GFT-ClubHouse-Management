@@ -26,10 +26,12 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// List Musical Genres.
         /// </summary>
         /// <response code="200">Returns a list of Musical Genres.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">There is no Musical Genres registered.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<IEnumerable<MusicalGenre>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/musicalgenres/")]
         public ObjectResult Get() {
@@ -48,10 +50,12 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// List Musical Genres ordered by name ascending.
         /// </summary>
         /// <response code="200">Returns a list of Musical Genres ordered by name ascending.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">There is no Musical Genres registered.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<IEnumerable<MusicalGenre>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [HttpGet]
         [Route("v1/musicalgenres/asc")]
@@ -71,10 +75,12 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// List Musical Genres ordered by name descending.
         /// </summary>
         /// <response code="200">Returns a list of Musical Genres ordered by name descending.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">There is no Musical Genres registered.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<IEnumerable<MusicalGenre>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [HttpGet]
         [Route("v1/musicalgenres/desc")]
@@ -94,10 +100,12 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// Search for a Musical Genre with the specified ID.
         /// </summary>
         /// <response code="200">Returns a Musical Genre with the specified ID.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">There is no Musical Genre registered with this ID.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<MusicalGenre>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [HttpGet]
         [Route("v1/musicalgenres/{id}")]
@@ -118,10 +126,12 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// </summary>
         /// <param name="name">Name for search</param>
         /// <response code="200">Returns a list of Events that was found.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">In this search nothing was found.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<IEnumerable<Event>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [HttpGet]
         [Route("v1/musicalgenres/name/{name}")]
@@ -142,18 +152,21 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// </summary>
         /// <response code="201">Returns the created Musical Genre.</response>
         /// <response code="400">Returns a list of strings describing validation errors.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<Event>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ResultViewModel<List<string>>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Route("v1/musicalgenres/")]
         public ObjectResult Post([FromBody] MusicalGenreCreateViewModel musicalGenreTemp) {
             if (musicalGenreTemp == null) {
                 Response.StatusCode = StatusCodes.Status406NotAcceptable;
-                return ResponseUtils.GenerateObjectResult("Error when registering the musical genre!", "Invalid model received.");
+                return ResponseUtils.GenerateObjectResult("Error when registering the musical genre!",
+                    "Invalid model received.");
             }
-            
+
             if (!ModelState.IsValid) {
                 Response.StatusCode = StatusCodes.Status400BadRequest;
                 return ResponseUtils.GenerateObjectResult("Error when registering the musical genre.",
@@ -176,19 +189,22 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// </summary>
         /// <response code="200">Returns the Musical Genre that was edited</response>
         /// <response code="400">Returns a list of strings describing validation errors.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         [HttpPut]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<MusicalGenre>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultViewModel<List<string>>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpPut]
         [Route("v1/musicalgenres/{id}")]
         public ObjectResult Put(int id, [FromBody] MusicalGenreEditViewModel musicalGenreTemp) {
             if (musicalGenreTemp == null) {
                 Response.StatusCode = StatusCodes.Status406NotAcceptable;
-                return ResponseUtils.GenerateObjectResult("Error when editing the musical genre!", "Invalid model received.");
+                return ResponseUtils.GenerateObjectResult("Error when editing the musical genre!",
+                    "Invalid model received.");
             }
-            
+
             if (id != musicalGenreTemp.Id)
                 ModelState.AddModelError("Id", "Request Id differs from musical genre Id passed in body");
 
@@ -213,11 +229,13 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// Delete a Musical Genre.
         /// </summary>
         /// <response code="200">Returns the deleted Musical Genre.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">Doesn't exist any Musical Genre with the ID.</response>
         /// <response code="406">This Musical Genre can't be deleted because there are restricted relationships.</response>
         [HttpDelete]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<MusicalGenre>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<List<string>>), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ResultViewModel<MusicalGenre>), StatusCodes.Status406NotAcceptable)]
         [HttpDelete]

@@ -31,10 +31,12 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// List Events.
         /// </summary>
         /// <response code="200">Returns a list of Events.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">There is no Event registered.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<IEnumerable<Event>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/events/")]
         public ObjectResult Get() {
@@ -53,10 +55,12 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// List Events ordered by capacity ascending.
         /// </summary>
         /// <response code="200">Returns a list of events ordered by capacity ascending.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">There is no events registered.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<Event>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/events/capacity/asc")]
         public ObjectResult GetCapacityAsc() {
@@ -75,10 +79,12 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// List Events ordered by capacity descending.
         /// </summary>
         /// <response code="200">Returns a list of events ordered by capacity descending.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">There is no events registered.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<Event>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/events/capacity/desc")]
         public ObjectResult GetCapacityDesc() {
@@ -97,10 +103,12 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// List Events ordered by date ascending.
         /// </summary>
         /// <response code="200">Returns a list of events ordered by date ascending.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">There is no events registered.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<Event>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/events/capacity/Date/asc")]
         public ObjectResult GetDateAsc() {
@@ -119,10 +127,12 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// List Events ordered by date descending.
         /// </summary>
         /// <response code="200">Returns a list of events ordered by date descending.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">There is no events registered.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<Event>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/events/capacity/Date/desc")]
         public ObjectResult GetDateDesc() {
@@ -141,10 +151,12 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// List Events ordered by name ascending.
         /// </summary>
         /// <response code="200">Returns a list of events ordered by name ascending.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">There is no events registered.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<Event>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/events/capacity/name/asc")]
         public ObjectResult GetNameAsc() {
@@ -163,10 +175,12 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// List Events ordered by name descending.
         /// </summary>
         /// <response code="200">Returns a list of events ordered by name descending.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">There is no events registered.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<Event>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/events/capacity/name/desc")]
         public ObjectResult GetNameDesc() {
@@ -185,10 +199,12 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// List Events ordered by price ascending.
         /// </summary>
         /// <response code="200">Returns a list of events ordered by price ascending.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">There is no events registered.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<Event>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/events/capacity/price/asc")]
         public ObjectResult GetPriceAsc() {
@@ -207,10 +223,12 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// List Events ordered by price descending.
         /// </summary>
         /// <response code="200">Returns a list of events ordered by price descending.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">There is no events registered.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<Event>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/events/capacity/price/desc")]
         public ObjectResult GetPriceDesc() {
@@ -229,9 +247,11 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// Search for a Event with the specified ID.
         /// </summary>
         /// <response code="200">Returns a Event with the specified ID.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">There is no Event registered with this ID.</response>
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<Event>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [HttpGet]
         [Route("v1/events/{id}")]
@@ -252,11 +272,13 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// </summary>
         /// <response code="201">Returns the created Event.</response>
         /// <response code="400">Returns a list of strings describing validation errors.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<Event>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ResultViewModel<List<string>>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Route("v1/events/")]
         public ObjectResult Post([FromBody] EventCreateViewModel eventTemp) {
             if (eventTemp == null) {
@@ -296,11 +318,13 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// </summary>
         /// <response code="200">Returns the Event that was edited</response>
         /// <response code="400">Returns a list of strings describing validation errors.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         [HttpPut]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<Event>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ResultViewModel<List<string>>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Route("v1/events/{id}")]
         public ObjectResult Put(int id, [FromBody] EventEditViewModel eventTemp) {
             
@@ -342,11 +366,13 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// Delete a Event.
         /// </summary>
         /// <response code="200">Returns the deleted Event.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">Doesn't exist any Event with the ID.</response>
         /// <response code="406">This Event can't be deleted because there are restricted relationships.</response>
         [HttpDelete]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<Event>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<List<string>>), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ResultViewModel<Event>), StatusCodes.Status406NotAcceptable)]
         [Route("v1/events/{id}")]

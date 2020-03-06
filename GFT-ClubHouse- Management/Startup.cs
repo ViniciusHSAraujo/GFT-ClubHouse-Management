@@ -84,7 +84,7 @@ namespace GFT_ClubHouse__Management {
 
                 c.AddSecurityDefinition("Bearer", new ApiKeyScheme {
                     Description =
-                        "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                        "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\"",
                     Name = "Authorization",
                     In = "header",
                     Type = "apiKey"

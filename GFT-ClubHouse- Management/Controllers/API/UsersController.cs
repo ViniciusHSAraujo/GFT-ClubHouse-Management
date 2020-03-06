@@ -23,10 +23,12 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// List Users.
         /// </summary>
         /// <response code="200">Returns a list of Users.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">There is no Users registered.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<IEnumerable<User>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/users/")]
         public ObjectResult Get() {
@@ -45,10 +47,12 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// Search for a User with the specified ID.
         /// </summary>
         /// <response code="200">Returns a User with the specified ID.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">There is no User registered with this ID.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<User>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/users/{id}")]
         public ObjectResult GetById(int id) {

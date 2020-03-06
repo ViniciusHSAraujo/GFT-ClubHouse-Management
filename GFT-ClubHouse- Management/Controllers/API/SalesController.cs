@@ -23,10 +23,12 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// List Sales.
         /// </summary>
         /// <response code="200">Returns a list of Sales.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">There is no Sales registered.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<IEnumerable<ClubHouse>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/sales/")]
         public ObjectResult Get() {
@@ -46,10 +48,12 @@ namespace GFT_ClubHouse__Management.Controllers.API {
         /// Search for a sale with the specified ID.
         /// </summary>
         /// <response code="200">Returns a Sale with the specified ID.</response>
+        /// <response code="401">Not authorized! Log in first and send the validation token in the request.</response>
         /// <response code="404">There is no Sale registered with this ID.</response>
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(ResultViewModel<Sale>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ResultViewModel<object>), StatusCodes.Status404NotFound)]
         [Route("v1/sales/{id}")]
         public ObjectResult GetById(int id) {
